@@ -408,8 +408,11 @@ should be modeled on the following::
      # This is the section you should read
      #####################################
 
-     # Change this to update the upload size limit for your users
-     client_max_body_size 8m;
+     # Change this to allow your users to upload larger files. If
+     # you enable audio or video you will need to increase this. This
+     # is essentially a security setting to prevent *extremely* large
+     # files being uploaded. Example settings include 500m and 1g.
+     client_max_body_size 100m;
 
      # prevent attacks (someone uploading a .txt file that the browser
      # interprets as an HTML file, etc.)

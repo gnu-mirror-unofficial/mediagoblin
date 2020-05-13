@@ -97,12 +97,6 @@ as whatever GStreamer plugins you want, good/bad/ugly):
     # Fedora and co.
     sudo dnf install gstreamer1-plugins-{base,bad-free,good,ugly-free}
 
-.. note::
-
-   MediaGoblin previously generated spectrograms for uploaded audio. This
-   feature has been removed due to incompatibility with Python 3. We may
-   consider re-adding this feature in the future.
-
 Add ``[[mediagoblin.media_types.audio]]`` under the ``[plugins]`` section in your
 ``mediagoblin.ini`` and update MediaGoblin::
 
@@ -110,6 +104,20 @@ Add ``[[mediagoblin.media_types.audio]]`` under the ``[plugins]`` section in you
 
 Restart MediaGoblin (and Celery if applicable). You should now be able to upload
 and listen to audio files!
+
+On production deployments, you will need to increase Nginx's
+``client_max_body_size`` to allow larger files to be uploaded, or you'll get a
+"413 Request Entity Too Large" error. See ":ref:`webserver-config`".
+
+Production deployments will also need a separate process to transcode media in
+the background. See ":ref:`systemd-service-files`" and
+":ref:`separate-celery`" sections of this manual.
+
+.. note::
+
+   MediaGoblin previously generated spectrograms for uploaded audio. This
+   feature has been removed due to incompatibility with Python 3. We may
+   consider re-adding this feature in the future.
 
 
 Video
@@ -141,15 +149,13 @@ Run::
 Restart MediaGoblin (and Celery if applicable). Now you should be able to submit
 videos, and MediaGoblin should transcode them.
 
-.. note::
+On production deployments, you will need to increase Nginx's
+``client_max_body_size`` to allow larger files to be uploaded, or you'll get a
+"413 Request Entity Too Large" error. See ":ref:`webserver-config`".
 
-   You will likely need to increase the ``client_max_body_size`` setting in
-   Nginx to upload larger videos.
-   
-   You almost certainly want to separate Celery from the normal
-   paste process or your users will probably find that their connections
-   time out as the video transcodes.  To set that up, check out the
-   ":doc:`production-deployments`" section of this manual.
+Production deployments will also need a separate process to transcode media in
+the background. To set that up, check out the ":doc:`deploying`" and
+":doc:`production-deployments`" sections of this manual.
 
 
 Raw image
