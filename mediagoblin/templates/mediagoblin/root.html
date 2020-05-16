@@ -22,6 +22,8 @@
 {% set feed_url = request.urlgen('mediagoblin.listings.atom_feed') %}
 
 {% block mediagoblin_head -%}
+  <script type="text/javascript"
+          src="{{ request.staticdirect('/js/keyboard_navigation.js') }}"></script>
   {% set feed_url = request.urlgen('mediagoblin.listings.atom_feed') -%}
   <link rel="alternate" type="application/atom+xml" href="{{ feed_url }}">
 {%- endblock mediagoblin_head %}

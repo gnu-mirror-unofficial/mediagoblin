@@ -19,6 +19,11 @@ Release Notes
 
 This chapter has important information about our current and previous releases.
 
+0.12.0 (Work in progress)
+=========================
+
+- Extend left/right arrow key navigation to paginated views [#5627] (Olivier Mehani)
+
 ..
    **To do:**
    - add TLS to deploying documentation

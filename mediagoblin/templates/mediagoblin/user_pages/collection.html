@@ -20,6 +20,8 @@
 {% from "mediagoblin/utils/collection_gallery.html" import collection_gallery %}
 
 {% block mediagoblin_head %}
+    <script type="text/javascript"
+          src="{{ request.staticdirect('/js/keyboard_navigation.js') }}"></script>
     <link rel="alternate" type="application/atom+xml"
           href="{{ request.urlgen(
                        'mediagoblin.user_pages.atom_feed',
