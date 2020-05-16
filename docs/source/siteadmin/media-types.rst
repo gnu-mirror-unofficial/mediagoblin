@@ -157,6 +157,22 @@ Production deployments will also need a separate process to transcode media in
 the background. To set that up, check out the ":doc:`deploying`" and
 ":doc:`production-deployments`" sections of this manual.
 
+Configuring video
+-----------------
+
+``available_resolutions``
+  The list of resolutions that the video should be transcoded to, in the order
+  of transcoding. Choose among ``144p``, ``240p``, ``360p``, ``480p``, ``720p``
+  and ``1080p``. The default is ``480p,360p,720p``.
+
+``default_resolution``
+  This is the initial resolution used by the video player. The default is
+  ``480p``. For example::
+
+    [[mediagoblin.media_types.video]]
+    available_resolutions = 144p,240p
+    default_resolution = 144p
+    
 
 Raw image
 =========
