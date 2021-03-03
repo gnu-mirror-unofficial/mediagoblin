@@ -30,6 +30,7 @@ carefully, or at least skim over it.
 **Improvements:**
 
  - Drop Python 2 installation support (Ben Sturmfels)
+ - Reinstate Python 3 audio spectrograms [#5610] (Fernando Gutierrez)
 
 **Bug fixes:**
 

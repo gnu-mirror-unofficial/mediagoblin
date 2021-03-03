@@ -72,6 +72,8 @@ install_requires = [
     'PyLD<2.0.0', # Breaks a Python 3 test if >= 2.0.0.
     'ExifRead>=2.0.0',
     'email-validator', # Seems that WTForms must have dropped this.
+    'soundfile<=0.10.999' # Tested with 0.10.3.post1
+
     # This is optional:
     # 'translitcodec',
     # For now we're expecting that users will install this from

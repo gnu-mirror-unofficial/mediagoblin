@@ -81,7 +81,8 @@ gstreamer1.0-plugins-bad \
 gstreamer1.0-plugins-base \
 gstreamer1.0-plugins-good \
 gstreamer1.0-plugins-ugly \
-python3-gst-1.0
+python3-gst-1.0 \
+python3-numpy
 
 # Install video dependencies.
 RUN apt-get install -y \

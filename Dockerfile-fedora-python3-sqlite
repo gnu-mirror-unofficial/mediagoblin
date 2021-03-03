@@ -43,6 +43,7 @@ which
 # gstreamer1.0-plugins-good \
 # gstreamer1.0-plugins-ugly \
 # python3-gst-1.0 \
+# python3-numpy
 
 # RUN apt-get install -y \
 # gir1.2-gst-plugins-base-1.0 \

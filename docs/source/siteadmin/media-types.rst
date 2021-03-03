@@ -92,10 +92,11 @@ as whatever GStreamer plugins you want, good/bad/ugly):
 
     # Debian and co.
     sudo apt install python3-gst-1.0 gstreamer1.0-plugins-{base,bad,good,ugly} \
-    gstreamer1.0-libav
+    gstreamer1.0-libav python3-numpy
 
     # Fedora and co.
-    sudo dnf install gstreamer1-plugins-{base,bad-free,good,ugly-free}
+    sudo dnf install gstreamer1-plugins-{base,bad-free,good,ugly-free} \
+    python3-numpy
 
 Add ``[[mediagoblin.media_types.audio]]`` under the ``[plugins]`` section in your
 ``mediagoblin.ini`` and update MediaGoblin::
