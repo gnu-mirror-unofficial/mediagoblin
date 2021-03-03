@@ -35,6 +35,9 @@ carefully, or at least skim over it.
 **Bug fixes:**
 
 - Make LDAP plugin Python 3 compatible [#5607] (Olivier Mehani)
+- Support blank titles in Atom feed [#1018] (Ben Sturmfels)
+- Avoid Celery/RabbitMQ "connection reset" errors [#5609] (Fernando Gutierrez)
+- Fix Mac dev setup issues [#5442] (Jeremy Bowman)
 - Pin a compatible version of WTForms (milquetoast)
 
 
