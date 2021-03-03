@@ -141,6 +141,7 @@ USER www-data
 # but still uses upstream MediaGoblin for the build.
 RUN git clone --depth=1 git://git.savannah.gnu.org/mediagoblin.git --branch master .
 # RUN git clone --depth=1 https://gitlab.com/BenSturmfels/mediagoblin.git --branch master .
+RUN git show --oneline --no-patch
 
 RUN ./bootstrap.sh
 RUN VIRTUALENV_FLAGS='--system-site-packages' ./configure
