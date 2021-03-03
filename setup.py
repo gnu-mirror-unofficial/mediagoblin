@@ -124,7 +124,8 @@ install_requires = [
     'waitress',
     'alembic>=0.7.5',
     'python-dateutil',
-    'wtforms',
+    # WTForms removed the "ext" module in 3.0.
+    'wtforms<3.0',
     'py-bcrypt',
     'pytest>=2.3.1',
     'pytest-xdist',
