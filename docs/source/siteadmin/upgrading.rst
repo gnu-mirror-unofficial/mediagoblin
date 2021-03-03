@@ -58,20 +58,6 @@ Upgrade (upgrading to Python 3)
 6. Restart MediaGoblin
 
 
-Upgrade (remaining on Python 2 - not recommended)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-1. Update to the latest release.  In your ``mediagoblin`` directory, run:
-   ``git fetch && git checkout -q stable && git submodule update``
-2. Remove your existing installation:
-   ``rm -rf bin include lib lib64 node_modules``
-3. Install MediaGoblin:
-   ``./bootstrap.sh && ./configure --without-python3 && make``
-4. Update the database:
-   ``./bin/gmg dbupdate``
-5. Restart MediaGoblin
-
-
 Updating your system Python
 ---------------------------
 

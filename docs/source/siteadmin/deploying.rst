@@ -56,7 +56,7 @@ Dependencies
 
 MediaGoblin has the following core dependencies:
 
-- Python 3.4+ (Python 2.7 is supported, but not recommended)
+- Python 3.4+
 - `python3-lxml <http://lxml.de/>`_
 - `git <http://git-scm.com/>`_
 - `SQLite <http://www.sqlite.org/>`_/`PostgreSQL <http://www.postgresql.org/>`_
@@ -81,13 +81,6 @@ Issue the following commands:
     # Fedora 31
     sudo dnf install automake gcc git-core make nodejs npm python3-devel \
     python3-lxml python3-pillow virtualenv
-
-.. note::
-
-   MediaGoblin now uses Python 3 by default. To use Python 2, you may
-   instead substitute from "python3" to "python" for most package
-   names in the Debian instructions and this should cover dependency
-   installation. Python 2 installation has not been tested on Fedora.
 
 For a production deployment, you'll also need Nginx as frontend web
 server and RabbitMQ to store the media processing queue::
@@ -264,11 +257,6 @@ Set up the environment::
     $ ./bootstrap.sh
     $ VIRTUALENV_FLAGS='--system-site-packages' ./configure
     $ make
-
-.. note::
-
-   If you'd prefer to run MediaGoblin with Python 2, pass in
-   ``--without-python3`` to the ``./configure`` command.
 
 Create and set the proper permissions on the ``user_dev`` directory.
 This directory will be used to store uploaded media files::

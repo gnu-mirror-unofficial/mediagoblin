@@ -29,10 +29,12 @@ carefully, or at least skim over it.
 
 **Improvements:**
 
+ - Drop Python 2 installation support (Ben Sturmfels)
 
 **Bug fixes:**
 
 - Make LDAP plugin Python 3 compatible [#5607] (Olivier Mehani)
+- Pin a compatible version of WTForms (milquetoast)
 
 
 0.10.0
