@@ -82,7 +82,7 @@ dnl and programs.
 AC_CHECK_PROGS([PYTHON], [python3], [none])
 AS_IF([test "x$PYTHON" = xnone],
 	    [AC_MSG_FAILURE(
-		[--with-python3 given but no acceptable python3 could be found])])
+		[No acceptable python3 could be found])])
 
 dnl----
 dnl With the following set of macros, we implement an option 

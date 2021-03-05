@@ -44,7 +44,7 @@
 ;;;   git submodule init
 ;;;   git submodule update
 ;;;   ./bootstrap.sh
-;;;   ./configure --with-python3 --without-virtualenv
+;;;   ./configure --without-virtualenv
 ;;;   make
 ;;;   python3 -m venv --system-site-packages . && bin/python setup.py develop  --no-deps
 ;;;   bin/python -m pip install --force-reinstall PasteScript # workaround
