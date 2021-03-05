@@ -65,7 +65,7 @@ def setup_globals(**kwargs):
     """
     from mediagoblin import mg_globals
 
-    for key, value in six.iteritems(kwargs):
+    for key, value in kwargs.items():
         if not hasattr(mg_globals, key):
             raise AssertionError("Global %s not known" % key)
         setattr(mg_globals, key, value)

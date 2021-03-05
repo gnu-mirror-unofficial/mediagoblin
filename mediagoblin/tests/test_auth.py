@@ -47,9 +47,9 @@ def test_register_views(test_app):
         '/auth/register/', {})
     context = template.TEMPLATE_TEST_CONTEXT['mediagoblin/auth/register.html']
     form = context['register_form']
-    assert form.username.errors == [u'This field is required.']
-    assert form.password.errors == [u'This field is required.']
-    assert form.email.errors == [u'This field is required.']
+    assert form.username.errors == ['This field is required.']
+    assert form.password.errors == ['This field is required.']
+    assert form.email.errors == ['This field is required.']
 
     # Try to register with fields that are known to be invalid
     # --------------------------------------------------------
@@ -64,8 +64,8 @@ def test_register_views(test_app):
     context = template.TEMPLATE_TEST_CONTEXT['mediagoblin/auth/register.html']
     form = context['register_form']
 
-    assert form.username.errors == [u'Field must be between 3 and 30 characters long.']
-    assert form.password.errors == [u'Field must be between 5 and 1024 characters long.']
+    assert form.username.errors == ['Field must be between 3 and 30 characters long.']
+    assert form.password.errors == ['Field must be between 5 and 1024 characters long.']
 
     ## bad form
     template.clear_test_template_context()
@@ -76,8 +76,8 @@ def test_register_views(test_app):
     context = template.TEMPLATE_TEST_CONTEXT['mediagoblin/auth/register.html']
     form = context['register_form']
 
-    assert form.username.errors == [u'This field does not take email addresses.']
-    assert form.email.errors == [u'This field requires an email address.']
+    assert form.username.errors == ['This field does not take email addresses.']
+    assert form.email.errors == ['This field requires an email address.']
 
     ## invalid characters
     template.clear_test_template_context()
@@ -88,7 +88,7 @@ def test_register_views(test_app):
     context = template.TEMPLATE_TEST_CONTEXT['mediagoblin/auth/register.html']
     form = context['register_form']
 
-    assert form.username.errors == [u'Invalid input.']
+    assert form.username.errors == ['Invalid input.']
 
     ## At this point there should be no users in the database ;)
     assert User.query.count() == 0
@@ -109,7 +109,7 @@ def test_register_views(test_app):
     template.clear_test_template_context()
     response = test_app.post(
         '/auth/register/', {
-            'username': u'angrygirl',
+            'username': 'angrygirl',
             'password': 'iamsoangry',
             'email': 'angrygrrl@example.org'})
     response.follow()
@@ -120,20 +120,20 @@ def test_register_views(test_app):
 
     ## Make sure user is in place
     new_user = mg_globals.database.LocalUser.query.filter(
-        LocalUser.username==u'angrygirl'
+        LocalUser.username=='angrygirl'
     ).first()
     assert new_user
 
     ## Make sure that the proper privileges are granted on registration
 
-    assert new_user.has_privilege(u'commenter')
-    assert new_user.has_privilege(u'uploader')
-    assert new_user.has_privilege(u'reporter')
-    assert not new_user.has_privilege(u'active')
+    assert new_user.has_privilege('commenter')
+    assert new_user.has_privilege('uploader')
+    assert new_user.has_privilege('reporter')
+    assert not new_user.has_privilege('active')
     ## Make sure user is logged in
     request = template.TEMPLATE_TEST_CONTEXT[
         'mediagoblin/user_pages/user_nonactive.html']['request']
-    assert request.session['user_id'] == six.text_type(new_user.id)
+    assert request.session['user_id'] == str(new_user.id)
 
     ## Make sure we get email confirmation, and try verifying
     assert len(mail.EMAIL_TEST_INBOX) == 2
@@ -145,7 +145,7 @@ def test_register_views(test_app):
 
     path = urlparse.urlsplit(email_context['verification_url'])[2]
     get_params = urlparse.urlsplit(email_context['verification_url'])[3]
-    assert path == u'/auth/verify_email/'
+    assert path == '/auth/verify_email/'
     parsed_get_params = urlparse.parse_qs(get_params)
 
     ## Try verifying with bs verification key, shouldn't work
@@ -160,20 +160,20 @@ def test_register_views(test_app):
     # assert context['verification_successful'] == True
     # TODO: Would be good to test messages here when we can do so...
     new_user = mg_globals.database.LocalUser.query.filter(
-        LocalUser.username==u'angrygirl'
+        LocalUser.username=='angrygirl'
     ).first()
     assert new_user
 
     ## Verify the email activation works
     template.clear_test_template_context()
-    response = test_app.get("%s?%s" % (path, get_params))
+    response = test_app.get("{}?{}".format(path, get_params))
     response.follow()
     context = template.TEMPLATE_TEST_CONTEXT[
         'mediagoblin/user_pages/user.html']
     # assert context['verification_successful'] == True
     # TODO: Would be good to test messages here when we can do so...
     new_user = mg_globals.database.LocalUser.query.filter(
-        LocalUser.username==u'angrygirl'
+        LocalUser.username=='angrygirl'
     ).first()
     assert new_user
 
@@ -183,7 +183,7 @@ def test_register_views(test_app):
     template.clear_test_template_context()
     response = test_app.post(
         '/auth/register/', {
-            'username': u'angrygirl',
+            'username': 'angrygirl',
             'password': 'iamsoangry2',
             'email': 'angrygrrl2@example.org'})
 
@@ -191,7 +191,7 @@ def test_register_views(test_app):
         'mediagoblin/auth/register.html']
     form = context['register_form']
     assert form.username.errors == [
-        u'Sorry, a user with that name already exists.']
+        'Sorry, a user with that name already exists.']
 
     ## TODO: Also check for double instances of an email address?
 
@@ -200,7 +200,7 @@ def test_register_views(test_app):
     template.clear_test_template_context()
     response = test_app.post(
         '/auth/forgot_password/',
-        {'username': u'angrygirl'})
+        {'username': 'angrygirl'})
     response.follow()
 
     ## Did we redirect to the proper page?  Use the right template?
@@ -219,7 +219,7 @@ def test_register_views(test_app):
     path = urlparse.urlsplit(email_context['verification_url'])[2]
     get_params = urlparse.urlsplit(email_context['verification_url'])[3]
     parsed_get_params = urlparse.parse_qs(get_params)
-    assert path == u'/auth/forgot_password/verify/'
+    assert path == '/auth/forgot_password/verify/'
 
     ## Try using a bs password-changing verification key, shouldn't work
     template.clear_test_template_context()
@@ -232,7 +232,7 @@ def test_register_views(test_app):
 
     ## Verify step 1 of password-change works -- can see form to change password
     template.clear_test_template_context()
-    response = test_app.get("%s?%s" % (path, get_params))
+    response = test_app.get("{}?{}".format(path, get_params))
     assert 'mediagoblin/plugins/basic_auth/change_fp.html' in \
             template.TEMPLATE_TEST_CONTEXT
 
@@ -249,7 +249,7 @@ def test_register_views(test_app):
     template.clear_test_template_context()
     response = test_app.post(
         '/auth/login/', {
-            'username': u'angrygirl',
+            'username': 'angrygirl',
             'password': 'iamveryveryangry'})
 
     # User should be redirected
@@ -276,24 +276,24 @@ def test_authentication_views(test_app):
     response = test_app.post('/auth/login/')
     context = template.TEMPLATE_TEST_CONTEXT['mediagoblin/auth/login.html']
     form = context['login_form']
-    assert form.username.errors == [u'This field is required.']
+    assert form.username.errors == ['This field is required.']
 
     # Failed login - blank user
     # -------------------------
     template.clear_test_template_context()
     response = test_app.post(
         '/auth/login/', {
-            'password': u'toast'})
+            'password': 'toast'})
     context = template.TEMPLATE_TEST_CONTEXT['mediagoblin/auth/login.html']
     form = context['login_form']
-    assert form.username.errors == [u'This field is required.']
+    assert form.username.errors == ['This field is required.']
 
     # Failed login - blank password
     # -----------------------------
     template.clear_test_template_context()
     response = test_app.post(
         '/auth/login/', {
-            'username': u'chris'})
+            'username': 'chris'})
     assert 'mediagoblin/auth/login.html' in template.TEMPLATE_TEST_CONTEXT
 
     # Failed login - bad user
@@ -301,7 +301,7 @@ def test_authentication_views(test_app):
     template.clear_test_template_context()
     response = test_app.post(
         '/auth/login/', {
-            'username': u'steve',
+            'username': 'steve',
             'password': 'toast'})
     context = template.TEMPLATE_TEST_CONTEXT['mediagoblin/auth/login.html']
     assert context['login_failed']
@@ -311,7 +311,7 @@ def test_authentication_views(test_app):
     template.clear_test_template_context()
     response = test_app.post(
         '/auth/login/', {
-            'username': u'chris',
+            'username': 'chris',
             'password': 'jam_and_ham'})
     context = template.TEMPLATE_TEST_CONTEXT['mediagoblin/auth/login.html']
     assert context['login_failed']
@@ -321,7 +321,7 @@ def test_authentication_views(test_app):
     template.clear_test_template_context()
     response = test_app.post(
         '/auth/login/', {
-            'username': u'chris',
+            'username': 'chris',
             'password': 'toast'})
 
     # User should be redirected
@@ -332,7 +332,7 @@ def test_authentication_views(test_app):
     # Make sure user is in the session
     context = template.TEMPLATE_TEST_CONTEXT['mediagoblin/root.html']
     session = context['request'].session
-    assert session['user_id'] == six.text_type(test_user.id)
+    assert session['user_id'] == str(test_user.id)
 
     # Successful logout
     # -----------------
@@ -354,7 +354,7 @@ def test_authentication_views(test_app):
     template.clear_test_template_context()
     response = test_app.post(
         '/auth/login/', {
-            'username': u'chris',
+            'username': 'chris',
             'password': 'toast',
             'next' : '/u/chris/'})
     assert urlparse.urlsplit(response.location)[2] == '/u/chris/'
@@ -363,22 +363,22 @@ def test_authentication_views(test_app):
     template.clear_test_template_context()
     response = test_app.post(
         '/auth/login/', {
-            'username': u'ANDREW',
+            'username': 'ANDREW',
             'password': 'fuselage'})
     context = template.TEMPLATE_TEST_CONTEXT['mediagoblin/auth/login.html']
     form = context['login_form']
 
     # Username should no longer be uppercased; it should be lowercased
-    assert not form.username.data == u'ANDREW'
-    assert form.username.data == u'andrew'
+    assert not form.username.data == 'ANDREW'
+    assert form.username.data == 'andrew'
 
     # Successful login with short user
     # --------------------------------
-    short_user = fixture_add_user(username=u'me', password=u'sho')
+    short_user = fixture_add_user(username='me', password='sho')
     template.clear_test_template_context()
     response = test_app.post(
         '/auth/login/', {
-            'username': u'me',
+            'username': 'me',
             'password': 'sho'})
 
     # User should be redirected
@@ -390,7 +390,7 @@ def test_authentication_views(test_app):
     # Make sure user is in the session
     context = template.TEMPLATE_TEST_CONTEXT['mediagoblin/root.html']
     session = context['request'].session
-    assert session['user_id'] == six.text_type(short_user.id)
+    assert session['user_id'] == str(short_user.id)
 
     # Must logout
     template.clear_test_template_context()
@@ -399,11 +399,11 @@ def test_authentication_views(test_app):
     # Successful login with long user
     # ----------------
     long_user = fixture_add_user(
-        username=u'realllylonguser@reallylongdomain.com.co', password=u'sho')
+        username='realllylonguser@reallylongdomain.com.co', password='sho')
     template.clear_test_template_context()
     response = test_app.post(
         '/auth/login/', {
-            'username': u'realllylonguser@reallylongdomain.com.co',
+            'username': 'realllylonguser@reallylongdomain.com.co',
             'password': 'sho'})
 
     # User should be redirected
@@ -414,7 +414,7 @@ def test_authentication_views(test_app):
     # Make sure user is in the session
     context = template.TEMPLATE_TEST_CONTEXT['mediagoblin/root.html']
     session = context['request'].session
-    assert session['user_id'] == six.text_type(long_user.id)
+    assert session['user_id'] == str(long_user.id)
 
     template.clear_test_template_context()
     response = test_app.get('/auth/logout/')

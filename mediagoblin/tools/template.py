@@ -65,12 +65,8 @@ def get_jinja_env(app, template_loader, locale):
             'jinja2.ext.i18n', 'jinja2.ext.autoescape',
             TemplateHookExtension] + local_exts)
 
-    if six.PY2:
-        template_env.install_gettext_callables(mg_globals.thread_scope.translations.ugettext,
-                                           mg_globals.thread_scope.translations.ungettext)
-    else:
-        template_env.install_gettext_callables(mg_globals.thread_scope.translations.gettext,
-                                           mg_globals.thread_scope.translations.ngettext)
+    template_env.install_gettext_callables(mg_globals.thread_scope.translations.gettext,
+                                       mg_globals.thread_scope.translations.ngettext)
 
     # All templates will know how to ...
     # ... fetch all waiting messages and remove them from the queue
@@ -164,7 +160,7 @@ class TemplateHookExtension(Extension):
     ... will include all templates hooked into the comment_extras section.
     """
 
-    tags = set(["template_hook"])
+    tags = {"template_hook"}
 
     def parse(self, parser):
         includes = []

@@ -45,7 +45,7 @@ def _get_tag_name_from_entries(media_entries, tag_slug):
 @uses_pagination
 def tag_listing(request, page):
     """'Gallery'/listing for this tag slug"""
-    tag_slug = request.matchdict[u'tag']
+    tag_slug = request.matchdict['tag']
 
     cursor = media_entries_for_tag_slug(request.db, tag_slug)
     cursor = cursor.order_by(MediaEntry.created.desc())
@@ -71,7 +71,7 @@ def atom_feed(request):
     """
     generates the atom feed with the tag images
     """
-    tag_slug = request.matchdict.get(u'tag')
+    tag_slug = request.matchdict.get('tag')
     feed_title = "MediaGoblin Feed"
     if tag_slug:
         feed_title += " for tag '%s'" % tag_slug
@@ -81,7 +81,7 @@ def atom_feed(request):
     else: # all recent item feed
         feed_title += " for all recent items"
         link = request.urlgen('index', qualified=True)
-        cursor = MediaEntry.query.filter_by(state=u'processed')
+        cursor = MediaEntry.query.filter_by(state='processed')
     cursor = cursor.order_by(MediaEntry.created.desc())
     cursor = cursor.limit(ATOM_DEFAULT_NR_OF_UPDATED_ITEMS)
 
@@ -110,7 +110,7 @@ def atom_feed(request):
         # Include a thumbnail image in content.
         file_urls = get_media_file_paths(entry.media_files, request.urlgen)
         if 'thumb' in file_urls:
-            content = u'<img src="{thumb}" alt='' /> {desc}'.format(
+            content = '<img src="{thumb}" alt='' /> {desc}'.format(
                 thumb=file_urls['thumb'], desc=entry.description_html)
         else:
             content = entry.description_html

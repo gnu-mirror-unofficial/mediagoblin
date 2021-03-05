@@ -282,7 +282,7 @@ if __name__ == "__main__":
         sys.stdout.flush()
 
     if not (len(sys.argv) == 2 or len(sys.argv) == 3):
-        print("Usage:\n{0} input_file [output_file]".format(sys.argv[0]))
+        print("Usage:\n{} input_file [output_file]".format(sys.argv[0]))
         exit()
 
     audioFile = sys.argv[1]
@@ -292,6 +292,6 @@ if __name__ == "__main__":
     else:
         outputFile = 'spectrogram.png'
 
-    sys.stdout.write("Input    : {0}\nOutput   : {1}\n".format(audioFile, outputFile))
+    sys.stdout.write("Input    : {}\nOutput   : {}\n".format(audioFile, outputFile))
     drawSpectrogram(audioFile, outputFile, progressCallback = printProgress)
     sys.stdout.write("\nDone!\n")

@@ -29,7 +29,7 @@ import six
 _log = logging.getLogger(__name__)
 
 
-class StaticDirect(object):
+class StaticDirect:
     """
     Direct to a static resource.
 
@@ -48,9 +48,9 @@ class StaticDirect(object):
       "http://example.org/themestatic/images/lollerskate.png"
     """
     def __init__(self, domains):
-        self.domains = dict(
-            [(key, value.rstrip('/'))
-             for key, value in six.iteritems(domains)])
+        self.domains = {
+            key: value.rstrip('/')
+             for key, value in domains.items()}
         self.cache = {}
 
     def __call__(self, filepath, domain=None):
@@ -62,11 +62,11 @@ class StaticDirect(object):
         return static_direction
 
     def get(self, filepath, domain=None):
-        return '%s/%s' % (
+        return '{}/{}'.format(
             self.domains[domain], filepath.lstrip('/'))
 
 
-class PluginStatic(object):
+class PluginStatic:
     """Pass this into the ``'static_setup'`` hook to register your
     plugin's static directory.
 

@@ -33,7 +33,7 @@ TRANSLATIONS_PATH = pkg_resources.resource_filename(
     'mediagoblin', 'i18n')
 
 # Known RTL languages
-KNOWN_RTL = set(["ar", "fa", "he", "iw", "ur", "yi", "ji"])
+KNOWN_RTL = {"ar", "fa", "he", "iw", "ur", "yi", "ji"}
 
 def is_rtl(lang):
     """Returns true when the local language is right to left"""
@@ -54,11 +54,11 @@ class ReallyLazyProxy(LazyProxy):
     Like LazyProxy, except that it doesn't cache the value ;)
     """
     def __init__(self, func, *args, **kwargs):
-        super(ReallyLazyProxy, self).__init__(func, *args, **kwargs)
+        super().__init__(func, *args, **kwargs)
         object.__setattr__(self, '_is_cache_enabled', False)
 
     def __repr__(self):
-        return "<%s for %s(%r, %r)>" % (
+        return "<{} for {}({!r}, {!r})>".format(
             self.__class__.__name__,
             self._func,
             self._args,
@@ -71,10 +71,10 @@ def locale_to_lower_upper(locale):
     """
     if '-' in locale:
         lang, country = locale.split('-', 1)
-        return '%s_%s' % (lang.lower(), country.upper())
+        return '{}_{}'.format(lang.lower(), country.upper())
     elif '_' in locale:
         lang, country = locale.split('_', 1)
-        return '%s_%s' % (lang.lower(), country.upper())
+        return '{}_{}'.format(lang.lower(), country.upper())
     else:
         return locale.lower()
 
@@ -85,7 +85,7 @@ def locale_to_lower_lower(locale):
     """
     if '_' in locale:
         lang, country = locale.split('_', 1)
-        return '%s-%s' % (lang.lower(), country.lower())
+        return '{}-{}'.format(lang.lower(), country.lower())
     else:
         return locale.lower()
 

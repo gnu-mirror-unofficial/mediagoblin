@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import print_function, unicode_literals
 
 import socket
 import logging
@@ -64,7 +63,7 @@ class NoSMTPServerError(MailError):
     pass
 
 
-class FakeMhost(object):
+class FakeMhost:
     """
     Just a fake mail host so we can capture and test messages
     from send_email
@@ -115,7 +114,7 @@ def send_email(from_addr, to_addrs, subject, message_body):
             mhost = smtp_init(
                 mg_globals.app_config['email_smtp_host'],
                 mg_globals.app_config['email_smtp_port'])
-        except socket.error as original_error:
+        except OSError as original_error:
             error_message = "Couldn't contact mail server on <{}>:<{}>".format(
                 mg_globals.app_config['email_smtp_host'],
                 mg_globals.app_config['email_smtp_port'])
@@ -126,7 +125,7 @@ def send_email(from_addr, to_addrs, subject, message_body):
         if not mg_globals.app_config['email_smtp_host']:  # e.g. host = ''
             try:
                 mhost.connect()  # We SMTP.connect explicitly
-            except socket.error as original_error:
+            except OSError as original_error:
                 error_message = "Couldn't contact mail server on <{}>:<{}>".format(
                     mg_globals.app_config['email_smtp_host'],
                     mg_globals.app_config['email_smtp_port'])
@@ -138,7 +137,7 @@ def send_email(from_addr, to_addrs, subject, message_body):
         except smtplib.SMTPException:
             # Only raise an exception if we're forced to
             if mg_globals.app_config['email_smtp_force_starttls']:
-                six.reraise(*sys.exc_info())
+                raise
 
     if ((not common.TESTS_ENABLED)
         and (mg_globals.app_config['email_smtp_user']

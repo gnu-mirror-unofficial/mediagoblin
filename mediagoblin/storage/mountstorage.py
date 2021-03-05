@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import print_function
 
 import six
 
@@ -124,7 +123,7 @@ class MountStorage(StorageInterface):
         v = table.get(None)
         if v:
             res.append("  " * len(indent) + repr(indent) + ": " + repr(v))
-        for k, v in six.iteritems(table):
+        for k, v in table.items():
             if k == None:
                 continue
             res.append("  " * len(indent) + repr(k) + ":")

@@ -37,11 +37,11 @@ MEDIA_TYPE = 'mediagoblin.media_types.audio'
 
 
 def sniff_handler(media_file, filename):
-    _log.info('Sniffing {0}'.format(MEDIA_TYPE))
+    _log.info('Sniffing {}'.format(MEDIA_TYPE))
     try:
         data = discover(media_file.name)
     except Exception as e:
-        _log.info(six.text_type(e))
+        _log.info(str(e))
         return None
     if data and data.get_audio_streams() and not data.get_video_streams():
         return MEDIA_TYPE
@@ -361,7 +361,7 @@ class Transcoder(CommonAudioProcessor):
 
 class AudioProcessingManager(ProcessingManager):
     def __init__(self):
-        super(AudioProcessingManager, self).__init__()
+        super().__init__()
         self.add_processor(InitialProcessor)
         self.add_processor(Resizer)
         self.add_processor(Transcoder)

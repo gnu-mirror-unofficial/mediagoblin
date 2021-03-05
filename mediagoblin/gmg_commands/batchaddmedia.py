@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import print_function, unicode_literals
 
 import csv
 import os
@@ -84,7 +83,7 @@ def batchaddmedia(args):
     abs_metadata_filename = os.path.abspath(metadata_path)
     abs_metadata_dir = os.path.dirname(abs_metadata_filename)
 
-    all_metadata = open(abs_metadata_filename, 'r')
+    all_metadata = open(abs_metadata_filename)
     media_metadata = csv.DictReader(all_metadata)
     for index, file_metadata in enumerate(media_metadata):
         if six.PY2:
@@ -159,7 +158,7 @@ Metadata was not uploaded.""".format(
                 file_abs_path = os.path.abspath(file_path)
             try:
                 media_file = open(file_abs_path, 'rb')
-            except IOError:
+            except OSError:
                 print(_("""\
 FAIL: Local file {filename} could not be accessed.
 {filename} will not be uploaded.""".format(filename=filename)))

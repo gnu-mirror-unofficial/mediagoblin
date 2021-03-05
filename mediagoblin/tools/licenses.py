@@ -64,7 +64,7 @@ SORTED_LICENSES = [
 # dict {uri: License,...} to enable fast license lookup by uri. Ideally,
 # we'd want to use an OrderedDict (python 2.7+) here to avoid having the
 # same data in two structures
-SUPPORTED_LICENSES = dict(((l.uri, l) for l in SORTED_LICENSES))
+SUPPORTED_LICENSES = {l.uri: l for l in SORTED_LICENSES}
 
 
 def get_license_by_url(url):

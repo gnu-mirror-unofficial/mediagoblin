@@ -65,7 +65,7 @@ def login(request):
         user = query.user if query else None
 
         if user:
-            request.session['user_id'] = six.text_type(user.id)
+            request.session['user_id'] = str(user.id)
             request.session['persona_login_email'] = email
             request.session.save()
 

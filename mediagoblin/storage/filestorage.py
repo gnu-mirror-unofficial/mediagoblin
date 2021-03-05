@@ -32,7 +32,7 @@ class FileObjectAwareFile(io.FileIO):
             # object, which should be saved RAM-friendly way
             shutil.copyfileobj(data, self)
         else:
-            super(FileObjectAwareFile, self).write(data)
+            super().write(data)
 
 
 class BasicFileStorage(StorageInterface):

@@ -25,7 +25,7 @@ if not DISABLE_GLOBALS:
     from sqlalchemy.orm import scoped_session, sessionmaker
     Session = scoped_session(sessionmaker())
 
-class FakeCursor(object):
+class FakeCursor:
 
     def __init__ (self, cursor, mapper, filter=None):
         self.cursor = cursor
@@ -50,7 +50,7 @@ class FakeCursor(object):
         r = self.cursor.slice(*args, **kwargs)
         return list(six.moves.filter(self.filter, six.moves.map(self.mapper, r)))
 
-class GMGTableBase(object):
+class GMGTableBase:
     # Deletion types
     HARD_DELETE = "hard-deletion"
     SOFT_DELETE = "soft-deletion"
@@ -194,7 +194,7 @@ class GMGTableBase(object):
 Base = declarative_base(cls=GMGTableBase)
 
 
-class DictReadAttrProxy(object):
+class DictReadAttrProxy:
     """
     Maps read accesses to obj['key'] to obj.key
     and hides all the rest of the obj

@@ -14,10 +14,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import print_function
 
 from setuptools import setup, find_packages
-from io import open
 import os
 import re
 
@@ -29,7 +27,7 @@ VSRE = r"^__version__ = ['\"]([^'\"]*)['\"]"
 
 
 def get_version():
-    with open(VERSIONFILE, "rt") as fobj:
+    with open(VERSIONFILE) as fobj:
         verstrline = fobj.read()
     mo = re.search(VSRE, verstrline, re.M)
     if mo:

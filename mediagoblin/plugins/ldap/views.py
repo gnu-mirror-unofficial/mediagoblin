@@ -44,7 +44,7 @@ def login(request):
 
             if user:
                 # set up login in session
-                request.session['user_id'] = six.text_type(user.id)
+                request.session['user_id'] = str(user.id)
                 request.session.save()
 
                 if request.form.get('next'):

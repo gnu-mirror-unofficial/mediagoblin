@@ -1,4 +1,3 @@
-
 # Copyright (C) 2011, 2012 MediaGoblin contributors.  See AUTHORS.
 #
 # This program is free software: you can redistribute it and/or modify
@@ -56,7 +55,7 @@ import mimetypes
 @require_active_login
 def edit_media(request, media):
     # If media is not processed, return NotFound.
-    if not media.state == u'processed':
+    if not media.state == 'processed':
         return render_404(request)
 
     if not may_edit_media(request, media):
@@ -81,20 +80,20 @@ def edit_media(request, media):
 
         if slug_used:
             form.slug.errors.append(
-                _(u'An entry with that slug already exists for this user.'))
+                _('An entry with that slug already exists for this user.'))
         else:
             media.title = form.title.data
             media.description = form.description.data
             media.tags = convert_to_tag_list_of_dicts(
                                    form.tags.data)
 
-            media.license = six.text_type(form.license.data) or None
+            media.license = str(form.license.data) or None
             media.slug = slug
             media.save()
 
             return redirect_obj(request, media)
 
-    if request.user.has_privilege(u'admin') \
+    if request.user.has_privilege('admin') \
             and media.actor != request.user.id \
             and request.method != 'POST':
         messages.add_message(
@@ -120,7 +119,7 @@ UNSAFE_MIMETYPES = [
 @require_active_login
 def edit_attachments(request, media):
     # If media is not processed, return NotFound.
-    if not media.state == u'processed':
+    if not media.state == 'processed':
         return render_404(request)
 
     if mg_globals.app_config['allow_attachments']:
@@ -143,7 +142,7 @@ def edit_attachments(request, media):
             if mimetypes.guess_type(
                     request.files['attachment_file'].filename)[0] in \
                     UNSAFE_MIMETYPES:
-                public_filename = secure_filename('{0}.notsafe'.format(
+                public_filename = secure_filename('{}.notsafe'.format(
                     request.files['attachment_file'].filename))
             else:
                 public_filename = secure_filename(
@@ -151,7 +150,7 @@ def edit_attachments(request, media):
 
             attachment_public_filepath \
                 = mg_globals.public_store.get_unique_filepath(
-                ['media_entries', six.text_type(media.id), 'attachment',
+                ['media_entries', str(media.id), 'attachment',
                  public_filename])
 
             attachment_public_file = mg_globals.public_store.get_file(
@@ -201,7 +200,7 @@ def legacy_edit_profile(request):
 def edit_profile(request, url_user=None):
     # admins may edit any user profile
     if request.user.username != url_user.username:
-        if not request.user.has_privilege(u'admin'):
+        if not request.user.has_privilege('admin'):
             raise Forbidden(_("You can only edit your own profile."))
 
         # No need to warn again if admin just submitted an edited profile
@@ -226,15 +225,15 @@ def edit_profile(request, url_user=None):
         location=location)
 
     if request.method == 'POST' and form.validate():
-        user.url = six.text_type(form.url.data)
-        user.bio = six.text_type(form.bio.data)
+        user.url = str(form.url.data)
+        user.bio = str(form.bio.data)
 
         # Save location
         if form.location.data and user.location is None:
-            user.get_location = Location(name=six.text_type(form.location.data))
+            user.get_location = Location(name=str(form.location.data))
         elif form.location.data:
             location = user.get_location
-            location.name = six.text_type(form.location.data)
+            location.name = str(form.location.data)
             location.save()
         else:
             user.location = None
@@ -256,8 +255,8 @@ def edit_profile(request, url_user=None):
          'form': form})
 
 EMAIL_VERIFICATION_TEMPLATE = (
-    u'{uri}?'
-    u'token={verification_key}')
+    '{uri}?'
+    'token={verification_key}')
 
 
 @require_active_login
@@ -324,7 +323,7 @@ def delete_account(request):
     """Delete a user completely"""
     user = request.user
     if request.method == 'POST':
-        if request.form.get(u'confirmed'):
+        if request.form.get('confirmed'):
             # Form submitted and confirmed. Actually delete the user account
             # Log out user and delete cookies etc.
             # TODO: Should we be using MG.auth.views.py:logout for this?
@@ -384,17 +383,17 @@ def edit_collection(request, collection):
                     form.title.data)
         elif slug_used:
             form.slug.errors.append(
-                _(u'A collection with that slug already exists for this user.'))
+                _('A collection with that slug already exists for this user.'))
         else:
-            collection.title = six.text_type(form.title.data)
-            collection.description = six.text_type(form.description.data)
-            collection.slug = six.text_type(form.slug.data)
+            collection.title = str(form.title.data)
+            collection.description = str(form.description.data)
+            collection.slug = str(form.slug.data)
 
             collection.save()
 
             return redirect_obj(request, collection)
 
-    if request.user.has_privilege(u'admin') \
+    if request.user.has_privilege('admin') \
             and collection.actor != request.user.id \
             and request.method != 'POST':
         messages.add_message(
@@ -508,19 +507,19 @@ def change_email(request):
         {'form': form,
          'user': user})
 
-@user_has_privilege(u'admin')
+@user_has_privilege('admin')
 @require_active_login
 @get_media_entry_by_id
 def edit_metadata(request, media):
     # If media is not processed, return NotFound.
-    if not media.state == u'processed':
+    if not media.state == 'processed':
         return render_404(request)
 
     form = forms.EditMetaDataForm(
         request.method == 'POST' and request.form or None)
     if request.method == "POST" and form.validate():
-        metadata_dict = dict([(row['identifier'],row['value'])
-                            for row in form.media_metadata.data])
+        metadata_dict = {row['identifier']:row['value']
+                            for row in form.media_metadata.data}
         json_ld_metadata = None
         json_ld_metadata = compact_and_validate(metadata_dict)
         media.media_metadata = json_ld_metadata
@@ -528,7 +527,7 @@ def edit_metadata(request, media):
         return redirect_obj(request, media)
 
     if len(form.media_metadata) == 0:
-        for identifier, value in six.iteritems(media.media_metadata):
+        for identifier, value in media.media_metadata.items():
             if identifier == "@context": continue
             form.media_metadata.append_entry({
                 'identifier':identifier,

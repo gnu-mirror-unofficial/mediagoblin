@@ -3,15 +3,12 @@ import warnings
 
 import six
 
-if six.PY3:
-    from email.mime.text import MIMEText
-else:
-    from email.MIMEText import MIMEText
+from email.mime.text import MIMEText
 
 
 def encode_to_utf8(method):
     def wrapper(self):
-        if six.PY2 and isinstance(method(self), six.text_type):
+        if six.PY2 and isinstance(method(self), str):
             return method(self).encode('utf-8')
         return method(self)
     functools.update_wrapper(wrapper, method, ['__name__', '__doc__'])

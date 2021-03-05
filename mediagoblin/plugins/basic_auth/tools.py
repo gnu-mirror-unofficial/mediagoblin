@@ -40,7 +40,7 @@ def bcrypt_check_password(raw_pass, stored_hash, extra_salt=None):
       True or False depending on success.
     """
     if extra_salt:
-        raw_pass = u"%s:%s" % (extra_salt, raw_pass)
+        raw_pass = "{}:{}".format(extra_salt, raw_pass)
 
     hashed_pass = bcrypt.hashpw(raw_pass.encode('utf-8'), stored_hash)
 
@@ -66,9 +66,9 @@ def bcrypt_gen_password_hash(raw_pass, extra_salt=None):
       non-database extra salt
     """
     if extra_salt:
-        raw_pass = u"%s:%s" % (extra_salt, raw_pass)
+        raw_pass = "{}:{}".format(extra_salt, raw_pass)
 
-    return six.text_type(
+    return str(
         bcrypt.hashpw(raw_pass.encode('utf-8'), bcrypt.gensalt()))
 
 
@@ -92,8 +92,8 @@ def fake_login_attempt():
 
 
 EMAIL_FP_VERIFICATION_TEMPLATE = (
-    u"{uri}?"
-    u"token={fp_verification_key}")
+    "{uri}?"
+    "token={fp_verification_key}")
 
 
 def send_fp_verification_email(user, request):

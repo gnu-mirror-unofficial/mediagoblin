@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import print_function
 
 import os
 
@@ -95,7 +94,7 @@ def addmedia(args):
         if some_string is None:
             return None
         if six.PY2:
-            return six.text_type(some_string, 'utf-8')
+            return str(some_string, 'utf-8')
         return some_string
 
     try:
@@ -107,7 +106,7 @@ def addmedia(args):
             description=maybe_unicodeify(args.description),
             collection_slug=args.collection_slug,
             license=maybe_unicodeify(args.license),
-            tags_string=maybe_unicodeify(args.tags) or u"")
+            tags_string=maybe_unicodeify(args.tags) or "")
     except FileUploadLimit:
         print("This file is larger than the upload limits for this site.")
     except UserUploadLimit:
