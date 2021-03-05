@@ -29,7 +29,7 @@ carefully, or at least skim over it.
 
 **Improvements:**
 
- - Drop Python 2 installation support (Ben Sturmfels)
+ - Remove Python 2 installation and compatibility code (Ben Sturmfels)
  - Reinstate Python 3 audio spectrograms [#5610] (Fernando Gutierrez)
 
 **Bug fixes:**
