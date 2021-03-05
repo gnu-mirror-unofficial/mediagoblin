@@ -16,7 +16,6 @@
 
 import logging
 
-import six
 from alembic import command
 from sqlalchemy.orm import sessionmaker
 

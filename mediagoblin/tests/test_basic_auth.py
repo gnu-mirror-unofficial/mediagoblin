@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import six.moves.urllib.parse as urlparse
+import urllib.parse as urlparse
 
 from mediagoblin.db.models import User, LocalUser
 from mediagoblin.plugins.basic_auth import tools as auth_tools

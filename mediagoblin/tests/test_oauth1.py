@@ -16,7 +16,7 @@
 
 import pytest
 
-from six.moves.urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, urlparse
 
 from oauthlib.oauth1 import Client
 

@@ -17,8 +17,6 @@
 import re
 from unidecode import unidecode
 
-import six
-
 _punct_re = re.compile(r'[\t !"#:$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
 

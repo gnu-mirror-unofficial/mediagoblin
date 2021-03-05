@@ -21,8 +21,6 @@ import gettext
 import pkg_resources
 import threading
 
-import six
-
 #############################
 # General mediagoblin globals
 #############################

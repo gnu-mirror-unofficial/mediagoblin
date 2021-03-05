@@ -17,8 +17,6 @@
 import json
 import logging
 
-import six
-
 from werkzeug.exceptions import BadRequest
 from werkzeug.wrappers import Response
 

@@ -18,8 +18,6 @@ import logging
 import uuid
 from os.path import splitext
 
-import six
-
 from celery import chord
 
 from werkzeug.utils import secure_filename

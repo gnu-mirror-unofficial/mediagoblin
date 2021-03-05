@@ -16,8 +16,6 @@
 import bcrypt
 import random
 
-import six
-
 from mediagoblin import mg_globals
 from mediagoblin.tools.crypto import get_timed_signer_url
 from mediagoblin.tools.mail import send_email

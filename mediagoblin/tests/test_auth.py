@@ -17,9 +17,7 @@
 import pkg_resources
 import pytest
 
-import six
-
-import six.moves.urllib.parse as urlparse
+import urllib.parse as urlparse
 
 from mediagoblin import mg_globals
 from mediagoblin.db.models import User, LocalUser

@@ -22,8 +22,6 @@ except ImportError:
     import Image
 import logging
 
-import six
-
 from mediagoblin import mg_globals as mgg
 from mediagoblin.processing import (
     create_pub_filepath, FilenameBuilder,

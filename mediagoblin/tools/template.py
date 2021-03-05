@@ -14,8 +14,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import six
-
 import jinja2
 from jinja2.ext import Extension
 from jinja2.nodes import Include, Const

@@ -24,8 +24,6 @@ import pytest
 import smtplib
 import pkg_resources
 
-import six
-
 from mediagoblin.tests.tools import get_app
 from mediagoblin import mg_globals
 from mediagoblin.tools import common, url, translate, mail, text, testing

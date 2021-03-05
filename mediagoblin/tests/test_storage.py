@@ -19,8 +19,6 @@ import os
 import tempfile
 
 import pytest
-import six
-
 from werkzeug.utils import secure_filename
 
 from mediagoblin import storage

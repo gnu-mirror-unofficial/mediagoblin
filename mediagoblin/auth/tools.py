@@ -17,7 +17,6 @@
 
 import logging
 
-import six
 import wtforms
 from sqlalchemy import or_
 

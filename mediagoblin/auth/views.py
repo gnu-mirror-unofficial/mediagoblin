@@ -16,8 +16,6 @@
 
 import logging
 
-import six
-
 from itsdangerous import BadSignature
 
 from mediagoblin import messages, mg_globals

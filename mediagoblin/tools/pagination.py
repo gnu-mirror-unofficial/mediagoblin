@@ -19,7 +19,7 @@ from math import ceil, floor
 from itertools import count
 from werkzeug.datastructures import MultiDict
 
-from six.moves import urllib
+import urllib
 
 PAGINATION_DEFAULT_PER_PAGE = 30
 

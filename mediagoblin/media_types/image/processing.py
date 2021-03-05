@@ -23,8 +23,6 @@ import os
 import logging
 import argparse
 
-import six
-
 from mediagoblin import mg_globals as mgg
 from mediagoblin.db.models import Location
 from mediagoblin.processing import (

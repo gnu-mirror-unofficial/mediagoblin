@@ -18,8 +18,6 @@ import logging
 import datetime
 import json
 
-import six
-
 from mediagoblin import messages, mg_globals
 from mediagoblin.db.models import (MediaEntry, MediaTag, Collection, Comment,
                                    CollectionItem, LocalUser, Activity, \

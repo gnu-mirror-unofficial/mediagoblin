@@ -16,8 +16,6 @@
 import ldap
 import logging
 
-import six
-
 from mediagoblin.tools import pluginapi
 
 _log = logging.getLogger(__name__)

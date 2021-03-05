@@ -17,8 +17,6 @@
 import logging
 import re
 
-import six
-
 from werkzeug.exceptions import MethodNotAllowed, BadRequest, NotImplemented
 from werkzeug.wrappers import BaseResponse
 

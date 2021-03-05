@@ -18,8 +18,6 @@ import argparse
 import logging
 import os
 
-import six
-
 from mediagoblin import mg_globals as mgg
 from mediagoblin.processing import (
     BadMediaFail, FilenameBuilder,

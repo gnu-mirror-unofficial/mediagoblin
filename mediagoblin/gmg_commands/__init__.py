@@ -18,8 +18,6 @@ import argparse
 import os
 import shutil
 
-import six
-
 from mediagoblin.tools.common import import_component
 
 import logging

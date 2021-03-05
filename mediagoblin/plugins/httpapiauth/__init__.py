@@ -16,8 +16,6 @@
 
 import logging
 
-import six
-
 from werkzeug.exceptions import Unauthorized
 
 from mediagoblin.auth.tools import check_login_simple

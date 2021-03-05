@@ -36,13 +36,6 @@ try:
 except ImportError:
     SKIP_AUDIO = True
 
-import six
-
-if six.PY2:  # this hack only work in Python 2
-    import sys
-    reload(sys)
-    sys.setdefaultencoding('utf-8')
-
 import os
 import pytest
 import webtest.forms
@@ -52,7 +45,7 @@ try:
 except ImportError:
     import unittest.mock as mock
 
-import six.moves.urllib.parse as urlparse
+import urllib.parse as urlparse
 
 from celery import Signature
 from mediagoblin.tests.tools import (

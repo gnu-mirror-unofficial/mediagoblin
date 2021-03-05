@@ -16,7 +16,7 @@
 
 import logging
 
-from six.moves.urllib import request, parse
+from urllib import request, parse
 
 import celery
 from celery.registry import tasks

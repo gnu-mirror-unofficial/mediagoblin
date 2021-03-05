@@ -17,8 +17,6 @@
 
 import os
 
-import six
-
 from mediagoblin.db.models import LocalUser
 from mediagoblin.gmg_commands import util as commands_util
 from mediagoblin.submit.lib import (
@@ -93,8 +91,6 @@ def addmedia(args):
         # this is kinda terrible
         if some_string is None:
             return None
-        if six.PY2:
-            return str(some_string, 'utf-8')
         return some_string
 
     try:

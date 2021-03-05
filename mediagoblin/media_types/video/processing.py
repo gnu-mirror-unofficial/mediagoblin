@@ -20,8 +20,6 @@ import logging
 import datetime
 import celery
 
-import six
-
 from celery import group
 from mediagoblin import mg_globals as mgg
 from mediagoblin.processing import (

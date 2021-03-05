@@ -19,8 +19,6 @@ import sys
 import datetime
 import logging
 
-import six
-
 from celery import Celery
 from kombu import Exchange, Queue
 from mediagoblin.tools.pluginapi import hook_runall

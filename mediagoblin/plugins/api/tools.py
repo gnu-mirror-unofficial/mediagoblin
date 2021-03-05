@@ -21,7 +21,7 @@ from functools import wraps
 from werkzeug.exceptions import Forbidden
 from werkzeug.wrappers import Response
 
-from six.moves.urllib.parse import urljoin
+from urllib.parse import urljoin
 
 from mediagoblin import mg_globals
 from mediagoblin.tools.pluginapi import PluginManager

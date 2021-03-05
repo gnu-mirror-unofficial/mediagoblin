@@ -17,8 +17,6 @@ import json
 import logging
 import requests
 
-import six
-
 from werkzeug.exceptions import BadRequest
 
 from mediagoblin import messages, mg_globals

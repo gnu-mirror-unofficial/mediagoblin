@@ -18,7 +18,7 @@ import logging
 import json
 import traceback
 
-from six.moves.urllib import request, parse
+from urllib import request, parse
 
 _log = logging.getLogger(__name__)
 

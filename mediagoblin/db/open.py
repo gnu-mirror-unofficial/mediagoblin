@@ -18,7 +18,6 @@
 from contextlib import contextmanager
 import logging
 
-import six
 from sqlalchemy import create_engine, event
 
 from mediagoblin import mg_globals

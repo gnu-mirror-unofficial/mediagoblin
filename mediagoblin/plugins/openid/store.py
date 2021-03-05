@@ -16,8 +16,6 @@
 import base64
 import time
 
-import six
-
 from openid.association import Association as OIDAssociation
 from openid.store.interface import OpenIDStore
 from openid.store import nonce

@@ -16,7 +16,6 @@
 
 import json
 
-import six
 import werkzeug.utils
 from werkzeug.wrappers import Response as wz_Response
 from mediagoblin.tools.template import render_template

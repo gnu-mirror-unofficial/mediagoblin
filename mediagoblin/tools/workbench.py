@@ -18,8 +18,6 @@ import os
 import shutil
 import tempfile
 
-import six
-
 from mediagoblin._compat import py2_unicode
 
 # Actual workbench stuff

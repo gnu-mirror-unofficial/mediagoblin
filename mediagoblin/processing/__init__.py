@@ -24,8 +24,6 @@ except:
 import logging
 import os
 
-import six
-
 from mediagoblin import mg_globals as mgg
 from mediagoblin.db.util import atomic_update
 from mediagoblin.db.models import MediaEntry

@@ -16,9 +16,7 @@
 
 import logging
 
-import six
-
-from six.moves.urllib.parse import urlparse
+from urllib.parse import urlparse
 from werkzeug.routing import Map, Rule
 
 from mediagoblin.tools.common import import_component

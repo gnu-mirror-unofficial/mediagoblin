@@ -14,8 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import six
-import six.moves.urllib.parse as urlparse
+import urllib.parse as urlparse
 import pytest
 
 from mediagoblin import mg_globals
@@ -206,7 +205,6 @@ class TestMetaDataEdit:
             context_data = context_data[key]
         return response, context_data
 
-    @pytest.mark.skipif(six.PY2, reason='Breaks in Python 2 but seems non-critical')
     def test_edit_metadata(self, test_app):
         media_entry = fixture_media_entry(uploader=self.user.id,
             state='processed')

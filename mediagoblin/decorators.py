@@ -19,7 +19,7 @@ from functools import wraps
 from werkzeug.exceptions import Forbidden, NotFound
 from oauthlib.oauth1 import ResourceEndpoint
 
-from six.moves.urllib.parse import urljoin
+from urllib.parse import urljoin
 
 from mediagoblin import mg_globals as mgg
 from mediagoblin import messages

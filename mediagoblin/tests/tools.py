@@ -19,8 +19,6 @@ import os
 import pkg_resources
 import shutil
 
-import six
-
 from paste.deploy import loadapp
 from webtest import TestApp
 

@@ -18,8 +18,6 @@
 import shutil
 import uuid
 
-import six
-
 from werkzeug.utils import secure_filename
 
 from mediagoblin.tools import common

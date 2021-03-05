@@ -44,8 +44,7 @@ from mediagoblin.tools.common import import_component
 from mediagoblin.tools.routing import extract_url_arguments
 from mediagoblin.tools.text import convert_to_tag_list_of_dicts
 
-import six
-from six.moves.urllib.parse import urljoin
+from urllib.parse import urljoin
 from pytz import UTC
 
 _log = logging.getLogger(__name__)

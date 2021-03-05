@@ -18,8 +18,6 @@
 import datetime
 import uuid
 
-import six
-
 try:
     import migrate
 except ImportError:

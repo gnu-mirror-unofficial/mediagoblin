@@ -13,7 +13,6 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-import six
 import copy
 
 from sqlalchemy.ext.declarative import declarative_base
@@ -41,14 +40,14 @@ class FakeCursor:
         return FakeCursor(copy.copy(self.cursor), self.mapper, self.filter)
 
     def __iter__(self):
-        return six.moves.filter(self.filter, six.moves.map(self.mapper, self.cursor))
+        return filter(self.filter, map(self.mapper, self.cursor))
 
     def __getitem__(self, key):
         return self.mapper(self.cursor[key])
 
     def slice(self, *args, **kwargs):
         r = self.cursor.slice(*args, **kwargs)
-        return list(six.moves.filter(self.filter, six.moves.map(self.mapper, r)))
+        return list(filter(self.filter, map(self.mapper, r)))
 
 class GMGTableBase:
     # Deletion types

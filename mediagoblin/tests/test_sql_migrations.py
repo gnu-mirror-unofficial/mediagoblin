@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import six
 import pytest
 
 pytest.importorskip("migrate")
@@ -569,7 +568,6 @@ def _get_level3_exits(session, level):
          session.query(LevelExit3).filter_by(from_level=level.id)}
 
 
-@pytest.mark.skipif(six.PY2, reason='Breaks in Python 2 but migrations seem to run ok')
 def test_set1_to_set3():
     # Create / connect to database
     # ----------------------------

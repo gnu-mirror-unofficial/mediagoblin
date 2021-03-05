@@ -17,7 +17,6 @@
 from collections import namedtuple
 import logging
 
-import six
 import lxml.etree as ET
 from werkzeug.exceptions import MethodNotAllowed, BadRequest
 

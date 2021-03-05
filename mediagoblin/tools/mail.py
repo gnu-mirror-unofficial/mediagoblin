@@ -17,7 +17,6 @@
 
 import socket
 import logging
-import six
 import smtplib
 import sys
 from mediagoblin import mg_globals, messages

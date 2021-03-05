@@ -16,13 +16,12 @@
 
 import pkg_resources
 import pytest
-import six
 try:
     from unittest import mock
 except ImportError:
     import unittest.mock as mock
 
-import six.moves.urllib.parse as urlparse
+import urllib.parse as urlparse
 
 from mediagoblin import mg_globals
 from mediagoblin.db.base import Session

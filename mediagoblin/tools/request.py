@@ -17,7 +17,6 @@
 import json
 import logging
 
-import six
 from werkzeug.http import parse_options_header
 
 from mediagoblin.db.models import User, AccessToken

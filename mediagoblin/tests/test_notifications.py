@@ -16,7 +16,7 @@
 
 import pytest
 
-import six.moves.urllib.parse as urlparse
+import urllib.parse as urlparse
 
 from mediagoblin.tools import template, mail
 

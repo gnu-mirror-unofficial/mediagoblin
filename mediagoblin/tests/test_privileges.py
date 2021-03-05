@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import six
 import pytest
 from datetime import date, timedelta
 from webtest import AppError
@@ -128,7 +127,7 @@ class TestPrivilegeFunctionality:
         #----------------------------------------------------------------------
         with pytest.raises(AppError) as excinfo:
             response = self.test_app.get('/submit/')
-        excinfo = str(excinfo) if six.PY2 else str(excinfo).encode('ascii')
+        excinfo = str(excinfo).encode('ascii')
         assert b'Bad response: 403 FORBIDDEN' in excinfo
 
 
@@ -136,7 +135,7 @@ class TestPrivilegeFunctionality:
             response = self.do_post({'upload_files':[('file',GOOD_JPG)],
                 'title':'Normal Upload 1'},
                 url='/submit/')
-        excinfo = str(excinfo) if six.PY2 else str(excinfo).encode('ascii')
+        excinfo = str(excinfo).encode('ascii')
         assert b'Bad response: 403 FORBIDDEN' in excinfo
 
         # Test that a user cannot comment without the commenter privilege
@@ -159,14 +158,14 @@ class TestPrivilegeFunctionality:
             response = self.test_app.post(
                 media_uri_id + 'comment/add/',
                 {'comment_content': 'Test comment #42'})
-        excinfo = str(excinfo) if six.PY2 else str(excinfo).encode('ascii')
+        excinfo = str(excinfo).encode('ascii')
         assert b'Bad response: 403 FORBIDDEN' in excinfo
 
         # Test that a user cannot report without the reporter privilege
         #----------------------------------------------------------------------
         with pytest.raises(AppError) as excinfo:
             response = self.test_app.get(media_uri_slug+"report/")
-        excinfo = str(excinfo) if six.PY2 else str(excinfo).encode('ascii')
+        excinfo = str(excinfo).encode('ascii')
         assert b'Bad response: 403 FORBIDDEN' in excinfo
 
         with pytest.raises(AppError) as excinfo:
@@ -174,7 +173,7 @@ class TestPrivilegeFunctionality:
                 {'report_reason':'Testing Reports #1',
                 'reporter_id':'3'},
                 url=(media_uri_slug+"report/"))
-        excinfo = str(excinfo) if six.PY2 else str(excinfo).encode('ascii')
+        excinfo = str(excinfo).encode('ascii')
         assert b'Bad response: 403 FORBIDDEN' in excinfo
 
         # Test that a user cannot access the moderation pages w/o moderator
@@ -182,27 +181,27 @@ class TestPrivilegeFunctionality:
         #----------------------------------------------------------------------
         with pytest.raises(AppError) as excinfo:
             response = self.test_app.get("/mod/users/")
-        excinfo = str(excinfo) if six.PY2 else str(excinfo).encode('ascii')
+        excinfo = str(excinfo).encode('ascii')
         assert b'Bad response: 403 FORBIDDEN' in excinfo
 
         with pytest.raises(AppError) as excinfo:
             response = self.test_app.get("/mod/reports/")
-        excinfo = str(excinfo) if six.PY2 else str(excinfo).encode('ascii')
+        excinfo = str(excinfo).encode('ascii')
         assert b'Bad response: 403 FORBIDDEN' in excinfo
 
         with pytest.raises(AppError) as excinfo:
             response = self.test_app.get("/mod/media/")
-        excinfo = str(excinfo) if six.PY2 else str(excinfo).encode('ascii')
+        excinfo = str(excinfo).encode('ascii')
         assert b'Bad response: 403 FORBIDDEN' in excinfo
 
         with pytest.raises(AppError) as excinfo:
             response = self.test_app.get("/mod/users/1/")
-        excinfo = str(excinfo) if six.PY2 else str(excinfo).encode('ascii')
+        excinfo = str(excinfo).encode('ascii')
         assert b'Bad response: 403 FORBIDDEN' in excinfo
 
         with pytest.raises(AppError) as excinfo:
             response = self.test_app.get("/mod/reports/1/")
-        excinfo = str(excinfo) if six.PY2 else str(excinfo).encode('ascii')
+        excinfo = str(excinfo).encode('ascii')
         assert b'Bad response: 403 FORBIDDEN' in excinfo
 
         self.query_for_users()
@@ -213,5 +212,5 @@ class TestPrivilegeFunctionality:
                 'targeted_user':self.admin_user.id},
                 url='/mod/reports/1/')
             self.query_for_users()
-        excinfo = str(excinfo) if six.PY2 else str(excinfo).encode('ascii')
+        excinfo = str(excinfo).encode('ascii')
         assert b'Bad response: 403 FORBIDDEN' in excinfo

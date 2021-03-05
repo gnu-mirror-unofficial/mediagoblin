@@ -18,7 +18,7 @@ import io
 import os
 import shutil
 
-import six.moves.urllib.parse as urlparse
+import urllib.parse as urlparse
 
 from mediagoblin.storage import (
     StorageInterface,

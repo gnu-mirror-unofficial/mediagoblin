@@ -17,8 +17,6 @@
 
 import sys
 
-import six
-
 from mediagoblin.db.models import LocalUser
 from mediagoblin.gmg_commands import util as commands_util
 from mediagoblin import auth

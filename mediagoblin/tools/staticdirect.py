@@ -24,8 +24,6 @@
 
 import logging
 
-import six
-
 _log = logging.getLogger(__name__)
 
 
