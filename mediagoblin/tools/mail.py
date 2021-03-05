@@ -15,12 +15,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+from email.mime.text import MIMEText
 import socket
 import logging
 import smtplib
 import sys
 from mediagoblin import mg_globals, messages
-from mediagoblin._compat import MIMEText
 from mediagoblin.tools import common
 
 ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

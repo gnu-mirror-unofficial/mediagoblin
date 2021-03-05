@@ -18,13 +18,10 @@ import os
 import shutil
 import tempfile
 
-from mediagoblin._compat import py2_unicode
-
 # Actual workbench stuff
 # ----------------------
 
 
-@py2_unicode
 class Workbench:
     """
     Represent the directory for the workbench

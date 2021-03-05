@@ -31,11 +31,6 @@ except ImportError:
     SKIP_AUDIO = True
     SKIP_VIDEO = True
 
-try:
-    import scikits.audiolab
-except ImportError:
-    SKIP_AUDIO = True
-
 import os
 import pytest
 import webtest.forms
