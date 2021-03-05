@@ -192,7 +192,6 @@
        ("python-pytz" ,python-pytz)
        ("python-requests" ,python-requests)
        ("python-setuptools" ,python-setuptools)
-       ("python-six" ,python-six)
        ("python-sphinx" ,python-sphinx)
        ("python-docutils" ,python-docutils)
        ("python-sqlalchemy" ,python-sqlalchemy)

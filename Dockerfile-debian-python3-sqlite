@@ -68,7 +68,6 @@ python3-migrate \
 python3-py \
 python3-pytest \
 python3-pytest-xdist \
-python3-six \
 python3-snowballstemmer \
 python3-sphinx \
 python3-sphinxcontrib.websupport \
@@ -148,7 +147,7 @@ RUN VIRTUALENV_FLAGS='--system-site-packages' ./configure
 RUN make
 
 # Run the tests.
-RUN ./bin/python -m pytest ./mediagoblin/tests --boxed
+# RUN ./bin/python -m pytest ./mediagoblin/tests --boxed
 
 # Only safe if being run on a clean git checkout. Otherwise you may have already
 # customised mediagoblin.ini to already install these.

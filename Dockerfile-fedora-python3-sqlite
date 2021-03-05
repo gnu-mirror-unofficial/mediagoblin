@@ -27,7 +27,6 @@ python3-pillow \
 python3-py \
 python3-pytest \
 python3-pytest-xdist \
-python3-six \
 python3-snowballstemmer \
 python3-sphinx \
 # Not in Fedora
