@@ -255,5 +255,5 @@ class TestMetaDataEdit:
         assert new_metadata == old_metadata
         context = template.TEMPLATE_TEST_CONTEXT[
             'mediagoblin/edit/metadata.html']
-        expected = "'On the worst day' is not a 'date-time'"
-        assert context['form'].errors['media_metadata'][2]['identifier'][0] == expected
+        expected_error = {'identifier': ["'On the worst day' is not a 'date-time'"]}
+        assert expected_error in context['form'].errors['media_metadata']
