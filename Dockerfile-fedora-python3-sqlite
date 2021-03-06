@@ -1,6 +1,12 @@
 # A Dockerfile for MediaGoblin hacking.
 #
-# See Dockerfile-debian-python3-sqlite for documentation.
+# IMPORTANT: This Dockerfile is not an officially supported approach to
+# deploying MediaGoblin. It is experimental and intended for helping developers
+# run the test suite. To deploy MediaGoblin, see:
+#
+# https://mediagoblin.readthedocs.io/en/master/siteadmin/deploying.html
+#
+# See Dockerfile-debian-python3-sqlite for details.
 
 FROM fedora:31
 

@@ -1,5 +1,11 @@
 # A Dockerfile for MediaGoblin hacking.
 #
+# IMPORTANT: This Dockerfile is not an officially supported approach to
+# deploying MediaGoblin. It is experimental and intended for helping developers
+# run the test suite. To deploy MediaGoblin, see:
+#
+# https://mediagoblin.readthedocs.io/en/master/siteadmin/deploying.html
+#
 # Most development Docker images are built and run as root. That doesn't work
 # here because the `bower` command run within the `make` step, refuses to run as
 # root.
