@@ -29,11 +29,12 @@ carefully, or at least skim over it.
 
 **Improvements:**
 
- - Remove Python 2 installation and compatibility code (Ben Sturmfels)
- - Reinstate Python 3 audio spectrograms [#5610] (Fernando Gutierrez)
+- Remove Python 2 installation and compatibility code (Ben Sturmfels)
+- Reinstate Python 3 audio spectrograms [#5610] (Fernando Gutierrez)
 
 **Bug fixes:**
 
+- Fix test suite to pass 100% (Ben Sturmfels)
 - Make LDAP plugin Python 3 compatible [#5607] (Olivier Mehani)
 - Support blank titles in Atom feed [#1018] (Ben Sturmfels)
 - Avoid Celery/RabbitMQ "connection reset" errors [#5609] (Fernando Gutierrez)
