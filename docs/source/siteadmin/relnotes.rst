@@ -34,6 +34,7 @@ carefully, or at least skim over it.
 
 **Bug fixes:**
 
+- Pin sqlalchemy to fix due to changed internals [#5624] (Charlotte Koch)
 - Fix test suite to pass 100% (Ben Sturmfels)
 - Make LDAP plugin Python 3 compatible [#5607] (Olivier Mehani)
 - Support blank titles in Atom feed [#1018] (Ben Sturmfels)
