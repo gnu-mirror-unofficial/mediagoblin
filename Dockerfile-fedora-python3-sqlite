@@ -73,6 +73,8 @@ RUN ./bootstrap.sh
 RUN VIRTUALENV_FLAGS='--system-site-packages' ./configure
 RUN make
 
+RUN ./bin/python -m pytest ./mediagoblin/tests --boxed
+
 # RUN echo '[[mediagoblin.media_types.audio]]' >> mediagoblin.ini
 # RUN echo '[[mediagoblin.media_types.video]]' >> mediagoblin.ini
 

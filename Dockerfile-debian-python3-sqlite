@@ -6,11 +6,13 @@
 #
 # To build this Docker image, run:
 #
-#   docker build -t mediagoblin-python3 -f Dockerfile-debian-python3-sqlite .  # or
-#   docker build -t mediagoblin-python3 - < Dockerfile-debian-python3-sqlite  # with no build context
+#   docker build -t mediagoblin-python3 - < Dockerfile-debian-python3-sqlite
 #
 # The "- < Dockerfile" format advises Docker not to include the current
-# directory as build context.
+# directory as build context. Alternatively the following provides build
+# context:
+#
+#   docker build -t mediagoblin-python3 -f Dockerfile-debian-python3-sqlite .
 #
 # Before running the image you first need to first assign the "mediagoblin" and
 # "user_dev" directories to an artificial group (1024) on the host that is
@@ -147,7 +149,7 @@ RUN VIRTUALENV_FLAGS='--system-site-packages' ./configure
 RUN make
 
 # Run the tests.
-# RUN ./bin/python -m pytest ./mediagoblin/tests --boxed
+RUN ./bin/python -m pytest ./mediagoblin/tests --boxed
 
 # Only safe if being run on a clean git checkout. Otherwise you may have already
 # customised mediagoblin.ini to already install these.
