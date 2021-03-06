@@ -256,4 +256,4 @@ class TestMetaDataEdit:
         context = template.TEMPLATE_TEST_CONTEXT[
             'mediagoblin/edit/metadata.html']
         expected = "'On the worst day' is not a 'date-time'"
-        assert context['form'].errors['media_metadata'][0]['identifier'][0] == expected
+        assert context['form'].errors['media_metadata'][2]['identifier'][0] == expected
