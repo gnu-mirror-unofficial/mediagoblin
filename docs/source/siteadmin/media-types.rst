@@ -178,9 +178,17 @@ Configuring video
 Raw image
 =========
 
-To enable raw image you need to install pyexiv2::
+MediaGoblin can extract and display the JPEG preview from RAW images.
 
-    # Debian and co.
+To enable raw image you need to install the Python library ``py3exiv2``. This
+library is not currently available for Debian 10 or 11 but can be installed from
+the Python Package Index after installing the build dependencies::
+
+    # Debian 10/11
+    sudo apt install libexiv2-dev libboost-python-devn
+    ./bin/pip install py3pyexiv2
+
+    # Debian 12 (currently not released)
     sudo apt install python3-pyexiv2
 
 Add ``[[mediagoblin.media_types.raw_image]]`` under the ``[plugins]``
@@ -188,10 +196,10 @@ section in your ``mediagoblin.ini`` and restart MediaGoblin.
 
 Run::
 
-    $ ./bin/gmg dbupdate
+    ./bin/gmg dbupdate
 
-Restart MediaGoblin (and Celery if applicable). Now you should be able to submit
-raw images, and MediaGoblin should extract the JPEG preview from them.
+Restart MediaGoblin (and Celery if applicable). You should now be able to submit
+raw images.
 
 
 ASCII art

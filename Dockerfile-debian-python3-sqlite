@@ -98,6 +98,15 @@ gir1.2-gstreamer-1.0 \
 gstreamer1.0-tools \
 python3-gi
 
+# Install raw image dependencies.
+#
+# Currently (March 2021), python3-py3exiv2 is only available in Debian Sid, so
+# we need to install py3exiv2 from PyPI (later on in this Dockerfile). These are
+# the build depedencies for py3exiv2.
+RUN apt-get install -y \
+libexiv2-dev \
+libboost-python-dev
+
 # Install document (PDF-only) dependencies.
 # TODO: Check that PDF tests aren't skipped.
 RUN apt-get install -y \
@@ -154,6 +163,9 @@ RUN ./bootstrap.sh
 RUN VIRTUALENV_FLAGS='--system-site-packages' ./configure
 RUN make
 
+# Install raw image library from PyPI.
+RUN ./bin/pip install py3exiv2
+
 # Run the tests.
 RUN ./bin/python -m pytest ./mediagoblin/tests --boxed
 
@@ -161,6 +173,7 @@ RUN ./bin/python -m pytest ./mediagoblin/tests --boxed
 # customised mediagoblin.ini to already install these.
 RUN echo '[[mediagoblin.media_types.audio]]' >> mediagoblin.ini
 RUN echo '[[mediagoblin.media_types.video]]' >> mediagoblin.ini
+RUN echo '[[mediagoblin.media_types.raw_image]]' >> mediagoblin.ini
 
 # Prepare the SQLite database.
 #

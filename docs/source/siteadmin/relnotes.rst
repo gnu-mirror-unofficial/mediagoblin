@@ -34,6 +34,7 @@ carefully, or at least skim over it.
 
 **Bug fixes:**
 
+- Fix raw image plugin installation instruction [#5523] (Ben Sturmfels)
 - Pin sqlalchemy to fix due to changed internals [#5624] (Charlotte Koch)
 - Fix test suite to pass 100% (Ben Sturmfels)
 - Make LDAP plugin Python 3 compatible [#5607] (Olivier Mehani)
