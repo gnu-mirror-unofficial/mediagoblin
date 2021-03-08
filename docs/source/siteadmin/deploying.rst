@@ -65,7 +65,7 @@ MediaGoblin has the following core dependencies:
 - `Node.js <https://nodejs.org>`_
 
 These instructions have been tested on Debian 10, CentOS 8 and
-Fedora 31. These instructions should approximately translate to recent
+Fedora 33. These instructions should approximately translate to recent
 Debian derivatives such as Ubuntu 18.04 and Trisquel 8, and to relatives of
 Fedora such as CentOS 8.
 
@@ -75,12 +75,13 @@ Issue the following commands:
 
     # Debian 10
     sudo apt update
-    sudo apt install automake git nodejs npm python3-dev python3-gi \
+    sudo apt install automake git nodejs npm python3-dev \
     python3-gst-1.0 python3-lxml python3-pil virtualenv
 
-    # Fedora 31
-    sudo dnf install automake gcc git-core make nodejs npm python3-devel \
-    python3-lxml python3-pillow virtualenv
+    # Fedora 33
+    sudo dnf install automake gcc git-core make nodejs npm \
+    libffi-devel python3-devel python3-lxml python3-pillow \
+    virtualenv
 
 For a production deployment, you'll also need Nginx as frontend web
 server and RabbitMQ to store the media processing queue::

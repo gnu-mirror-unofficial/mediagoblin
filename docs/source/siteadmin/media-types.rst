@@ -90,11 +90,11 @@ as whatever GStreamer plugins you want, good/bad/ugly):
 
 .. code-block:: bash
 
-    # Debian and co.
+    # Debian
     sudo apt install python3-gst-1.0 gstreamer1.0-plugins-{base,bad,good,ugly} \
     gstreamer1.0-libav python3-numpy
 
-    # Fedora and co.
+    # Fedora
     sudo dnf install gstreamer1-plugins-{base,bad-free,good,ugly-free} \
     python3-numpy
 
@@ -130,10 +130,14 @@ good/bad/ugly):
 
 .. code-block:: bash
 
-    # Debian and co.
+    # Debian
     sudo apt install python3-gi gstreamer1.0-tools gir1.2-gstreamer-1.0 \
     gir1.2-gst-plugins-base-1.0 gstreamer1.0-plugins-{good,bad,ugly} \
     gstreamer1.0-libav python3-gst-1.0
+
+    # Fedora
+    sudo dnf install gstreamer1-plugins-{base,bad-free,good,ugly-free,openh264} \
+    python3-gobject python3-gstreamer1
 
 .. note::
 
