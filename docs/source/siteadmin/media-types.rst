@@ -114,12 +114,6 @@ Production deployments will also need a separate process to transcode media in
 the background. See ":ref:`systemd-service-files`" and
 ":ref:`separate-celery`" sections of this manual.
 
-.. note::
-
-   MediaGoblin previously generated spectrograms for uploaded audio. This
-   feature has been removed due to incompatibility with Python 3. We may
-   consider re-adding this feature in the future.
-
 
 Video
 =====
