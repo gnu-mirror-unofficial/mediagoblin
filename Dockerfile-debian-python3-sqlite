@@ -173,7 +173,6 @@ RUN make
 RUN ./bin/pip install py3exiv2
 
 # Run the tests.
-RUN echo foo
 RUN ./bin/python -m pytest -rs ./mediagoblin/tests --boxed
 
 # Only safe if being run on a clean git checkout. Otherwise you may have already

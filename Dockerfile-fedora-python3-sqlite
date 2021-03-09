@@ -89,7 +89,6 @@ RUN ./bootstrap.sh
 RUN VIRTUALENV_FLAGS='--system-site-packages' ./configure
 RUN make
 
-RUN echo foo
 RUN ./bin/python -m pytest -rs ./mediagoblin/tests --boxed
 
 RUN echo '[[mediagoblin.media_types.audio]]' >> mediagoblin.ini
