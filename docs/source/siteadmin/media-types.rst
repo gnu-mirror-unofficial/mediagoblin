@@ -265,8 +265,7 @@ support. This will result in a much smaller list of dependencies.
 
 pdf.js relies on git submodules, so be sure you have fetched them::
 
-    $ git submodule init
-    $ git submodule update
+    $ git submodule update --init
 
 This feature has been tested on Fedora with:
  poppler-utils-0.20.2-9.fc18.x86_64
