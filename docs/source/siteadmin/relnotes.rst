@@ -26,7 +26,18 @@ carefully, or at least skim over it.
 0.11.0 (work in progress)
 =========================
 
+# make distclean instead of ad-hoc rm's
+# advice on --system-site-packages - currently not used in upgrade
+# git submodule update --init
 
+# Blog post
+- Python3
+- spectrograms
+- dressupgeekout images
+- Boris retire
+- IRC no longer requires registration
+- trialling new forge
+j
 **Improvements:**
 
 - Run test for LDAP, OpenID and PDF plugins in development Dockerfiles (Ben Sturmfels)

@@ -176,7 +176,7 @@ The following command will create a system account with a username of
 If you are using a Debian-based system, enter this command::
 
     # Debian
-    sudo useradd --system --create-home --home-dir /var/lib/qmediagoblin \
+    sudo useradd --system --create-home --home-dir /var/lib/mediagoblin \
     --group www-data --comment 'GNU MediaGoblin system account' mediagoblin
 
     # Fedora
