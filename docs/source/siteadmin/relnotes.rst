@@ -30,7 +30,7 @@ carefully, or at least skim over it.
 **Improvements:**
 
 - Run test for LDAP, OpenID and PDF plugins in development Dockerfiles (Ben Sturmfels)
-- Add Debian and Fedora CI builds for sourcehut (Ben Sturmfels)
+- Add Debian and Fedora CI builds for sourcehut (Jesús E, Ben Sturmfels)
 - Extend Fedora install docs and development Dockerfile to support audio/video (Ben Sturmfels)
 - Remove Python 2 installation and compatibility code (Ben Sturmfels)
 - Reinstate Python 3 audio spectrograms [#5610] (Fernando Gutierrez)
