@@ -37,6 +37,7 @@ carefully, or at least skim over it.
 
 **Bug fixes:**
 
+- Fix missing download link for videos uploaded after 0.10.0 [#5620] (Ben Sturmfels)
 - Fix raw image plugin installation instruction [#5523] (Ben Sturmfels)
 - Pin sqlalchemy to fix due to changed internals [#5624] (Charlotte Koch)
 - Fix test suite to pass 100% (Ben Sturmfels)
