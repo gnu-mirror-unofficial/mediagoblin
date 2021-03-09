@@ -112,6 +112,12 @@ libboost-python-dev
 RUN apt-get install -y \
 poppler-utils
 
+# Install LDAP depedencies.
+RUN apt-get install -y python3-ldap
+
+# Install OpenID dependencies.
+RUN apt-get install -y python3-openid
+
 # Create working directory.
 RUN mkdir /opt/mediagoblin
 RUN chown -R www-data:www-data /opt/mediagoblin
@@ -167,7 +173,8 @@ RUN make
 RUN ./bin/pip install py3exiv2
 
 # Run the tests.
-RUN ./bin/python -m pytest ./mediagoblin/tests --boxed
+RUN echo foo
+RUN ./bin/python -m pytest -rs ./mediagoblin/tests --boxed
 
 # Only safe if being run on a clean git checkout. Otherwise you may have already
 # customised mediagoblin.ini to already install these.

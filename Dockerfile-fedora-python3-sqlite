@@ -60,6 +60,15 @@ gstreamer1-plugin-openh264
 # RUN apt-get install -y \
 # poppler-utils
 
+# Install raw image dependencies.
+# TODO
+
+# Install LDAP depedencies.
+RUN dnf -y install python3-ldap
+
+# Install OpenID dependencies.
+RUN dnf -y install python3-openid
+
 RUN groupadd www-data
 RUN groupadd --system mediagoblin --gid 1024
 RUN adduser www-data -g www-data -G mediagoblin
@@ -73,14 +82,15 @@ RUN chown root:www-data /var/www
 
 USER www-data
 
-RUN git clone --depth=1 https://git.sr.ht/~mediagoblin/mediagoblin --branch ci .
+RUN git clone --depth=1 git://git.savannah.gnu.org/mediagoblin.git --branch master .
 RUN git show --oneline --no-patch
 
 RUN ./bootstrap.sh
 RUN VIRTUALENV_FLAGS='--system-site-packages' ./configure
 RUN make
 
-RUN ./bin/python -m pytest ./mediagoblin/tests --boxed
+RUN echo foo
+RUN ./bin/python -m pytest -rs ./mediagoblin/tests --boxed
 
 RUN echo '[[mediagoblin.media_types.audio]]' >> mediagoblin.ini
 RUN echo '[[mediagoblin.media_types.video]]' >> mediagoblin.ini
