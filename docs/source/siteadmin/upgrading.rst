@@ -15,69 +15,68 @@
  Upgrading MediaGoblin
 ======================
 
-Updating to a new release of MediaGoblin
-----------------------------------------
-
 Preparation
-~~~~~~~~~~~
+-----------
 
-*ALWAYS* do backups before upgrading, especially before running migrations! That
-way if something goes wrong, we can fix things!
+*ALWAYS* take a backup before upgrading, especially before running migrations. That
+way if something goes wrong, we can fix things.
 
-And be sure to shut down your current MediaGoblin/Celery processes before
-upgrading!
-
-.. note::
-
-   Previous versions of the upgrade docs recommended ``./bootstrap.sh &&
-   ./configure && make`` without ``--system-site-packages``. This ignores any
-   system-wide Python modules and installs everything from the Python Package
-   Index. That's not strictly a problem, but is inconsistent with the
-   ":doc:`deploying`" instructions. If you have problems with dependencies, feel
-   free to revert to this approach.
+Although not strictly necessary, we recommend you shut down your current
+MediaGoblin/Celery processes before upgrading.
 
 
 Upgrade (already on Python 3)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------
 
-1. Update to the latest release.  In your ``mediagoblin`` directory, run:
-   ``git fetch && git checkout -q v0.11.0 && git submodule update``
-2. Remove your existing installation:
-   ``make distclean``
-3. Install MediaGoblin:
-   ``./bootstrap.sh && VIRTUALENV_FLAGS='--system-site-packages' ./configure && make``
-4. Update the database:
-   ``./bin/gmg dbupdate``
-5. Restart the Paster and Celery processes
+1. Update to the latest release.  In your ``mediagoblin`` directory, run::
+
+     git fetch && git checkout -q v0.11.0 && git submodule update
+
+2. Remove your existing installation::
+
+     make distclean
+
+3. Install MediaGoblin (changed for 0.11.0, see notes section above)::
+
+     ./bootstrap.sh && VIRTUALENV_FLAGS='--system-site-packages' ./configure && make
+
+   (As of 0.11.0, the upgrade instructions have been updated to use
+   ``--system-site-package`` option for consistency with the deployment
+   instructions. If this approach causes any problems with for you, re-run
+   ``make distclean`` and then ``./bootstrap.sh && ./configure && make`` without
+   ``--system-site-packages``.)
+
+4. Update the database::
+
+     ./bin/gmg dbupdate
+
+5. Restart the Paster and Celery processes. If you followed ":doc:`deploying`",
+   this may be something like::
+
+     sudo systemctl restart mediagoblin-paster.service
+     sudo systemctl start mediagoblin-celeryd.service
+
+   To see the logs for troubleshooting, use something like::
+
+     sudo journalctl -u mediagoblin-paster.service -f
+     sudo journalctl -u mediagoblin-celeryd.service -f
+
+6. View your site and hover your cursor over "MediaGoblin" to confirm the
+   version number you're running.
 
 
-Upgrade (upgrading to Python 3)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Upgrading to Python 3
+---------------------
 
-1. Refer to the "Dependences" and "Configure PostgreSQL" sections of
-   ":doc:`deploying`" to install the necessary Python 3 dependencies.
-2. Update to the latest release.  In your ``mediagoblin`` directory, run:
-   ``git fetch && git checkout -q v0.11.0 && git submodule update``
-3. Remove your existing installation:
-   ``make distclean``
-4. Install MediaGoblin:
-   ``./bootstrap.sh && VIRTUALENV_FLAGS='--system-site-packages' ./configure && make``
-5. Update the database:
-   ``./bin/gmg dbupdate``
-6. Restart the Paster and Celery processes
+Refer to the "Dependences" and "Configure PostgreSQL" sections of
+":doc:`deploying`" to install the necessary Python 3 dependencies. Then follow
+the instructions for "Upgrade (already on Python 3)" above.
 
 
 Updating your system Python
 ---------------------------
 
-Upgrading your operating system or installing a new version of
-Python may break MediaGoblin. This typically occurs because Python virtual
-environment is referring to a copy of Python that no longer exists. To fix this:
-
-1. In your ``mediagoblin`` directory, remove your existing installation:
-   ``make disclean``
-2. Install MediaGoblin:
-   ``./bootstrap.sh && VIRTUALENV_FLAGS='--system-site-packages' ./configure && make``
-3. Update the database:
-   ``./bin/gmg dbupdate``
-4. Restart the Paster and Celery processes
+Upgrading your operating system or installing a new version of Python may break
+MediaGoblin. This typically occurs because Python virtual environment is
+referring to a copy of Python that no longer exists. In this situation use the
+same process for "Upgrade (already on Python 3)" above.
