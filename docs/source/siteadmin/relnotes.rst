@@ -17,27 +17,30 @@
 Release Notes
 =============
 
-This chapter has important information for releases in it.
-If you're upgrading from a previous release, please read it
-carefully, or at least skim over it.
+This chapter has important information about our current and previous releases.
 
 
+0.11.0
+======
 
-0.11.0 (work in progress)
-=========================
+This release of MediaGoblin drops support for Python 2 and removes all Python 2
+compatibility code, significantly reducing the work of maintaining MediaGoblin
+going forward. Please see details about upgrading below.
 
-# make distclean instead of ad-hoc rm's
-# advice on --system-site-packages - currently not used in upgrade
-# git submodule update --init
+This release also reinstates audio spectrograms with a completely rewritten
+Python 3 replacement for the previous Python 2-only audio feature by Fernando
+Gutierrez.
 
-# Blog post
-- Python3
-- spectrograms
-- dressupgeekout images
-- Boris retire
-- IRC no longer requires registration
-- trialling new forge
-j
+**Upgrading:**
+
+For detailed instructions on installing or upgrading, see ":doc:`deploying`" and
+":doc:`upgrading`".
+
+If you have any problems, please drop in to the `#mediagoblin IRC chat
+<https://webchat.freenode.net/#mediagoblin>`_, report an issue on our `issue
+tracker <https://issues.mediagoblin.org/>`_ or drop us an email to
+`mediagoblin-devel@gnu.org <mailto:mediagoblin-devel@gnu.org>`_.
+
 **Improvements:**
 
 - Run test for LDAP, OpenID and PDF plugins in development Dockerfiles (Ben Sturmfels)
