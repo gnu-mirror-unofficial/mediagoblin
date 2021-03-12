@@ -27,7 +27,7 @@ virtualenv and Nginx on a .deb or .rpm-based GNU/Linux distribution.
 
 Experts may of course choose other deployment options, including
 Apache. See our `Deployment wiki page
-<http://wiki.mediagoblin.org/Deployment>`_ for for more details.
+<https://web.archive.org/web/20200817190402/https://wiki.mediagoblin.org/Deployment>`_ for for more details.
 Please note that we are not able to provide support for these
 alternative deployment options.
 
@@ -35,7 +35,7 @@ alternative deployment options.
 
    These tools are for site administrators wanting to deploy a fresh
    install.  If you want to join in as a contributor, see our
-   `Hacking HOWTO <http://wiki.mediagoblin.org/HackingHowto>`_ instead.
+   `Hacking HOWTO <https://web.archive.org/web/20200817190402/https://wiki.mediagoblin.org/HackingHowto>`_ instead.
 
 .. note::
 
