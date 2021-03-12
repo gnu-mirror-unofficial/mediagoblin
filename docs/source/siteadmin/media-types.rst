@@ -133,11 +133,6 @@ good/bad/ugly):
     sudo dnf install gstreamer1-plugins-{base,bad-free,good,ugly-free,openh264} \
     python3-gobject python3-gstreamer1
 
-.. note::
-
-   We unfortunately do not have working installation instructions for Fedora and
-   co. Some incomplete information is available on the `Hacking Howto wiki page <http://wiki.mediagoblin.org/HackingHowto#Fedora_.2F_RedHat.28.3F.29_.2F_CentOS>`_
-    
 Add ``[[mediagoblin.media_types.video]]`` under the ``[plugins]`` section in
 your ``mediagoblin.ini`` and restart MediaGoblin.
 
