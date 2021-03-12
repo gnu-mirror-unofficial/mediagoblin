@@ -61,8 +61,8 @@ Upgrade (already on Python 3)
      sudo journalctl -u mediagoblin-paster.service -f
      sudo journalctl -u mediagoblin-celeryd.service -f
 
-6. View your site and hover your cursor over "MediaGoblin" to confirm the
-   version number you're running.
+6. View your site and hover your cursor over the "MediaGoblin" link in the
+   footer to confirm the version number you're running.
 
 
 Upgrading to Python 3
