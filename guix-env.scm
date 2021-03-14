@@ -48,7 +48,6 @@
 ;;;   python3 -m venv --system-site-packages . && bin/python setup.py develop --no-deps
 ;;;   bin/python -m pip install --force-reinstall PasteScript # workaround
 ;;;   bin/python -m pip install 'werkzeug<1.0.0' # workaround (also disabled below)
-;;;   bin/python -m pip install 'email-validator' # email-validator
 ;;;
 ;;; ... wait whaaat, what's that venv line?!  I thought you said this
 ;;; was a reasonable virtualenv replacement!  Well it is and it will
@@ -197,7 +196,8 @@
        ("python-unidecode" ,python-unidecode)
        ;; ("python-werkzeug" ,python-werkzeug)  ; Broken due to missing werkzeug.contrib.atom in 1.0.0.
        ("python-exif-read" ,python-exif-read)
-       ("python-wtforms" ,python-wtforms)))
+       ("python-wtforms" ,python-wtforms)
+       ("python-email-validator" ,python-email-validator)))
     (home-page "http://mediagoblin.org/")
     (synopsis "Web application for media publishing")
     (description "MediaGoblin is a web application for publishing all kinds of
