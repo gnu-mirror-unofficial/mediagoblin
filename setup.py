@@ -45,7 +45,7 @@ install_requires = [
     'py-bcrypt',
     'pytest>=2.3.1',
     'pytest-xdist',
-    'werkzeug>=0.7,<1.0.0',
+    'werkzeug>=0.7',
     # Celery 4.3.0 drops the "sqlite" transport alias making our tests fail.
     'celery>=3.0,<4.3.0',
     # Jinja2 3.0.0 uses f-strings (Python 3.7 and above) but `pip install` on

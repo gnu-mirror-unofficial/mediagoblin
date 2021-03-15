@@ -20,6 +20,15 @@ Release Notes
 This chapter has important information about our current and previous releases.
 
 
+0.12.0 (work in progress)
+=========================
+
+**Improvements:**
+
+- Switch Atom feeds from deprecated werkzeug.contrib.atom to feedgenerator,
+  upgrade werkzeug (Ben Sturmfels)
+
+
 0.11.0
 ======
 

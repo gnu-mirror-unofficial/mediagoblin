@@ -23,7 +23,7 @@
 ;;; WORK IN PROGRESS - UNRESOLVED ISSUES:
 ;;;
 ;;; 1. Switch MediaGoblin to using python-feedparser instead of
-;;; werkzeug.contrib.atom so we can use Guix's newer version of werkzeug.
+;;; werkzeug.contrib.atom so we can use Guix's newer version of werkzeug. DONE
 ;;;
 ;;; 2. Package python-soundfile.
 ;;;
@@ -33,11 +33,12 @@
 ;;;
 ;;; 4. Fix other test suite errors.
 ;;;
-;;; 6. H264 videos won't transcode: "GStreamer: missing H.264 decoder". Try with
-;;; openh264 installed?
+;;; 5. H264 videos won't transcode: "GStreamer: missing H.264 decoder".
 ;;;
-;;; 5. Don't have NPM in this environment yet. Maybe we use it, or maybe we
+;;; 6. Don't have NPM in this environment yet. Maybe we use it, or maybe we
 ;;; modify MediaGoblin to provide most functionality without it?
+;;;
+;;; 7. Haven't even looked at running celery.
 ;;;
 ;;; With `guix environment' you can use guix as kind of a universal
 ;;; virtualenv, except a universal virtualenv with magical time traveling
@@ -77,9 +78,9 @@
 ;;;   ./bootstrap.sh
 ;;;   ./configure --without-virtualenv
 ;;;   make
-;;;   rm -rf bin include lib lib64
+;;;   rm -rf bin include lib lib64 pyvenv.cfg
 ;;;   python3 -m venv --system-site-packages . && bin/python setup.py develop --no-deps
-;;;   bin/python -m pip install soundfile 'werkzeug<1.0.0'
+;;;   bin/python -m pip install soundfile
 ;;;
 ;;; ... wait whaaat, what's that venv line?!  I thought you said this
 ;;; was a reasonable virtualenv replacement!  Well it is and it will
@@ -204,10 +205,11 @@
        ("python-docutils" ,python-docutils)
        ("python-sqlalchemy" ,python-sqlalchemy)
        ("python-unidecode" ,python-unidecode)
-       ;; ("python-werkzeug" ,python-werkzeug)  ; Broken due to missing werkzeug.contrib.atom in 1.0.0.
+       ("python-werkzeug" ,python-werkzeug)
        ("python-exif-read" ,python-exif-read)
        ("python-wtforms" ,python-wtforms)
-       ("python-email-validator" ,python-email-validator)))
+       ("python-email-validator" ,python-email-validator)
+       ("python-feedgenerator" ,python-feedgenerator)))
     (home-page "http://mediagoblin.org/")
     (synopsis "Web application for media publishing")
     (description "MediaGoblin is a web application for publishing all kinds of
