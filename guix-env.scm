@@ -1,7 +1,7 @@
 ;;; GNU MediaGoblin -- federated, autonomous media hosting
 ;;; Copyright © 2015, 2016 David Thompson <davet@gnu.org>
 ;;; Copyright © 2016 Christopher Allan Webber <cwebber@dustycloud.org>
-;;; Copyright © 2019 Ben Sturmfels <ben@sturm.com.au>
+;;; Copyright © 2019, 2020, 2021 Ben Sturmfels <ben@sturm.com.au>
 ;;;
 ;;; This program is free software: you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -15,19 +15,47 @@
 ;;;
 ;;; ========================================
 ;;;
-;;; ... This file is also part of GNU MediaGoblin, but we're leaving it
-;;; under GPLv3 for easy merge back and forth between Guix proper.  It
-;;; also borrows some code directly from Guix.
+;;; This file is also part of GNU MediaGoblin, but we're leaving it under GPLv3
+;;; for easy merge back and forth between Guix proper.
 ;;;
 ;;; ========================================
+;;;
+;;; WORK IN PROGRESS - UNRESOLVED ISSUES:
+;;;
+;;; 1. Switch MediaGoblin to using python-feedparser instead of
+;;; werkzeug.contrib.atom so we can use Guix's newer version of werkzeug.
+;;;
+;;; 2. Package python-soundfile.
+;;;
+;;; 3. Work out why libsndfile isn't being found (maybe packaging it rather than
+;;; installing from PyPI would fix it?). See `bin/python -m pytest
+;;; ./mediagoblin/tests/test_audio.py --boxed --pdb`.
+;;;
+;;; 4. Fix other test suite errors.
+;;;
+;;; 6. H264 videos won't transcode: "GStreamer: missing H.264 decoder". Try with
+;;; openh264 installed?
+;;;
+;;; 5. Don't have NPM in this environment yet. Maybe we use it, or maybe we
+;;; modify MediaGoblin to provide most functionality without it?
 ;;;
 ;;; With `guix environment' you can use guix as kind of a universal
 ;;; virtualenv, except a universal virtualenv with magical time traveling
 ;;; properties and also, not just for Python.
 ;;;
-;;; Ok, here's how to use this thing!  First, install Guix.
-;;; Then do:
+;;; ========================================
+;;;
+;;; Assuming you have Guix installed, run:
+;;;
+;;;   guix environment -l guix-env.scm --container --network
+;;;
+;;; or (untested):
+;;;
 ;;;   guix environment -l guix-env.scm --pure
+;;;
+;;; or (untested):
+;;;
+;;;   guix environment -l guix-env.scm
 ;;;
 ;;; While using --pure is a robust way to ensure that other environment
 ;;; variables don't cause unexpected behaviour, it may trip up aspects of your
@@ -38,16 +66,20 @@
 ;;; restart your system, so a handy way to save having to remember is to install
 ;;; "direnv" an then create a ".envrc" file in your current directory containing
 ;;; the following and then run "direnv allow" when prompted:
+;;;
 ;;;   use guix -l guix-env.scm
 ;;;
-;;; To set things up for the first time, you'll also need to run:
+;;; To set things up for the first time, you'll also need to run the following.
+;;; If using --container, you'll likely need to delete and recreate the venv
+;;; each time you start the container:
+;;;
 ;;;   git submodule update --init
 ;;;   ./bootstrap.sh
 ;;;   ./configure --without-virtualenv
 ;;;   make
+;;;   rm -rf bin include lib lib64
 ;;;   python3 -m venv --system-site-packages . && bin/python setup.py develop --no-deps
-;;;   bin/python -m pip install --force-reinstall PasteScript # workaround
-;;;   bin/python -m pip install 'werkzeug<1.0.0' # workaround (also disabled below)
+;;;   bin/python -m pip install soundfile 'werkzeug<1.0.0'
 ;;;
 ;;; ... wait whaaat, what's that venv line?!  I thought you said this
 ;;; was a reasonable virtualenv replacement!  Well it is and it will
@@ -60,19 +92,22 @@
 ;;; "/usr/bin/env", so then run:
 ;;;   node node_modules/.bin/bower install
 ;;;   ./devtools/update_extlib.sh
-;;;   bin/gmg dbupdate
-;;;   bin/gmg adduser --username admin --password a --email admin@example.com
-;;;   ./lazyserver.sh <-- won't work
-;;;   CELERY_ALWAYS_EAGER=true ./bin/paster serve paste.ini --reload
 ;;;
-;;; WORKAROUND: I have an incompatible newer Werkzeug installed in my profile,
-;;; so to run MediaGoblin I need to:
+;;; Migrate the database and add a user:
 ;;;
-;;;   PYTHONPATH=lib/python3.8/site-packages:$PYTHONPATH CELERY_ALWAYS_EAGER=true ./bin/paster serve paste-vanilla.ini --reload
+;;;   bin/gmg --conf_file mediagoblin.ini dbupdate
+;;;   bin/gmg --conf_file mediagoblin.ini adduser --username admin --password a --email admin@example.com
 ;;;
-;;; So anyway, now you can do:
+;;; Start the server. The ./lazyserver.sh script doesn't currently work:
+;;;
+;;;   PYTHONPATH=lib/python3.8/site-packages:$PYTHONPATH CELERY_ALWAYS_EAGER=true paster serve paste.ini --reload
+;;;
+;;; Run the tests:
+;;;
 ;;;  PYTHONPATH="${PYTHONPATH}:$(pwd)" ./runtests.sh
+;;;
 ;;; or:
+;;;
 ;;;  bin/python -m pytest ./mediagoblin/tests --boxed
 ;;;
 ;;; Now notably this is goofier looking than running a virtualenv,
@@ -80,11 +115,6 @@
 ;;; the virtualenv and path-hacking stuff unnecessary.
 ;;;
 ;;; Have fun!
-;;;
-;;; Known issues:
-;;;  - currently fails to upload h264 source video: "GStreamer: missing H.264 decoder"
-;;
-;; TODO: Add PDF support.
 
 (use-modules (ice-9 match)
              (srfi srfi-1)
@@ -107,6 +137,7 @@
              (gnu packages sphinx)
              (gnu packages gstreamer)
              (gnu packages glib)
+             (gnu packages pulseaudio)
              (gnu packages rsync)
              (gnu packages ssh)
              (gnu packages time)
@@ -121,35 +152,14 @@
 ;; ourselves to...
 ;; =================================================================
 
-(define python-pytest-forked
-  (package
-   (name "python-pytest-forked")
-   (version "1.0.2")
-   (source
-    (origin
-     (method url-fetch)
-     (uri (pypi-uri "pytest-forked" version))
-     (sha256
-      (base32
-       "0f4y1jhcg70xhm220pdb8r24n01knhn749aqlr14vmgbsb7allnk"))))
-   (build-system python-build-system)
-   (propagated-inputs
-    `(("python-pytest" ,python-pytest)
-      ("python-setuptools-scm" ,python-setuptools-scm)))
-   (home-page
-    "https://github.com/pytest-dev/pytest-forked")
-   (synopsis
-    "run tests in isolated forked subprocesses")
-   (description
-    "run tests in isolated forked subprocesses")
-   (license license:expat)))
+;; Need soundfile for audio spectrograms.
 
 ;; =================================================================
 
 (define mediagoblin
   (package
     (name "mediagoblin")
-    (version "0.8.1")
+    (version "0.11.0")
     (source
      (origin
        (method url-fetch)
@@ -162,7 +172,7 @@
      ;; Complains about missing gunicorn. Not sure where that comes from.
      '(#:tests? #f))
     (native-inputs
-     `(("python-pytest" ,python-pytest)
+     `(("python-pytest-6" ,python-pytest)
        ("nss-certs" ,nss-certs)))
     (propagated-inputs
      `(("python-alembic" ,python-alembic)
@@ -218,6 +228,7 @@ media.")
      ("gst-plugins-bad" ,gst-plugins-bad)
      ("gst-plugins-ugly" ,gst-plugins-ugly)
      ("gobject-introspection" ,gobject-introspection)
+     ("libsndfile" ,libsndfile)
      ;; useful to have!
      ("coreutils" ,coreutils)
      ;; used by runtests.sh!
