@@ -6,7 +6,7 @@
 #
 # https://mediagoblin.readthedocs.io/en/master/siteadmin/deploying.html
 #
-# See Dockerfile-debian-python3-sqlite for details.
+# See Dockerfile-debian-10-sqlite for details.
 
 FROM fedora:33
 
