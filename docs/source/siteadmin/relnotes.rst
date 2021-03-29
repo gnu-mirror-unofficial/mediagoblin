@@ -27,6 +27,8 @@ This chapter has important information about our current and previous releases.
 
 - Switch Atom feeds from deprecated werkzeug.contrib.atom to feedgenerator,
   upgrade werkzeug (Ben Sturmfels)
+- Document that `gmg dbupdate` is required after some config changes (Rodrigo
+  Martins)
 
 
 0.11.0
