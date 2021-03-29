@@ -25,8 +25,8 @@ Although not strictly necessary, we recommend you shut down your current
 MediaGoblin/Celery processes before upgrading.
 
 
-Upgrade (already on Python 3)
------------------------------
+Upgrade
+-------
 
 1. Update to the latest release.  In your ``mediagoblin`` directory, run::
 
@@ -36,15 +36,9 @@ Upgrade (already on Python 3)
 
      make distclean
 
-3. Install MediaGoblin (changed for 0.11.0, see notes section above)::
+3. Recreate the virtual environment and install MediaGoblin::
 
      ./bootstrap.sh && VIRTUALENV_FLAGS='--system-site-packages' ./configure && make
-
-   (As of 0.11.0, the upgrade instructions have been updated to use
-   ``--system-site-package`` option for consistency with the deployment
-   instructions. If this approach causes any problems with for you, re-run
-   ``make distclean`` and then ``./bootstrap.sh && ./configure && make`` without
-   ``--system-site-packages``.)
 
 4. Update the database::
 
@@ -65,18 +59,10 @@ Upgrade (already on Python 3)
    footer to confirm the version number you're running.
 
 
-Upgrading to Python 3
----------------------
-
-Refer to the "Dependences" and "Configure PostgreSQL" sections of
-":doc:`deploying`" to install the necessary Python 3 dependencies. Then follow
-the instructions for "Upgrade (already on Python 3)" above.
-
-
 Updating your system Python
 ---------------------------
 
-Upgrading your operating system or installing a new version of Python may break
-MediaGoblin. This typically occurs because Python virtual environment is
+Upgrading your operating system or installing a new major version of Python may
+break MediaGoblin. This typically occurs because Python virtual environment is
 referring to a copy of Python that no longer exists. In this situation use the
-same process for "Upgrade (already on Python 3)" above.
+same process for "Upgrade" above.
