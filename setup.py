@@ -70,6 +70,7 @@ install_requires = [
     'ExifRead>=2.0.0',
     'email-validator', # Seems that WTForms must have dropped this.
     'soundfile<=0.10.999' # Tested with 0.10.3.post1
+    'feedgenerator',
 
     # This is optional:
     # 'translitcodec',
