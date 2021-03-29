@@ -498,10 +498,10 @@ Type ``Ctrl-c`` to exit the above server test and ``exit`` or
 Run MediaGoblin as a system service
 -----------------------------------
 
-To ensure MediaGoblin is automatically started and restarted in case of
-problems, we need to run it as a system service. If your operating system uses
-Systemd, you can use Systemd ``service files`` to manage both the Celery and
-Paste processes.
+To ensure MediaGoblin is automatically started and restarted in case
+of problems, we need to run it as system services. If your operating
+system uses Systemd, you can use Systemd ``service files`` to manage
+both the Celery and Paste processes as described below.
 
 In the Systemd configuration below, MediaGoblin log files are kept in
 the ``/var/log/mediagoblin`` directory. Create the directory and give
@@ -512,8 +512,30 @@ it the proper permissions::
 
 Place the following service files in the ``/etc/systemd/system/``
 directory. The first file should be named
-``mediagoblin-celeryd.service``. Be sure to modify it to suit your
+``mediagoblin-paster.service``. Be sure to modify it to suit your
 environment's setup:
+
+.. code-block:: bash
+
+    # Set the WorkingDirectory and Environment values to match your environment.
+    [Unit]
+    Description=Mediagoblin
+
+    [Service]
+    Type=simple
+    User=mediagoblin
+    Group=mediagoblin
+    Environment=CELERY_ALWAYS_EAGER=false
+    WorkingDirectory=/srv/mediagoblin.example.org/mediagoblin
+    ExecStart=/srv/mediagoblin.example.org/mediagoblin/bin/paster serve \
+                /srv/mediagoblin.example.org/mediagoblin/paste.ini \
+                --log-file=/var/log/mediagoblin/mediagoblin.log \
+                --server-name=main
+
+    [Install]
+    WantedBy=multi-user.target
+
+The second file should be named ``mediagoblin-celeryd.service``:
 
 .. code-block:: bash
 
@@ -536,40 +558,19 @@ environment's setup:
     [Install]
     WantedBy=multi-user.target
 
-
-The second file should be named ``mediagoblin-paster.service``:
-
-.. code-block:: bash
-
-    # Set the WorkingDirectory and Environment values to match your environment.
-    [Unit]
-    Description=Mediagoblin
-
-    [Service]
-    Type=simple
-    User=mediagoblin
-    Group=mediagoblin
-    Environment=CELERY_ALWAYS_EAGER=false
-    WorkingDirectory=/srv/mediagoblin.example.org/mediagoblin
-    ExecStart=/srv/mediagoblin.example.org/mediagoblin/bin/paster serve \
-                /srv/mediagoblin.example.org/mediagoblin/paste.ini \
-                --log-file=/var/log/mediagoblin/mediagoblin.log \
-                --server-name=main
-
-    [Install]
-    WantedBy=multi-user.target
-
+For details on this approach with a separate Celery process, see
+:ref:`background-media-processing`.
 
 Enable these processes to start at boot by entering::
 
-    sudo systemctl enable mediagoblin-celeryd.service && sudo systemctl enable mediagoblin-paster.service
+    sudo systemctl enable mediagoblin-paster.service
+    sudo systemctl enable mediagoblin-celeryd.service
 
 
 Start the processes for the current session with::
 
-    sudo systemctl start mediagoblin-celeryd.service
     sudo systemctl start mediagoblin-paster.service
-
+    sudo systemctl start mediagoblin-celeryd.service
 
 If either command above gives you an error, you can investigate the cause of
 the error by entering either of::
@@ -577,15 +578,8 @@ the error by entering either of::
     sudo systemctl status mediagoblin-celeryd.service
     sudo systemctl status mediagoblin-paster.service
 
-
 The above ``systemctl status`` command is also useful if you ever want to
-confirm that a process is still running. If you make any changes to the ".service"
-files, you can reload the service files and restart MediaGoblin by entering::
-
-    sudo systemctl daemon-reload
-    sudo systemctl restart mediagoblin-celeryd.service
-    sudo systemctl restart mediagoblin-paster.service
-
+confirm that a process is still running.
 
 Assuming the above was successful, you should now have a MediaGoblin
 server that will continue to operate, even after being restarted.
@@ -599,6 +593,14 @@ Restarting MediaGoblin
 
 To restart MediaGoblin after making configuration changes, run::
 
+    sudo systemctl restart mediagoblin-celeryd.service
+    sudo systemctl restart mediagoblin-paster.service
+
+If you make any changes to the ".service" files, you must first issue
+a `daemon-reload` command to refresh Systemd and then restart
+MediaGoblin with::
+
+    sudo systemctl daemon-reload
     sudo systemctl restart mediagoblin-celeryd.service
     sudo systemctl restart mediagoblin-paster.service
 
