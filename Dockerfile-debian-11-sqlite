@@ -26,6 +26,7 @@ virtualenv
 # compatible version of billiard.
 RUN apt-get install -y \
 python3-alembic \
+python3-feedgenerator \
 python3-jsonschema \
 python3-kombu \
 python3-lxml \
@@ -35,8 +36,13 @@ python3-pytest \
 python3-pytest-xdist \
 python3-snowballstemmer \
 python3-sphinx \
+python3-sphinxcontrib.devhelp \
+python3-sphinxcontrib.qthelp \
 python3-sphinxcontrib.websupport \
 python3-webtest
+
+# Additional Sphinx dependencies not in Debian.
+RUN ./bin/pip install sphinxcontrib-applehelp sphinxcontrib-htmlhelp sphinxcontrib-jsmath
 
 # Install audio dependencies.
 RUN apt-get install -y \
@@ -130,7 +136,10 @@ RUN make
 RUN ./bin/pip install py3exiv2
 
 # Run the tests.
-# RUN ./bin/python -m pytest -rs ./mediagoblin/tests --boxed
+RUN ./bin/python -m pytest -rs ./mediagoblin/tests --boxed
+
+# Build the documentation.
+RUN cd docs && make html
 
 # Only safe if being run on a clean git checkout. Otherwise you may have already
 # customised mediagoblin.ini to already install these.

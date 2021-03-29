@@ -91,6 +91,8 @@ RUN make
 
 RUN ./bin/python -m pytest -rs ./mediagoblin/tests --boxed
 
+RUN cd docs && make html
+
 RUN echo '[[mediagoblin.media_types.audio]]' >> mediagoblin.ini
 RUN echo '[[mediagoblin.media_types.video]]' >> mediagoblin.ini
 
