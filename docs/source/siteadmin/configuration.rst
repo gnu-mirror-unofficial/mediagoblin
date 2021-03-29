@@ -59,6 +59,11 @@ read and reference:
   option that we didn't tell you about. :)
 
 
+Enabling extra media types or plugins may require an update to the database, so
+after making changes, it is also a good idea to run::
+
+  $ ./bin/gmg dbupdate
+
 
 Common changes
 ==============
