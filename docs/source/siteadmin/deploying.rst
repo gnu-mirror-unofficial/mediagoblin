@@ -519,7 +519,7 @@ environment's setup:
 
     # Set the WorkingDirectory and Environment values to match your environment.
     [Unit]
-    Description=MediaGoblin Celeryd
+    Description=MediaGoblin Celery
     After=rabbitmq-server.service
 
     [Service]
@@ -577,18 +577,30 @@ the error by entering either of::
     sudo systemctl status mediagoblin-celeryd.service
     sudo systemctl status mediagoblin-paster.service
 
+
 The above ``systemctl status`` command is also useful if you ever want to
-confirm that a process is still running. If you make any changes to the service
-files, you can reload the service files by entering::
+confirm that a process is still running. If you make any changes to the ".service"
+files, you can reload the service files and restart MediaGoblin by entering::
 
     sudo systemctl daemon-reload
+    sudo systemctl restart mediagoblin-celeryd.service
+    sudo systemctl restart mediagoblin-paster.service
 
-After entering that command, you can attempt to start the Celery or Paste
-processes again using ``restart`` instead of ``start``.
 
 Assuming the above was successful, you should now have a MediaGoblin
 server that will continue to operate, even after being restarted.
 Great job!
+
+
+.. _restarting mediagoblin:
+
+Restarting MediaGoblin
+----------------------
+
+To restart MediaGoblin after making configuration changes, run::
+
+    sudo systemctl restart mediagoblin-celeryd.service
+    sudo systemctl restart mediagoblin-paster.service
 
 
 What next?
@@ -596,7 +608,12 @@ What next?
 
 This configuration supports upload of images only, but MediaGoblin
 also supports other types of media, such as audio, video, PDFs and 3D
-models. For details, see the ":doc:`media-types`" documentation.
+models. For details, see ":doc:`media-types`".
+
+For other settings and configuration options, see
+":doc:`configuration`".
+
+To enable and configure plugins, see ":doc:`plugins`".
 
 ..
    Local variables:
