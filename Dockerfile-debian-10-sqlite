@@ -69,6 +69,7 @@ virtualenv
 # compatible version of billiard.
 RUN apt-get install -y \
 python3-alembic \
+python3-feedgenerator \
 python3-jsonschema \
 python3-kombu \
 python3-lxml \
