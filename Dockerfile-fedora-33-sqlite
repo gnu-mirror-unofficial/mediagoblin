@@ -26,7 +26,6 @@ python3-alembic \
 python3-celery \
 python3-feedgenerator \
 python3-jsonschema \
-python3-kombu \
 python3-lxml \
 python3-migrate \
 # Fedora only
