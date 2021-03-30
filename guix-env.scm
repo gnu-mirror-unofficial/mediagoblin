@@ -28,22 +28,21 @@
 ;;; WORK IN PROGRESS - JOBS TO DO:
 ;;;
 ;;; 1. Submit the below python-soundfile package to Guix after libsndfile
-;;; updates in Guix core-updates branch have been merged into master.
+;;; updates in Guix core-updates branch have been merged into master [bug
+;;; 47181] https://debbugs.gnu.org/cgi/bugreport.cgi?bug=47181
 ;;;
 ;;; 2. Refine and submit the below upgraded python-wtforms 2.3.3 to Guix.
 ;;;
-;;; 3. Get test suite running with Guix's pytest, pytest-xdist and pytest-forked.
+;;; 3. H264 videos won't transcode: "GStreamer: missing H.264 decoder".
 ;;;
-;;; 4. H264 videos won't transcode: "GStreamer: missing H.264 decoder".
-;;;
-;;; 5. Look at Celery and Redis as a Celery broker - RabbitMQ isn't currenly
+;;; 4. Look at Celery and Redis as a Celery broker - RabbitMQ isn't currenly
 ;;; packaged for Guix.
 ;;;
-;;; 6. Don't have NPM in this environment yet. Possibly rewrite MediaGoblin's
+;;; 5. Don't have NPM in this environment yet. Possibly rewrite MediaGoblin's
 ;;; JavaScript code not to use jQuery. Possibly improve the
 ;;; no-bundled-JavaScript video/audio playing experience.
 ;;;
-;;; 7. Package MediaGoblin itself as a Guix service. Look at adding a PostgreSQL
+;;; 6. Package MediaGoblin itself as a Guix service. Look at adding a PostgreSQL
 ;;; database instead of sqlite3.
 ;;;
 ;;; ========================================
@@ -95,7 +94,6 @@
 ;;;
 ;;;   rm -rf bin include lib lib64 pyvenv.cfg
 ;;;   python3 -m venv --system-site-packages . && bin/python setup.py develop --no-deps
-;;;   bin/python -m pip install --force-reinstall pytest pytest-xdist pytest-forked
 ;;;
 ;;; ... wait whaaat, what's that venv line?!  I thought you said this
 ;;; was a reasonable virtualenv replacement!  Well it is and it will
@@ -113,11 +111,11 @@
 ;;; PYTHONPATH business is required to prefer the virtualenv packages over the
 ;;; `guix environment` ones.:
 ;;;
-;;;   PYTHONPATH=lib/python3.8/site-packages:$PYTHONPATH CELERY_ALWAYS_EAGER=true paster serve paste.ini --reload
+;;;   CELERY_ALWAYS_EAGER=true paster serve paste.ini --reload
 ;;;
 ;;; Run the tests:
 ;;;
-;;;   PYTHONPATH=lib/python3.8/site-packages:$PYTHONPATH bin/python -m pytest -rs ./mediagoblin/tests/ --boxed
+;;;   bin/python -m pytest -rs ./mediagoblin/tests/ --boxed
 ;;;
 ;;; or:
 ;;;
@@ -299,8 +297,6 @@ for reading and writing new sound file formats.")
 data as NumPy arrays.")
     (license license:bsd-3)))
 
-
-
 ;; =================================================================
 
 (define mediagoblin
@@ -320,7 +316,9 @@ data as NumPy arrays.")
      '(#:tests? #f))
     (native-inputs
      `(
-       ;; ("python-pytest-6" ,python-pytest)
+       ("python-pytest" ,python-pytest)
+       ("python-pytest-forked" ,python-pytest-forked)
+       ("python-pytest-xdist" ,python-pytest-xdist)
        ("nss-certs" ,nss-certs)))
     (propagated-inputs
      `(("python-alembic" ,python-alembic)
@@ -340,14 +338,10 @@ data as NumPy arrays.")
        ("python-markdown" ,python-markdown)
        ("python-oauthlib" ,python-oauthlib)
        ("python-openid" ,python-openid)
-       ("python-paste" ,python-paste)
-       ("python-pastedeploy" ,python-pastedeploy)
        ("python-pastescript" ,python-pastescript)
        ("python-pillow" ,python-pillow)
        ("python-py-bcrypt" ,python-py-bcrypt)
        ("python-pyld" ,python-pyld)
-       ;; ("python-pytest-forked" ,python-pytest-forked)
-       ;; ("python-pytest-xdist" ,python-pytest-xdist)
        ("python-pytz" ,python-pytz)
        ("python-requests" ,python-requests)
        ("python-setuptools" ,python-setuptools)

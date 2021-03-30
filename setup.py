@@ -43,8 +43,6 @@ install_requires = [
     # WTForms removed the "ext" module in 3.0.
     'wtforms>2.1,<3.0',
     'py-bcrypt',
-    'pytest>=2.3.1',
-    'pytest-xdist',
     'werkzeug>=0.7',
     # Celery 4.3.0 drops the "sqlite" transport alias making our tests fail.
     'celery>=3.0,<4.3.0',
@@ -78,6 +76,11 @@ install_requires = [
     # their package managers.
     # 'lxml',
     # 'Pillow',
+]
+
+extras_require = [
+    'pytest>=2.3.1',
+    'pytest-xdist',
 ]
 
 with open(READMEFILE, encoding="utf-8") as fobj:
