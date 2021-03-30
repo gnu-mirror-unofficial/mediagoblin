@@ -112,7 +112,7 @@ On production deployments, you will need to increase Nginx's
 
 Production deployments will also need a separate process to transcode media in
 the background. See ":ref:`systemd-service-files`" and
-":ref:`separate-celery`" sections of this manual.
+":ref:`background-media-processing`" sections of this manual.
 
 
 Video
