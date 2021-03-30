@@ -41,7 +41,7 @@ install_requires = [
     'alembic>=0.7.5',
     'python-dateutil',
     # WTForms removed the "ext" module in 3.0.
-    'wtforms<3.0',
+    'wtforms>2.1,<3.0',
     'py-bcrypt',
     'pytest>=2.3.1',
     'pytest-xdist',

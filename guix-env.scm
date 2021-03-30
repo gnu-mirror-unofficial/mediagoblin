@@ -20,25 +20,21 @@
 ;;;
 ;;; ========================================
 ;;;
-;;; WORK IN PROGRESS - UNRESOLVED ISSUES:
+;;; WORK IN PROGRESS - JOBS TO DO:
 ;;;
-;;; 1. Switch MediaGoblin to using python-feedparser instead of
-;;; werkzeug.contrib.atom so we can use Guix's newer version of werkzeug. DONE
+;;; 1. Submit the below python-soundfile package to Guix after libsndfile
+;;; updates in Guix core-updates branch have been merged into master.
 ;;;
-;;; 2. Package python-soundfile.
+;;; 2. Get test suite running with Guix's pytest, pytest-xdist and pytest-forked.
 ;;;
-;;; 3. Work out why libsndfile isn't being found (maybe packaging it rather than
-;;; installing from PyPI would fix it?). See `bin/python -m pytest
-;;; ./mediagoblin/tests/test_audio.py --boxed --pdb`.
+;;; 3. Upgrade Guix's python-wtforms
 ;;;
-;;; 4. Fix other test suite errors.
+;;; 3. H264 videos won't transcode: "GStreamer: missing H.264 decoder".
 ;;;
-;;; 5. H264 videos won't transcode: "GStreamer: missing H.264 decoder".
-;;;
-;;; 6. Don't have NPM in this environment yet. Maybe we use it, or maybe we
+;;; 4. Don't have NPM in this environment yet. Maybe we use it, or maybe we
 ;;; modify MediaGoblin to provide most functionality without it?
 ;;;
-;;; 7. Haven't even looked at running celery.
+;;; 5. Haven't even looked at running celery.
 ;;;
 ;;; With `guix environment' you can use guix as kind of a universal
 ;;; virtualenv, except a universal virtualenv with magical time traveling
@@ -48,7 +44,7 @@
 ;;;
 ;;; Assuming you have Guix installed, run:
 ;;;
-;;;   guix environment -l guix-env.scm --container --network --expose=$HOME/.bash_history
+;;;   guix environment -l guix-env.scm --container --network --share=$HOME/.bash_history
 ;;;
 ;;; or (untested):
 ;;;
@@ -70,20 +66,27 @@
 ;;;
 ;;;   use guix -l guix-env.scm
 ;;;
-;;; To set things up for the first time, you'll also need to run the following.
+;;; First time setup only, run:
 ;;;
 ;;;   git submodule update --init
 ;;;   ./bootstrap.sh
 ;;;   ./configure --without-virtualenv
 ;;;   make
+;;
+;;; The devtools/update_extlib.sh script won't run on Guix due to missing
+;;; "/usr/bin/env", so again for first time setup only, run:
 ;;;
-;;; The following are needed the first time only if you're using a regular or
-;;; --pure environment, but are needed each time with a --container:
+;;;   node node_modules/.bin/bower install
+;;;   ./devtools/update_extlib.sh
+;;;
+;;; For first time setup only with a regular `guix environment` or an
+;;; `environment --pure`, but required EACH TIME you start an `environment
+;;; --container`:
 ;;;
 ;;;   rm -rf bin include lib lib64 pyvenv.cfg
 ;;;   python3 -m venv --system-site-packages . && bin/python setup.py develop --no-deps
-;;;   bin/python -m pip install soundfile
 ;;;   bin/python -m pip install --force-reinstall pytest pytest-xdist pytest-forked
+;;;   bin/python -m pip install --force-reinstall 'wtforms>2.1,<3.0'
 ;;;
 ;;; ... wait whaaat, what's that venv line?!  I thought you said this
 ;;; was a reasonable virtualenv replacement!  Well it is and it will
@@ -92,27 +95,25 @@
 ;;; for certain things to run, so we have a virtualenv with nothing
 ;;; in it but this project itself.
 ;;;
-;;; The devtools/update_extlib.sh script won't run on Guix due to missing
-;;; "/usr/bin/env", so then run:
-;;;   node node_modules/.bin/bower install
-;;;   ./devtools/update_extlib.sh
-;;;
 ;;; Migrate the database and add a user:
 ;;;
 ;;;   bin/gmg --conf_file mediagoblin.ini dbupdate
 ;;;   bin/gmg --conf_file mediagoblin.ini adduser --username admin --password a --email admin@example.com
 ;;;
-;;; Start the server. The ./lazyserver.sh script doesn't currently work:
+;;; Start the server. The ./lazyserver.sh script doesn't currently work. The
+;;; PYTHONPATH business is required to prefer the virtualenv packages over the
+;;; `guix environment` ones.:
 ;;;
 ;;;   PYTHONPATH=lib/python3.8/site-packages:$PYTHONPATH CELERY_ALWAYS_EAGER=true paster serve paste.ini --reload
 ;;;
 ;;; Run the tests:
 ;;;
-;;;  PYTHONPATH="${PYTHONPATH}:$(pwd)" ./runtests.sh
+;;;   PYTHONPATH=lib/python3.8/site-packages:$PYTHONPATH bin/python -m pytest -rs ./mediagoblin/tests/ --boxed
 ;;;
 ;;; or:
 ;;;
-;;;  bin/python -m pytest ./mediagoblin/tests --boxed
+;;;   PYTHONPATH="${PYTHONPATH}:$(pwd)" ./runtests.sh
+;;;
 ;;;
 ;;; Now notably this is goofier looking than running a virtualenv,
 ;;; but soon I'll do something truly evil (I hope) that will make
@@ -129,12 +130,15 @@
              (guix build-system gnu)
              (guix build-system python)
              (gnu packages)
+             (gnu packages xiph)  ; flac for embedded libsndfile
              (gnu packages autotools)
              (gnu packages base)
              (gnu packages certs)
              (gnu packages check)
              (gnu packages databases)
+             (gnu packages libffi)  ; cffi for embedded python-soundfile
              (gnu packages pdf)
+             (gnu packages pkg-config)  ; embedded libsndfile
              (gnu packages python)
              (gnu packages python-crypto)
              (gnu packages python-web)
@@ -149,7 +153,7 @@
              (gnu packages video)
              (gnu packages version-control)
              (gnu packages xml)
-             ((guix licenses) #:select (expat zlib) #:prefix license:))
+             ((guix licenses) #:select (bsd-3 gpl2+) #:prefix license:))
 
 ;; =================================================================
 ;; These packages are on their way into Guix proper but haven't made
@@ -157,7 +161,101 @@
 ;; ourselves to...
 ;; =================================================================
 
-;; Need soundfile for audio spectrograms.
+;; Copied from guix/gnu/packages/pulseaudio.scm in the core-updates branch which
+;; adds flac/ogg/vorbis/opus support. This is required for building
+;; python-soundfile (March 2021).
+(define libsndfile
+  (package
+    (name "libsndfile")
+    (version "1.0.30")
+    (source (origin
+             (method url-fetch)
+             (uri (string-append "https://github.com/erikd/libsndfile"
+                                 "/releases/download/v" version
+                                 "/libsndfile-" version ".tar.bz2"))
+             (sha256
+              (base32
+               "06k1wj3lwm7vf21s8yqy51k6nrkn9z610bj1gxb618ag5hq77wlx"))
+             (modules '((ice-9 textual-ports) (guix build utils)))
+             (snippet
+              '(begin
+                 ;; Remove carriage returns (CRLF) to prevent bogus
+                 ;; errors from bash like "$'\r': command not found".
+                 (let ((data (call-with-input-file
+                                 "tests/pedantic-header-test.sh.in"
+                               (lambda (port)
+                                 (string-join
+                                  (string-split (get-string-all port)
+                                                #\return))))))
+                   (call-with-output-file "tests/pedantic-header-test.sh.in"
+                     (lambda (port) (format port data))))
+
+                 ;; While at it, fix hard coded executable name.
+                 (substitute* "tests/test_wrapper.sh.in"
+                   (("^/usr/bin/env") "env"))
+                 #t))))
+    (build-system gnu-build-system)
+    (propagated-inputs
+     `(("flac" ,flac)
+       ("libogg" ,libogg)
+       ("libvorbis" ,libvorbis)
+       ("opus" ,opus)))
+    (native-inputs
+     `(("pkg-config" ,pkg-config)
+       ("python" ,python)))
+    (home-page "http://www.mega-nerd.com/libsndfile/")
+    (synopsis "Reading and writing files containing sampled sound")
+    (description
+     "Libsndfile is a C library for reading and writing files containing
+sampled sound (such as MS Windows WAV and the Apple/SGI AIFF format) through
+one standard library interface.
+
+It was designed to handle both little-endian (such as WAV) and
+big-endian (such as AIFF) data, and to compile and run correctly on
+little-endian (such as Intel and DEC/Compaq Alpha) processor systems as well
+as big-endian processor systems such as Motorola 68k, Power PC, MIPS and
+SPARC.  Hopefully the design of the library will also make it easy to extend
+for reading and writing new sound file formats.")
+    (license license:gpl2+)))
+
+;; Need soundfile for new Python 3 audio spectrograms. Can me merged into Guix
+;; once core-updates is merged.
+(define python-soundfile
+  (package
+    (name "python-soundfile")
+    (version "0.10.3.post1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (pypi-uri "SoundFile" version))
+       (sha256
+        (base32
+         "0yqhrfz7xkvqrwdxdx2ydy4h467sk7z3gf984y1x2cq7cm1gy329"))))
+    (build-system python-build-system)
+    (native-inputs
+     `(("python-pytest" ,python-pytest)))
+    (propagated-inputs
+     `(("python-cffi" ,python-cffi)
+       ("libsndfile" ,libsndfile)
+       ("python-numpy" ,python-numpy)))
+    (arguments
+     `(#:phases
+       (modify-phases %standard-phases
+         (add-before 'build 'set-library-file-name
+           (lambda* (#:key inputs #:allow-other-keys)
+             (let ((libsndfile (assoc-ref inputs "libsndfile")))
+               (substitute* "soundfile.py"
+                 (("_find_library\\('sndfile'\\)")
+                  (string-append "'" libsndfile "/lib/libsndfile.so.1'")))
+               #t))))))
+    (home-page "https://github.com/bastibe/python-soundfile")
+    (synopsis "An audio library based on libsndfile, CFFI and NumPy")
+    (description
+     "The soundfile module can read and write sound files, representing audio
+data as NumPy arrays.")
+    (license license:bsd-3)))
+
+
 
 ;; =================================================================
 
@@ -212,9 +310,11 @@
        ("python-unidecode" ,python-unidecode)
        ("python-werkzeug" ,python-werkzeug)
        ("python-exif-read" ,python-exif-read)
-       ("python-wtforms" ,python-wtforms)
+       ;; ("python-wtforms" ,python-wtforms)
        ("python-email-validator" ,python-email-validator)
-       ("python-feedgenerator" ,python-feedgenerator)))
+       ("python-feedgenerator" ,python-feedgenerator)
+       ("python-soundfile" ,python-soundfile)
+       ))
     (home-page "http://mediagoblin.org/")
     (synopsis "Web application for media publishing")
     (description "MediaGoblin is a web application for publishing all kinds of
