@@ -48,7 +48,7 @@
 ;;;
 ;;; Assuming you have Guix installed, run:
 ;;;
-;;;   guix environment -l guix-env.scm --container --network
+;;;   guix environment -l guix-env.scm --container --network --expose=$HOME/.bash_history
 ;;;
 ;;; or (untested):
 ;;;
@@ -71,16 +71,19 @@
 ;;;   use guix -l guix-env.scm
 ;;;
 ;;; To set things up for the first time, you'll also need to run the following.
-;;; If using --container, you'll likely need to delete and recreate the venv
-;;; each time you start the container:
 ;;;
 ;;;   git submodule update --init
 ;;;   ./bootstrap.sh
 ;;;   ./configure --without-virtualenv
 ;;;   make
+;;;
+;;; The following are needed the first time only if you're using a regular or
+;;; --pure environment, but are needed each time with a --container:
+;;;
 ;;;   rm -rf bin include lib lib64 pyvenv.cfg
 ;;;   python3 -m venv --system-site-packages . && bin/python setup.py develop --no-deps
 ;;;   bin/python -m pip install soundfile
+;;;   bin/python -m pip install --force-reinstall pytest pytest-xdist pytest-forked
 ;;;
 ;;; ... wait whaaat, what's that venv line?!  I thought you said this
 ;;; was a reasonable virtualenv replacement!  Well it is and it will
@@ -131,6 +134,7 @@
              (gnu packages certs)
              (gnu packages check)
              (gnu packages databases)
+             (gnu packages pdf)
              (gnu packages python)
              (gnu packages python-crypto)
              (gnu packages python-web)
@@ -173,12 +177,13 @@
      ;; Complains about missing gunicorn. Not sure where that comes from.
      '(#:tests? #f))
     (native-inputs
-     `(("python-pytest-6" ,python-pytest)
+     `(
+       ;; ("python-pytest-6" ,python-pytest)
        ("nss-certs" ,nss-certs)))
     (propagated-inputs
      `(("python-alembic" ,python-alembic)
-       ("python-pytest-xdist" ,python-pytest-xdist)
-       ("python-pytest-forked" ,python-pytest-forked)
+       ;; ("python-pytest-xdist" ,python-pytest-xdist)
+       ;; ("python-pytest-forked" ,python-pytest-forked)
        ("python-celery" ,python-celery)
        ("python-kombu" ,python-kombu)
        ("python-webtest" ,python-webtest)
@@ -231,6 +236,8 @@ media.")
      ("gst-plugins-ugly" ,gst-plugins-ugly)
      ("gobject-introspection" ,gobject-introspection)
      ("libsndfile" ,libsndfile)
+     ;;; PDF
+     ("poppler" ,poppler)
      ;; useful to have!
      ("coreutils" ,coreutils)
      ;; used by runtests.sh!
