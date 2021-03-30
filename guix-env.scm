@@ -30,22 +30,27 @@
 ;;; 1. Submit the below python-soundfile package to Guix after libsndfile
 ;;; updates in Guix core-updates branch have been merged into master.
 ;;;
-;;; 2. Get test suite running with Guix's pytest, pytest-xdist and pytest-forked.
+;;; 2. Refine and submit the below upgraded python-wtforms 2.3.3 to Guix.
 ;;;
-;;; 3. Upgrade Guix's python-wtforms
+;;; 3. Get test suite running with Guix's pytest, pytest-xdist and pytest-forked.
 ;;;
-;;; 3. H264 videos won't transcode: "GStreamer: missing H.264 decoder".
+;;; 4. H264 videos won't transcode: "GStreamer: missing H.264 decoder".
 ;;;
-;;; 4. Don't have NPM in this environment yet. Maybe we use it, or maybe we
-;;; modify MediaGoblin to provide most functionality without it?
+;;; 5. Look at Celery and Redis as a Celery broker - RabbitMQ isn't currenly
+;;; packaged for Guix.
 ;;;
-;;; 5. Haven't even looked at running celery.
+;;; 6. Don't have NPM in this environment yet. Possibly rewrite MediaGoblin's
+;;; JavaScript code not to use jQuery. Possibly improve the
+;;; no-bundled-JavaScript video/audio playing experience.
+;;;
+;;; 7. Package MediaGoblin itself as a Guix service. Look at adding a PostgreSQL
+;;; database instead of sqlite3.
+;;;
+;;; ========================================
 ;;;
 ;;; With `guix environment' you can use guix as kind of a universal
 ;;; virtualenv, except a universal virtualenv with magical time traveling
 ;;; properties and also, not just for Python.
-;;;
-;;; ========================================
 ;;;
 ;;; Assuming you have Guix installed, run:
 ;;;
@@ -91,7 +96,6 @@
 ;;;   rm -rf bin include lib lib64 pyvenv.cfg
 ;;;   python3 -m venv --system-site-packages . && bin/python setup.py develop --no-deps
 ;;;   bin/python -m pip install --force-reinstall pytest pytest-xdist pytest-forked
-;;;   bin/python -m pip install --force-reinstall 'wtforms>2.1,<3.0'
 ;;;
 ;;; ... wait whaaat, what's that venv line?!  I thought you said this
 ;;; was a reasonable virtualenv replacement!  Well it is and it will
@@ -140,6 +144,7 @@
              (gnu packages base)
              (gnu packages certs)
              (gnu packages check)
+             (gnu packages compression)  ; unzip for embedded python-wtforms
              (gnu packages databases)
              (gnu packages libffi)  ; cffi for embedded python-soundfile
              (gnu packages openldap)
@@ -166,6 +171,39 @@
 ;; it in yet... or they're old versions of packages we're pinning
 ;; ourselves to...
 ;; =================================================================
+
+;; Upgraded the Guix version 2.1 to 2.3 for compatibility with current
+;; MediaGoblin.
+(define python-wtforms
+  (package
+    (name "python-wtforms")
+    (version "2.3.3")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (pypi-uri "WTForms" version))
+       (sha256
+        (base32
+         ;; Interesting, if this has is that of a lower version, it blindly
+         ;; ignores the version number above and you silently get the older
+         ;; version.
+         "17427m7p9nn9byzva697dkykykwcp2br3bxvi8vciywlmkh5s6c1"))))
+    (build-system python-build-system)
+    (arguments
+     `(#:tests? #f))  ; TODO: Fix tests for upgraded version.
+    (propagated-inputs
+    `(("python-markupsafe" ,python-markupsafe)))
+    (native-inputs
+     `(("unzip" ,unzip)))  ; CHECK WHETHER NEEDED - not in `guix import` but is in old package.
+    (home-page "http://wtforms.simplecodes.com/")
+    (synopsis
+     "Form validation and rendering library for Python web development")
+    (description
+     "WTForms is a flexible forms validation and rendering library
+for Python web development.  It is very similar to the web form API
+available in Django, but is a standalone package.")
+    (license license:bsd-3)))
+
 
 ;; Copied from guix/gnu/packages/pulseaudio.scm in the core-updates branch which
 ;; adds flac/ogg/vorbis/opus support. This is required for building
