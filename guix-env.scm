@@ -95,7 +95,7 @@
 ;;; for certain things to run, so we have a virtualenv with nothing
 ;;; in it but this project itself.
 ;;;
-;;; Migrate the database and add a user:
+;;; For first time setup only, migrate the database and add a user:
 ;;;
 ;;;   bin/gmg --conf_file mediagoblin.ini dbupdate
 ;;;   bin/gmg --conf_file mediagoblin.ini adduser --username admin --password a --email admin@example.com
@@ -137,6 +137,7 @@
              (gnu packages check)
              (gnu packages databases)
              (gnu packages libffi)  ; cffi for embedded python-soundfile
+             (gnu packages openldap)
              (gnu packages pdf)
              (gnu packages pkg-config)  ; embedded libsndfile
              (gnu packages python)
@@ -314,6 +315,8 @@ data as NumPy arrays.")
        ("python-email-validator" ,python-email-validator)
        ("python-feedgenerator" ,python-feedgenerator)
        ("python-soundfile" ,python-soundfile)
+       ("python-ldap" ,python-ldap)
+       ("python-openid" ,python-openid)
        ))
     (home-page "http://mediagoblin.org/")
     (synopsis "Web application for media publishing")
