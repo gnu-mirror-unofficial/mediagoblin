@@ -173,6 +173,9 @@ RUN make
 # Install raw image library from PyPI.
 RUN ./bin/pip install py3exiv2
 
+# Confirm our packages version for later troubleshooting.
+RUN ./bin/python -m pip freeze
+
 # Run the tests.
 RUN ./bin/python -m pytest -rs ./mediagoblin/tests --boxed
 

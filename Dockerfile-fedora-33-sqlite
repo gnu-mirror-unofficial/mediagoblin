@@ -90,6 +90,8 @@ RUN ./bootstrap.sh
 RUN VIRTUALENV_FLAGS='--system-site-packages' ./configure
 RUN make
 
+RUN ./bin/python -m pip freeze
+
 RUN ./bin/python -m pytest -rs ./mediagoblin/tests --boxed
 
 RUN cd docs && make html
