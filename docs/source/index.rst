@@ -95,6 +95,7 @@ This chapter contains various information for developers.
 
    devel/codebase
    devel/storage
+   devel/release
    devel/originaldesigndecisions
    devel/migrations
 
