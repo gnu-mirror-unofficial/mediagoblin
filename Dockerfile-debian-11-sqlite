@@ -41,9 +41,6 @@ python3-sphinxcontrib.qthelp \
 python3-sphinxcontrib.websupport \
 python3-webtest
 
-# Additional Sphinx dependencies not in Debian.
-RUN ./bin/pip install sphinxcontrib-applehelp sphinxcontrib-htmlhelp sphinxcontrib-jsmath
-
 # Install audio dependencies.
 RUN apt-get install -y \
 gstreamer1.0-libav \
@@ -131,6 +128,9 @@ RUN git show --oneline --no-patch
 RUN ./bootstrap.sh
 RUN VIRTUALENV_FLAGS='--system-site-packages' ./configure
 RUN make
+
+# Additional Sphinx dependencies not in Debian.
+RUN ./bin/pip install sphinxcontrib-applehelp sphinxcontrib-htmlhelp sphinxcontrib-jsmath
 
 # Install raw image library from PyPI.
 RUN ./bin/pip install py3exiv2
