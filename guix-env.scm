@@ -18,6 +18,11 @@
 ;;; This file is also part of GNU MediaGoblin, but we're leaving it under GPLv3
 ;;; for easy merge back and forth between Guix proper.
 ;;;
+;;; Progress from the Guix side is being tracked in the following "meta" bug:
+;;;
+;;; Package GNU MediaGoblin as a Guix service:
+;;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=47260
+;;;
 ;;; ========================================
 ;;;
 ;;; WORK IN PROGRESS - JOBS TO DO:

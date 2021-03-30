@@ -29,6 +29,8 @@ This chapter has important information about our current and previous releases.
   upgrade werkzeug (Ben Sturmfels)
 - Document that `gmg dbupdate` is required after some config changes (Rodrigo
   Martins)
+- Add Docker and CI builds for Debian 11/Bullseye (Ben Sturmfels)
+- Fix/document Guix setup for 100% passing test suite (Ben Sturmfels)
 
 
 0.11.0
