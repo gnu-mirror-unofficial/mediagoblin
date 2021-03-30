@@ -97,6 +97,8 @@ RUN cd docs && make html
 
 RUN echo '[[mediagoblin.media_types.audio]]' >> mediagoblin.ini
 RUN echo '[[mediagoblin.media_types.video]]' >> mediagoblin.ini
+# RUN echo '[[mediagoblin.media_types.raw_image]]' >> mediagoblin.ini
+# RUN echo '[[mediagoblin.media_types.pdf]]' >> mediagoblin.ini
 
 # Fedora only
 RUN ./bin/pip install certifi
