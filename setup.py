@@ -37,38 +37,34 @@ def get_version():
                            VERSIONFILE)
 
 install_requires = [
-    'waitress',
     'alembic>=0.7.5',
-    'python-dateutil',
-    # WTForms removed the "ext" module in 3.0.
-    'wtforms>2.1,<3.0',
-    'py-bcrypt',
-    'werkzeug>=0.7',
-    # Celery 4.3.0 drops the "sqlite" transport alias making our tests fail.
-    'celery>=3.0,<4.3.0',
-    # Jinja2 3.0.0 uses f-strings (Python 3.7 and above) but `pip install` on
-    # Debian 9 doesn't seem to respect Jinja2's 'python_requires=">=3.6"' line.
-    'jinja2<3.0.0',
     'Babel>=1.3',
-    'WebTest>=2.0.18',
+    'celery>=3.0,<4.3.0',  # Removed the "sqlite" transport alias in 4.3.0 making tests fail.
+    'certifi>=2017.4.17',  # Reported to be a requirement on Fedora 31 (TODO: test)
     'ConfigObj',
-    'Markdown',
-    'sqlalchemy<1.4.0',
+    'email-validator',
+    'ExifRead>=2.0.0',
+    'feedgenerator',
     'itsdangerous',
-    'pytz',
-    'sphinx',
-    'oauthlib',
-    'unidecode',
+    'jinja2<3.0.0',  # 3.0.0 uses f-strings (Python >= 3.7) breaking Debian 9.
     'jsonschema',
+    'Markdown',
+    'oauthlib',
     'PasteDeploy',
     'PasteScript',
+    'py-bcrypt',
+    'PyLD<2.0.0',  # Breaks a Python 3 test if >= 2.0.0.
+    'python-dateutil',
+    'pytz',
     'requests>=2.6.0',
-    'certifi>=2017.4.17', # Reported to be a requirement on Fedora 31 (TODO: test)
-    'PyLD<2.0.0', # Breaks a Python 3 test if >= 2.0.0.
-    'ExifRead>=2.0.0',
-    'email-validator', # Seems that WTForms must have dropped this.
-    'soundfile<=0.10.999' # Tested with 0.10.3.post1
-    'feedgenerator',
+    'soundfile',
+    'sphinx',
+    'sqlalchemy<1.4.0',
+    'unidecode',
+    'waitress',
+    'WebTest>=2.0.18',
+    'werkzeug>=0.7',
+    'wtforms>2.1,<3.0',  # Removed the "ext" module in 3.0.
 
     # This is optional:
     # 'translitcodec',
