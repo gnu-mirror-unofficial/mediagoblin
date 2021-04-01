@@ -35,14 +35,11 @@
 ;;;
 ;;; 3. H264 videos won't transcode: "GStreamer: missing H.264 decoder".
 ;;;
-;;; 4. Look at Celery and Redis as a Celery broker - RabbitMQ isn't currenly
-;;; packaged for Guix.
-;;;
-;;; 5. Don't have NPM in this environment yet. Possibly rewrite MediaGoblin's
+;;; 4. Don't have NPM in this environment yet. Possibly rewrite MediaGoblin's
 ;;; JavaScript code not to use jQuery. Possibly improve the
 ;;; no-bundled-JavaScript video/audio playing experience.
 ;;;
-;;; 6. Package MediaGoblin itself as a Guix service. Look at adding a PostgreSQL
+;;; 5. Package MediaGoblin itself as a Guix service. Look at adding a PostgreSQL
 ;;; database instead of sqlite3.
 ;;;
 ;;; ========================================
@@ -90,7 +87,8 @@
 ;;;
 ;;; For first time setup only with a regular `guix environment` or an
 ;;; `environment --pure`, but required EACH TIME you start an `environment
-;;; --container`:
+;;; --container` (because the generated profile goes away, breaking the links in
+;;; the virtualenv):
 ;;;
 ;;;   rm -rf bin include lib lib64 pyvenv.cfg
 ;;;   python3 -m venv --system-site-packages . && bin/python setup.py develop --no-deps
@@ -112,6 +110,21 @@
 ;;; `guix environment` ones.:
 ;;;
 ;;;   CELERY_ALWAYS_EAGER=true paster serve paste.ini --reload
+;;;
+;;; To run with a separate Celery, ensure that you have Redis installed as a
+;;; system service (outside of your environment). Then in your mediagoblin.ini, set:
+;;;
+;;;   [celery]
+;;;   BROKER_URL = "redis://"
+;;;
+;;; Then start Celery:
+;;;
+;;;   MEDIAGOBLIN_CONFIG=mediagoblin.ini CELERY_CONFIG_MODULE=mediagoblin.init.celery.from_celery bin/python -m celery worker --loglevel=INFO
+;;;
+;;; Start a separate environment and run:
+;;;
+;;;   CELERY_ALWAYS_EAGER=false paster serve paste.ini --reload
+;;;
 ;;;
 ;;; Run the tests:
 ;;;
