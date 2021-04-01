@@ -40,7 +40,7 @@ install_requires = [
     'alembic>=0.7.5',
     'Babel>=1.3',
     'celery>=3.0,<4.3.0',  # Removed the "sqlite" transport alias in 4.3.0 making tests fail.
-    'certifi>=2017.4.17',  # Reported to be a requirement on Fedora 31 (TODO: test)
+    'certifi>=2017.4.17',  # Required by requests on Fedora 33 (bin/gmg fails)
     'ConfigObj',
     'email-validator',
     'ExifRead>=2.0.0',
@@ -61,7 +61,6 @@ install_requires = [
     'sqlalchemy<1.4.0',
     'unidecode',
     'waitress',
-    'WebTest>=2.0.18',
     'werkzeug>=0.7',
     'wtforms>2.1,<3.0',  # Removed the "ext" module in 3.0.
 
@@ -76,6 +75,7 @@ install_requires = [
 extras_require = [
     'pytest>=2.3.1',
     'pytest-xdist',
+    'WebTest>=2.0.18',
 ]
 
 with open(READMEFILE, encoding="utf-8") as fobj:
