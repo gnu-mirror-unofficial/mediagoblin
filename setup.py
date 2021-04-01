@@ -50,7 +50,6 @@ install_requires = [
     'jsonschema',
     'Markdown',
     'oauthlib',
-    'PasteDeploy',
     'PasteScript',
     'py-bcrypt',
     'PyLD<2.0.0',  # Breaks a Python 3 test if >= 2.0.0.
