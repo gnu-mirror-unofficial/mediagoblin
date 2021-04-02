@@ -105,6 +105,12 @@
 ;;;   bin/gmg --conf_file mediagoblin.ini dbupdate
 ;;;   bin/gmg --conf_file mediagoblin.ini adduser --username admin --password a --email admin@example.com
 ;;;
+;;; This can also work:
+;;;
+;;;   alias gmg="PYTHONPATH=.:$PYTHONPATH python3 mediagoblin/gmg_commands/__init__.py"
+;;;   gmg --conf_file mediagoblin.ini dbupdate
+;;;   gmg --conf_file mediagoblin.ini adduser --username admin --password a --email admin@example.com
+;;;
 ;;; Start the server. The ./lazyserver.sh script doesn't currently work. The
 ;;; PYTHONPATH business is required to prefer the virtualenv packages over the
 ;;; `guix environment` ones.:
@@ -332,6 +338,7 @@ data as NumPy arrays.")
        ("python-pytest" ,python-pytest)
        ("python-pytest-forked" ,python-pytest-forked)
        ("python-pytest-xdist" ,python-pytest-xdist)
+       ("python-webtest" ,python-webtest)
        ("nss-certs" ,nss-certs)))
     (propagated-inputs
      `(("python-alembic" ,python-alembic)
@@ -339,31 +346,30 @@ data as NumPy arrays.")
        ("python-celery" ,python-celery)
        ("python-configobj" ,python-configobj)
        ("python-dateutil" ,python-dateutil)
-       ("python-docutils" ,python-docutils)
+       ("python-docutils" ,python-docutils)  ; What for?
        ("python-email-validator" ,python-email-validator)
        ("python-exif-read" ,python-exif-read)
        ("python-feedgenerator" ,python-feedgenerator)
        ("python-itsdangerous" ,python-itsdangerous)
        ("python-jinja2" ,python-jinja2)
        ("python-jsonschema" ,python-jsonschema)
-       ("python-ldap" ,python-ldap)
+       ("python-ldap" ,python-ldap)  ; For LDAP plugin
        ("python-lxml" ,python-lxml)
        ("python-markdown" ,python-markdown)
        ("python-oauthlib" ,python-oauthlib)
-       ("python-openid" ,python-openid)
+       ("python-openid" ,python-openid)  ; For OpenID plugin
        ("python-pastescript" ,python-pastescript)
        ("python-pillow" ,python-pillow)
        ("python-py-bcrypt" ,python-py-bcrypt)
        ("python-pyld" ,python-pyld)
        ("python-pytz" ,python-pytz)
-       ("python-requests" ,python-requests)
-       ("python-setuptools" ,python-setuptools)
+       ("python-requests" ,python-requests)  ; For Persona plugin, batchaddmedia
+       ("python-setuptools" ,python-setuptools)  ; What for?
        ("python-soundfile" ,python-soundfile)
        ("python-sphinx" ,python-sphinx)
        ("python-sqlalchemy" ,python-sqlalchemy)
        ("python-translitcodec" ,python-translitcodec)
        ("python-unidecode" ,python-unidecode)
-       ("python-webtest" ,python-webtest)
        ("python-werkzeug" ,python-werkzeug)
        ("python-wtforms" ,python-wtforms)))
     (home-page "http://mediagoblin.org/")
@@ -386,7 +392,6 @@ media.")
      ("gst-plugins-bad" ,gst-plugins-bad)
      ("gst-plugins-ugly" ,gst-plugins-ugly)
      ("gobject-introspection" ,gobject-introspection)
-     ("libsndfile" ,libsndfile)
      ;;; PDF
      ("poppler" ,poppler)
      ;; useful to have!
