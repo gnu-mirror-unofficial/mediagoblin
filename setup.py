@@ -61,7 +61,7 @@ install_requires = [
     'sqlalchemy<1.4.0',
     'unidecode',
     'waitress',
-    'werkzeug>=0.7',
+    'werkzeug>=0.7,<=2.0.0',  # 2.0.0 breaks legacy API and submission tests.
     'wtforms>2.1,<3.0',  # Removed the "ext" module in 3.0.
 
     # This is optional:
