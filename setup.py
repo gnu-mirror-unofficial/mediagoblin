@@ -72,7 +72,7 @@ install_requires = [
     # 'Pillow',
 ]
 
-extras_require = [
+test_requirements = [
     'pytest>=2.3.1',
     'pytest-xdist',
     'WebTest>=2.0.18',
@@ -90,6 +90,9 @@ try:
     include_package_data = True,
     # scripts and dependencies
     install_requires=install_requires,
+    extras_require={
+        'test': test_requirements,
+    },
     test_suite='nose.collector',
     entry_points="""\
         [console_scripts]
