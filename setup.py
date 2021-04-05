@@ -115,8 +115,8 @@ try:
         """,
     license='AGPLv3',
     author='Free Software Foundation and contributors',
-    author_email='cwebber@gnu.org',
-    url="http://mediagoblin.org/",
+    author_email='mediagoblin-devel@gnu.org',
+    url='https://mediagoblin.org/',
     long_description=long_description,
     description='MediaGoblin is a web application for publishing all kinds of media',
     classifiers=[

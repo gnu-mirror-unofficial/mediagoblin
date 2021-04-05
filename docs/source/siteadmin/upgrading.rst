@@ -30,7 +30,7 @@ Upgrade
 
 1. Update to the latest release.  In your ``mediagoblin`` directory, run::
 
-     git fetch && git checkout -q v0.11.0 && git submodule update
+     git fetch && git checkout -q v0.12.0 && git submodule update
 
 2. Remove your existing installation::
 
