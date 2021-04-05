@@ -32,6 +32,10 @@ This chapter has important information about our current and previous releases.
 - Add Docker and CI builds for Debian 11/Bullseye (Ben Sturmfels)
 - Fix/document Guix setup for 100% passing test suite (Ben Sturmfels)
 
+**Bug fixes:**
+
+- Fix test suite on Debian 11 (Ben Sturmfels)
+
 
 0.11.0
 ======
