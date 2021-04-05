@@ -33,13 +33,11 @@
 ;;;
 ;;; 2. Refine and submit the below upgraded python-wtforms 2.3.3 to Guix.
 ;;;
-;;; 3. H264 videos won't transcode: "GStreamer: missing H.264 decoder".
-;;;
-;;; 4. Don't have NPM in this environment yet. Possibly rewrite MediaGoblin's
+;;; 3. Don't have NPM in this environment yet. Possibly rewrite MediaGoblin's
 ;;; JavaScript code not to use jQuery. Possibly improve the
 ;;; no-bundled-JavaScript video/audio playing experience.
 ;;;
-;;; 5. Package MediaGoblin itself as a Guix service. Look at adding a PostgreSQL
+;;; 4. Package MediaGoblin itself as a Guix service. Look at adding a PostgreSQL
 ;;; database instead of sqlite3.
 ;;;
 ;;; ========================================
@@ -386,7 +384,7 @@ media.")
    `(;;; audio/video stuff
      ("openh264" ,openh264)
      ("gstreamer" ,gstreamer)
-     ("gst-libav" ,gst-plugins-base)
+     ("gst-libav" ,gst-libav)
      ("gst-plugins-base" ,gst-plugins-base)
      ("gst-plugins-good" ,gst-plugins-good)
      ("gst-plugins-bad" ,gst-plugins-bad)
