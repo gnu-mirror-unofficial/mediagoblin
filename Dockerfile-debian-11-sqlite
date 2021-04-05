@@ -24,6 +24,7 @@ virtualenv
 #
 # Excluding python3-celery here due to conflict with dist-packges for a
 # compatible version of billiard.
+# TODO: Align with deploying docs.
 RUN apt-get install -y \
 python3-alembic \
 python3-feedgenerator \

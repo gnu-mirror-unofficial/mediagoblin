@@ -50,8 +50,6 @@ gstreamer1-plugins-good \
 gstreamer1-plugins-ugly-free \
 python3-numpy
 
-RUN dnf search gst
-
 RUN dnf -y install \
 python3-gobject \
 python3-gstreamer1 \
