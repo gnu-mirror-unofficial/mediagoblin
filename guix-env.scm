@@ -351,6 +351,9 @@ data as NumPy arrays.")
        ("python-pytest-forked" ,python-pytest-forked)
        ("python-pytest-xdist" ,python-pytest-xdist)
        ("python-webtest" ,python-webtest)))
+    ;; lle-bout suggests avoiding propagated-inputs and insteading creating
+    ;; wrappers scripts. See:
+    ;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=47260#44
     (propagated-inputs
      `(("python-alembic" ,python-alembic)
        ("python-babel" ,python-babel)
