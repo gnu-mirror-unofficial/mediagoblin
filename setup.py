@@ -132,6 +132,8 @@ try:
         'Programming Language :: Python :: 3.4',
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content"
         ],
+        # Running gmg dbupdate fails with missing env.py because env.py isn't
+        # being included in the Python package (no __init__.py).
         data_files=[('mediagoblin', ['mediagoblin/db/migrations/env.py'])],
     )
 except TypeError as e:
