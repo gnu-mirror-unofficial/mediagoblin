@@ -319,25 +319,38 @@ data as NumPy arrays.")
 (define mediagoblin
   (package
     (name "mediagoblin")
-    (version "0.11.0")
+    (version "0.12.0.dev")
     (source
      (origin
-       (method url-fetch)
-       (uri (pypi-uri "mediagoblin" version))
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://git.savannah.gnu.org/git/mediagoblin.git")
+             (commit "39effee4f0b8e75d8107d59f3a1d1a4b525e6fd5")))
+       (file-name (git-file-name name version))
        (sha256
-        (base32
-         "0p2gj4z351166d1zqmmd8wc9bzb69w0fjm8qq1fs8dw2yhcg2wwv"))))
+        (base32 "0v5xdaf6jz4q6vdkiss4z41iyx8a8rvhlq7gy6ghvppklb2msdap"))))
     (build-system python-build-system)
     (arguments
-     ;; Complains about missing gunicorn. Not sure where that comes from.
-     '(#:tests? #f))
-    (native-inputs
      `(
+       ;; #:tests? #f
+       #:phases (modify-phases %standard-phases
+                  (replace 'check
+                    (lambda _
+                      (setenv "PYTHONPATH"
+                              (string-append (getcwd) ":"
+                                             (getenv "PYTHONPATH")))
+                      ;; Translations needed for tests to pass. Probably
+                      ;; should be done during build stage?
+                      (invoke "./devtools/compile_translations.sh")
+                      (invoke "pytest" "./mediagoblin/tests" "-rs" "--boxed")
+                      #t)))
+                ))
+    (native-inputs
+     `(("nss-certs" ,nss-certs)
        ("python-pytest" ,python-pytest)
        ("python-pytest-forked" ,python-pytest-forked)
        ("python-pytest-xdist" ,python-pytest-xdist)
-       ("python-webtest" ,python-webtest)
-       ("nss-certs" ,nss-certs)))
+       ("python-webtest" ,python-webtest)))
     (propagated-inputs
      `(("python-alembic" ,python-alembic)
        ("python-babel" ,python-babel)
@@ -369,8 +382,26 @@ data as NumPy arrays.")
        ("python-translitcodec" ,python-translitcodec)
        ("python-unidecode" ,python-unidecode)
        ("python-werkzeug" ,python-werkzeug)
-       ("python-wtforms" ,python-wtforms)))
-    (home-page "http://mediagoblin.org/")
+       ("python-wtforms" ,python-wtforms)
+
+       ;; Audio/video media
+       ("gobject-introspection" ,gobject-introspection)
+       ("gst-libav" ,gst-libav)
+       ("gst-plugins-bad" ,gst-plugins-bad)
+       ("gst-plugins-base" ,gst-plugins-base)
+       ("gst-plugins-good" ,gst-plugins-good)
+       ("gst-plugins-ugly" ,gst-plugins-ugly)
+       ("gstreamer" ,gstreamer)
+       ("openh264" ,openh264)
+       ("python-gst" ,python-gst)  ; For tests to pass
+       ("python-numpy" ,python-numpy)  ; Audio spectrograms
+       ("python-pygobject" ,python-pygobject)
+
+       ;; PDF media.
+       ("poppler" ,poppler)
+
+       ))
+    (home-page "https://mediagoblin.org/")
     (synopsis "Web application for media publishing")
     (description "MediaGoblin is a web application for publishing all kinds of
 media.")
@@ -381,37 +412,14 @@ media.")
   (name "mediagoblin-hackenv")
   (version "git")
   (inputs
-   `(;;; audio/video stuff
-     ("openh264" ,openh264)
-     ("gstreamer" ,gstreamer)
-     ("gst-libav" ,gst-libav)
-     ("gst-plugins-base" ,gst-plugins-base)
-     ("gst-plugins-good" ,gst-plugins-good)
-     ("gst-plugins-bad" ,gst-plugins-bad)
-     ("gst-plugins-ugly" ,gst-plugins-ugly)
-     ("gobject-introspection" ,gobject-introspection)
-     ;;; PDF
-     ("poppler" ,poppler)
-     ;; useful to have!
-     ("coreutils" ,coreutils)
-     ;; used by runtests.sh!
+   `(("mediagoblin" ,mediagoblin)
      ("which" ,which)
      ("git" ,git)
      ("automake" ,automake)
-     ("autoconf" ,autoconf)
-     ,@(package-inputs mediagoblin)))
+     ("autoconf" ,autoconf)))
   (propagated-inputs
-   `(("python" ,python)
-     ("python-virtualenv" ,python-virtualenv)
-     ("python-pygobject" ,python-pygobject)
-     ("python-gst" ,python-gst)
-     ;; Needs python-gst in order for all tests to pass
-     ("python-numpy" ,python-numpy)  ; this pulls in texlive...
-                                     ; and texlive-texmf is very large...
+   `(("python-virtualenv" ,python-virtualenv)
      ("python-chardet", python-chardet)
      ("python-psycopg2" ,python-psycopg2)
-     ;; For developing
      ("openssh" ,openssh)
-     ("git" ,git)
-     ("rsync" ,rsync)
-     ,@(package-propagated-inputs mediagoblin))))
+     ("rsync" ,rsync))))
