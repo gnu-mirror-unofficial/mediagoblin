@@ -132,6 +132,7 @@ try:
         'Programming Language :: Python :: 3.4',
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content"
         ],
+        data_files=[('mediagoblin', ['mediagoblin/db/migrations/env.py'])],
     )
 except TypeError as e:
     import sys
