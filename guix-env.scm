@@ -50,18 +50,9 @@
 ;;;
 ;;;   guix environment -l guix-env.scm --container --network --share=$HOME/.bash_history
 ;;;
-;;; or (untested):
+;;; or, after applying the patch to upstream Guix:
 ;;;
-;;;   guix environment -l guix-env.scm --pure
-;;;
-;;; or (untested):
-;;;
-;;;   guix environment -l guix-env.scm
-;;;
-;;; While using --pure is a robust way to ensure that other environment
-;;; variables don't cause unexpected behaviour, it may trip up aspects of your
-;;; development tools, such as removing reference to $EDITOR. Feel free to
-;;; remove the --pure.
+;;;   ~/ws/guix/pre-inst-env guix environment --container --network --share=$HOME/.bash_history --ad-hoc mediagoblin python
 ;;;
 ;;; You'll need to run the above command every time you close your terminal or
 ;;; restart your system, so a handy way to save having to remember is to install
@@ -384,6 +375,7 @@ data as NumPy arrays.")
        ("python-sqlalchemy" ,python-sqlalchemy)
        ("python-translitcodec" ,python-translitcodec)
        ("python-unidecode" ,python-unidecode)
+       ("python-waitress" ,python-waitress)
        ("python-werkzeug" ,python-werkzeug)
        ("python-wtforms" ,python-wtforms)
 
