@@ -85,7 +85,7 @@ try:
     setup(
     name="mediagoblin",
     version=get_version(),
-    packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
+    packages=find_packages('.'),
     zip_safe=False,
     include_package_data = True,
     # scripts and dependencies
@@ -132,14 +132,6 @@ try:
         'Programming Language :: Python :: 3.4',
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content"
         ],
-        data_files=[('mediagoblin', [
-            # Running gmg dbupdate fails with missing env.py because env.py isn't
-            # being included in the Python package (no __init__.py).
-            'mediagoblin/db/migrations/env.py',
-
-            # Static assets were missing in Guix package.
-            'mediagoblin/static',
-        ])],
     )
 except TypeError as e:
     import sys
