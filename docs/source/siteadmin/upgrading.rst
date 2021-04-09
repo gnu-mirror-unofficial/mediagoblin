@@ -32,19 +32,27 @@ Upgrade
 
      git fetch && git checkout -q v0.12.0 && git submodule update
 
-2. Remove your existing installation::
+2. Note down any plugins you have installed by reviewing your
+   ``mediagoblin.ini`` configuration. These will be removed by the following
+   steps and must be re-installed.
+
+3. Remove your existing installation::
 
      make distclean
 
-3. Recreate the virtual environment and install MediaGoblin::
+4. Recreate the virtual environment and install MediaGoblin::
 
-     ./bootstrap.sh && VIRTUALENV_FLAGS='--system-site-packages' ./configure && make
+     ./bootstrap.sh && VIRTUALENV_FLAGS='--system-site-packages' ./configure &&
+     make
 
-4. Update the database::
+5. Re-install any ":doc:`plugins`" you had previously installed. Skipping these
+   may result in errors updating the database.
+
+6. Update the database::
 
      ./bin/gmg dbupdate
 
-5. Restart the Paster and Celery processes. If you followed ":doc:`deploying`",
+7. Restart the Paster and Celery processes. If you followed ":doc:`deploying`",
    this may be something like::
 
      sudo systemctl restart mediagoblin-paster.service
@@ -55,7 +63,7 @@ Upgrade
      sudo journalctl -u mediagoblin-paster.service -f
      sudo journalctl -u mediagoblin-celeryd.service -f
 
-6. View your site and hover your cursor over the "MediaGoblin" link in the
+8. View your site and hover your cursor over the "MediaGoblin" link in the
    footer to confirm the version number you're running.
 
 

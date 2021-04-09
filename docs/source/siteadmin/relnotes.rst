@@ -31,6 +31,8 @@ This chapter has important information about our current and previous releases.
   Martins)
 - Add Docker and CI builds for Debian 11/Bullseye (Ben Sturmfels)
 - Fix/document Guix setup for 100% passing test suite (Ben Sturmfels)
+- Convert `setup.py` to `setup.cfg` (Ben Sturmfels)
+- Document re-installation of plugins during upgrade [#5611] (Ben Sturmfels)
 
 **Bug fixes:**
 
