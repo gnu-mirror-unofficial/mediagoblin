@@ -33,6 +33,7 @@ This chapter has important information about our current and previous releases.
 - Fix/document Guix setup for 100% passing test suite (Ben Sturmfels)
 - Convert `setup.py` to `setup.cfg` (Ben Sturmfels)
 - Document re-installation of plugins during upgrade [#5611] (Ben Sturmfels)
+- Improve usability of report handling page (Rodrigo Martins)
 
 **Bug fixes:**
 
