@@ -60,7 +60,6 @@ Part 2: Core plugin documentation
    plugindocs/flatpagesfile
    plugindocs/ldap
    plugindocs/openid
-   plugindocs/persona
    plugindocs/raven
    plugindocs/sampleplugin
    plugindocs/subtitles
