@@ -368,7 +368,7 @@ data as NumPy arrays.")
        ("python-py-bcrypt" ,python-py-bcrypt)
        ("python-pyld" ,python-pyld)
        ("python-pytz" ,python-pytz)
-       ("python-requests" ,python-requests)  ; For Persona plugin, batchaddmedia
+       ("python-requests" ,python-requests)  ; For batchaddmedia
        ("python-setuptools" ,python-setuptools)  ; What for?
        ("python-soundfile" ,python-soundfile)
        ("python-sphinx" ,python-sphinx)
