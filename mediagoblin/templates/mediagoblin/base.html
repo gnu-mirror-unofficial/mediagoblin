@@ -102,28 +102,16 @@
                        class="button_action_highlight">
                    {% trans %}Verify your email!{% endtrans %}</a>
                    or <a id="logout" href=
-                   {% if persona is not defined %}
-                     "{{ request.urlgen('mediagoblin.auth.logout') }}"
-                   {% else %}
-                     "javascript:;"
-                   {% endif %}
+                   "{{ request.urlgen('mediagoblin.auth.logout') }}"
                    >{% trans %}log out{% endtrans %}</a>
                   {% elif request.user and request.user.is_banned() %}
                     <a id="logout" href=
-                   {% if persona is not defined %}
-                     "{{ request.urlgen('mediagoblin.auth.logout') }}"
-                   {% else %}
-                     "javascript:;"
-                   {% endif %}
+                   "{{ request.urlgen('mediagoblin.auth.logout') }}"
                    >{% trans %}log out{% endtrans %}</a>
                   {% endif %}
                 {%- elif auth %}
                 <a href=
-                  {% if persona_auth is defined %}
-                    "javascript:;" id="persona_login"
-                  {% else %}
-                    "{{ request.urlgen('mediagoblin.auth.login') }}"
-                  {% endif %}
+                  "{{ request.urlgen('mediagoblin.auth.login') }}"
                   >
                     {%- trans %}Log in{% endtrans -%}
                   </a>
@@ -150,11 +138,7 @@
                     &middot;
                     {% template_hook("blog_dashboard_home") %}
                     <a id="logout" href=
-                      {% if persona is not defined %}
-                        "{{ request.urlgen('mediagoblin.auth.logout') }}"
-                      {% else %}
-                        "javascript:;"
-                      {% endif %}
+                      "{{ request.urlgen('mediagoblin.auth.logout') }}"
                       >{% trans %}Log out{% endtrans %}</a>
                   </p>
                   <a class="button_action" href="{{ request.urlgen('mediagoblin.submit.start') }}">
@@ -194,9 +178,6 @@
             {% include "mediagoblin/utils/messages.html" %}
             {% block mediagoblin_content %}
             {% endblock mediagoblin_content %}
-            {% if csrf_token is defined %}
-              {% template_hook("persona_form") %}
-            {% endif %}
           </div>
         </div>
       </div>
