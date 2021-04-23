@@ -35,6 +35,7 @@ This chapter has important information about our current and previous releases.
 - Document re-installation of plugins during upgrade [#5611] (Ben Sturmfels)
 - Improve usability of report handling page (Rodrigo Martins)
 - Removed unused `extlib/flask-wtf` code (Ben Sturmfels)
+- Remove plugin for decommissioned Mozilla Persona (Jgart)
 
 **Bug fixes:**
 
