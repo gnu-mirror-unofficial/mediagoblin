@@ -34,6 +34,7 @@ This chapter has important information about our current and previous releases.
 - Convert `setup.py` to `setup.cfg` (Ben Sturmfels)
 - Document re-installation of plugins during upgrade [#5611] (Ben Sturmfels)
 - Improve usability of report handling page (Rodrigo Martins)
+- Removed unused `extlib/flask-wtf` code (Ben Sturmfels)
 
 **Bug fixes:**
 
