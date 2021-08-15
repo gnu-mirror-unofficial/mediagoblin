@@ -12,13 +12,13 @@
 #
 # To build this Docker image, run:
 #
-#   docker build -t mediagoblin-debian-10 - < Dockerfile-debian-10-sqlite
+#   docker build -t mediagoblin-debian-11 - < Dockerfile-debian-11-sqlite
 #
 # The "- < Dockerfile" format advises Docker not to include the current
 # directory as build context. Alternatively the following provides build
 # context:
 #
-#   docker build -t mediagoblin-debian-10 -f Dockerfile-debian-10-sqlite .
+#   docker build -t mediagoblin-debian-11 -f Dockerfile-debian-11-sqlite .
 #
 # Before running the image you first need to first assign the "mediagoblin" and
 # "user_dev" directories to an artificial group (1024) on the host that is
@@ -30,7 +30,7 @@
 #
 # Then you can run the image with the upstream MediaGoblin code:
 #
-#   docker run --interactive --tty --publish 6543:6543 mediagoblin-debian-10
+#   docker run --interactive --tty --publish 6543:6543 mediagoblin-debian-11
 #
 # Or you can run with your local "mediagoblin" and "user_dev" directories
 # bind-mounted into the container. This provides automatic code reloading and
