@@ -578,6 +578,11 @@ the error by entering either of::
     sudo systemctl status mediagoblin-celeryd.service
     sudo systemctl status mediagoblin-paster.service
 
+Or view the full logs with:
+
+    sudo journalctl -u mediagoblin-paster.service -f
+    sudo journalctl -u mediagoblin-celeryd.service -f
+
 The above ``systemctl status`` command is also useful if you ever want to
 confirm that a process is still running.
 
