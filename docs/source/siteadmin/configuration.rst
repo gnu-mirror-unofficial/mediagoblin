@@ -116,6 +116,17 @@ Once you have done this you will need to move any existing media you had in the
 old directory to the new directory so existing media still can be displayed.
 
 
+Displaying camera EXIF metadata
+-------------------------------
+
+To display available EXIF metadata, set ``exif_visible = true`` in the
+``[mediagoblin]`` section of your ``mediagoblin.ini`` file::
+
+    [mediagoblin]
+
+    exif_visible = true
+
+
 All other configuration changes
 -------------------------------
 
