@@ -6,7 +6,49 @@
 #
 # https://mediagoblin.readthedocs.io/en/master/siteadmin/deploying.html
 #
-# See Dockerfile-debian-10-sqlite for details.
+# Most development Docker images are built and run as root. That doesn't work
+# here because the `bower` command run within the `make` step, refuses to run as
+# root.
+#
+# To build this Docker image, run:
+#
+#   docker build -t mediagoblin-debian-10 - < Dockerfile-debian-10-sqlite
+#
+# The "- < Dockerfile" format advises Docker not to include the current
+# directory as build context. Alternatively the following provides build
+# context:
+#
+#   docker build -t mediagoblin-debian-10 -f Dockerfile-debian-10-sqlite .
+#
+# Before running the image you first need to first assign the "mediagoblin" and
+# "user_dev" directories to an artificial group (1024) on the host that is
+# mirrored within the image (details below):
+#
+#   sudo chown --recursive :1024 mediagoblin user_dev
+#   find mediagoblin user_dev -type d -exec chmod 775 {} \;
+#   find mediagoblin user_dev -type f -exec chmod 664 {} \;
+#
+# Then you can run the image with the upstream MediaGoblin code:
+#
+#   docker run --interactive --tty --publish 6543:6543 mediagoblin-debian-10
+#
+# Or you can run with your local "mediagoblin" and "user_dev" directories
+# bind-mounted into the container. This provides automatic code reloading and
+# persistence:
+#
+#   # TODO: Not working.
+#   docker run --interactive --tty --publish 6543:6543 --volume ./mediagoblin:/opt/mediagoblin/mediagoblin --volume ./extlib:/opt/mediagoblin/extlib mediagoblin-python3
+#
+# Alternatively you use docker-compose instead of separate build/run steps:
+#
+#   sudo chown --recursive :1024 mediagoblin user_dev
+#   find mediagoblin user_dev -type d -exec chmod 775 {} \;
+#   find mediagoblin user_dev -type f -exec chmod 664 {} \;
+#   docker-compose up --build
+#
+# You can run the test suite with:
+#
+# docker run --tty mediagoblin-python3 bash -c "bin/python -m pytest ./mediagoblin/tests --boxed"
 
 FROM debian:bullseye
 

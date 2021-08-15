@@ -34,8 +34,11 @@ This chapter has important information about our current and previous releases.
 - Convert `setup.py` to `setup.cfg` (Ben Sturmfels)
 - Document re-installation of plugins during upgrade [#5611] (Ben Sturmfels)
 - Improve usability of report handling page (Rodrigo Martins)
-- Removed unused `extlib/flask-wtf` code (Ben Sturmfels)
+- Remove unused `extlib/flask-wtf` code (Ben Sturmfels)
+- Remove unused `translitcodec` dependency (Ben Sturmfels)
+- Remove references to previous `tinymce` JS dependency (Ben Sturmfels)
 - Remove plugin for decommissioned Mozilla Persona (Jgart)
+- Remove Debian 10 development Dockerfile (BenSturmfels)
 
 **Bug fixes:**
 
