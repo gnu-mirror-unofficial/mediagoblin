@@ -107,7 +107,24 @@ documentation.
 .. _`raven`: http://raven.readthedocs.org
 
 
-.. TODO insert init script here
-.. TODO are additional concerns ?
-   .. Other Concerns
-   .. --------------
+Running multiple MediaGoblin instances on the same server
+---------------------------------------------------------
+
+It is possible to run multiple separate MediaGoblin instances concurrently on
+the same server. We don't provide detailed instructions to do this, but broadly,
+each instance will need:
+
+1. A separate ``mediagoblin.ini`` and ``paste.ini``.
+2. A separate database that is configured in ``mediagoblin.ini``.
+3. A unique ``CELERY_DEFAULT_QUEUE`` configured in ``mediagoblin.ini``. Queues
+   are automatically created, but must be unique between MediaGoblin instances.
+4. A separate data directory created and configured in ``mediagoblin.ini`` and
+   ``paste.ini``.
+5. A unique server port configured in ``paste.ini`` under ``[server:broadcast]``.
+
+You would typically configure the web server to route requests to the
+appropriate MediaGoblin instance port based on the requested domain name or
+something similar.
+
+It is also possible to share the same MediaGoblin codebase and Python virtualenv
+between multiple instances, so long as they have a unique data directory.

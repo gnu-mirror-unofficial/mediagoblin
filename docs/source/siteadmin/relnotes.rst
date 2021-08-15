@@ -39,6 +39,7 @@ This chapter has important information about our current and previous releases.
 - Remove references to previous `tinymce` JS dependency (Ben Sturmfels)
 - Remove plugin for decommissioned Mozilla Persona (Jgart)
 - Remove Debian 10 development Dockerfile (BenSturmfels)
+- Document running multiple MediaGoblin instances on one server (Ben Sturmfels)
 
 **Bug fixes:**
 
