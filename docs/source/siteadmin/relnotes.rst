@@ -633,7 +633,7 @@ If you run into problems, don't hesitate to
 
 * As mentioned above, we now have a plugable Authentication system. You can
   use any combination of the multiple authentication systems 
-  (:ref:`basic_auth-chapter`, :ref:`persona-chapter`, :ref:`openid-chapter`)
+  (:ref:`basic_auth-chapter`, Persona, :ref:`openid-chapter`)
   or write your own!
 * Media types are now plugins!  This means that new media types will
   be able to do new, fancy things they couldn't in the future.
