@@ -48,20 +48,20 @@
 ;;; virtualenv, except a universal virtualenv with magical time traveling
 ;;; properties and also, not just for Python.
 ;;;
-;;; Assuming you have Guix installed, run:
+;;; Assuming you have Guix installed, you can get a MediaGoblin hacking environment with:
 ;;;
-;;;   guix environment -l guix-env.scm --container --network --share=$HOME/.bash_history
+;;;   guix environment -l guix-env.scm --container --network --share=$HOME/.bash_history mediagoblin --ad-hoc which git automake autoconf python-psycopg2
 ;;;
 ;;; or, after applying the patch to upstream Guix:
 ;;;
-;;;   ~/ws/guix/pre-inst-env guix environment --container --network --share=$HOME/.bash_history --ad-hoc mediagoblin python
+;;;   ~/ws/guix/pre-inst-env guix environment --container --network --share=$HOME/.bash_history mediagoblin --ad-hoc which git automake autoconf python-psycopg2
 ;;;
 ;;; You'll need to run the above command every time you close your terminal or
 ;;; restart your system, so a handy way to save having to remember is to install
 ;;; "direnv" an then create a ".envrc" file in your current directory containing
 ;;; the following and then run "direnv allow" when prompted:
 ;;;
-;;;   use guix -l guix-env.scm --container --network --share=$HOME/.bash_history
+;;;   use guix -l guix-env.scm --container --network --share=$HOME/.bash_history mediagoblin --ad-hoc which git automake autoconf python-psycopg2
 ;;;
 ;;; First time setup only, run:
 ;;;
@@ -305,20 +305,3 @@ available in Django, but is a standalone package.")
     (description "MediaGoblin is a web application for publishing all kinds of
 media.")
     (license agpl3+)))
-
-(package
-  (inherit mediagoblin)
-  (name "mediagoblin-hackenv")
-  (version "git")
-  (inputs
-   `(("mediagoblin" ,mediagoblin)
-     ("which" ,which)
-     ("git" ,git)
-     ("automake" ,automake)
-     ("autoconf" ,autoconf)))
-  (propagated-inputs
-   `(("python-virtualenv" ,python-virtualenv)
-     ("python-chardet", python-chardet)
-     ("python-psycopg2" ,python-psycopg2)
-     ("openssh" ,openssh)
-     ("rsync" ,rsync))))
