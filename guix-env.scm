@@ -145,17 +145,14 @@
              (guix build-system gnu)
              (guix build-system python)
              (gnu packages)
-             (gnu packages xiph)  ; flac for embedded libsndfile
              (gnu packages autotools)
              (gnu packages base)
              (gnu packages certs)
              (gnu packages check)
              (gnu packages compression)  ; unzip for embedded python-wtforms
              (gnu packages databases)
-             (gnu packages libffi)  ; cffi for embedded python-soundfile
              (gnu packages openldap)
              (gnu packages pdf)
-             (gnu packages pkg-config)  ; embedded libsndfile
              (gnu packages python)
              (gnu packages python-crypto)
              (gnu packages python-web)
@@ -211,99 +208,11 @@ available in Django, but is a standalone package.")
     (license license:bsd-3)))
 
 
-;; Copied from guix/gnu/packages/pulseaudio.scm in the core-updates branch which
-;; adds flac/ogg/vorbis/opus support. This is required for building
-;; python-soundfile (March 2021).
-(define libsndfile
-  (package
-    (name "libsndfile")
-    (version "1.0.30")
-    (source (origin
-             (method url-fetch)
-             (uri (string-append "https://github.com/erikd/libsndfile"
-                                 "/releases/download/v" version
-                                 "/libsndfile-" version ".tar.bz2"))
-             (sha256
-              (base32
-               "06k1wj3lwm7vf21s8yqy51k6nrkn9z610bj1gxb618ag5hq77wlx"))
-             (modules '((ice-9 textual-ports) (guix build utils)))
-             (snippet
-              '(begin
-                 ;; Remove carriage returns (CRLF) to prevent bogus
-                 ;; errors from bash like "$'\r': command not found".
-                 (let ((data (call-with-input-file
-                                 "tests/pedantic-header-test.sh.in"
-                               (lambda (port)
-                                 (string-join
-                                  (string-split (get-string-all port)
-                                                #\return))))))
-                   (call-with-output-file "tests/pedantic-header-test.sh.in"
-                     (lambda (port) (format port data))))
+;; TODO: Add ("opus" ,opus) to the libsndfile propagated inputs. This change is
+;; waiting in core-updates (March 2021).
 
-                 ;; While at it, fix hard coded executable name.
-                 (substitute* "tests/test_wrapper.sh.in"
-                   (("^/usr/bin/env") "env"))
-                 #t))))
-    (build-system gnu-build-system)
-    (propagated-inputs
-     `(("flac" ,flac)
-       ("libogg" ,libogg)
-       ("libvorbis" ,libvorbis)
-       ("opus" ,opus)))
-    (native-inputs
-     `(("pkg-config" ,pkg-config)
-       ("python" ,python)))
-    (home-page "http://www.mega-nerd.com/libsndfile/")
-    (synopsis "Reading and writing files containing sampled sound")
-    (description
-     "Libsndfile is a C library for reading and writing files containing
-sampled sound (such as MS Windows WAV and the Apple/SGI AIFF format) through
-one standard library interface.
-
-It was designed to handle both little-endian (such as WAV) and
-big-endian (such as AIFF) data, and to compile and run correctly on
-little-endian (such as Intel and DEC/Compaq Alpha) processor systems as well
-as big-endian processor systems such as Motorola 68k, Power PC, MIPS and
-SPARC.  Hopefully the design of the library will also make it easy to extend
-for reading and writing new sound file formats.")
-    (license license:gpl2+)))
-
-;; Need soundfile for new Python 3 audio spectrograms. Can me merged into Guix
-;; once core-updates is merged.
-(define python-soundfile
-  (package
-    (name "python-soundfile")
-    (version "0.10.3.post1")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "SoundFile" version))
-       (sha256
-        (base32
-         "0yqhrfz7xkvqrwdxdx2ydy4h467sk7z3gf984y1x2cq7cm1gy329"))))
-    (build-system python-build-system)
-    (native-inputs
-     `(("python-pytest" ,python-pytest)))
-    (propagated-inputs
-     `(("python-cffi" ,python-cffi)
-       ("libsndfile" ,libsndfile)
-       ("python-numpy" ,python-numpy)))
-    (arguments
-     `(#:phases
-       (modify-phases %standard-phases
-         (add-before 'build 'set-library-file-name
-           (lambda* (#:key inputs #:allow-other-keys)
-             (let ((libsndfile (assoc-ref inputs "libsndfile")))
-               (substitute* "soundfile.py"
-                 (("_find_library\\('sndfile'\\)")
-                  (string-append "'" libsndfile "/lib/libsndfile.so.1'")))
-               #t))))))
-    (home-page "https://github.com/bastibe/python-soundfile")
-    (synopsis "An audio library based on libsndfile, CFFI and NumPy")
-    (description
-     "The soundfile module can read and write sound files, representing audio
-data as NumPy arrays.")
-    (license license:bsd-3)))
+;; TODO: Renable the tests in Guix's python-soundfile once OGG support is
+;; available from libsndfile.
 
 ;; =================================================================
 
