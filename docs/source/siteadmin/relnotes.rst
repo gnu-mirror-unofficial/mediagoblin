@@ -23,6 +23,9 @@ This chapter has important information about our current and previous releases.
 0.12.0 (work in progress)
 =========================
 
+**To do:**
+- add TLS to deploying documentation
+
 **Improvements:**
 
 - Switch Atom feeds from deprecated werkzeug.contrib.atom to feedgenerator,
