@@ -43,6 +43,7 @@ This chapter has important information about our current and previous releases.
 - Remove plugin for decommissioned Mozilla Persona (Jgart)
 - Remove Debian 10 development Dockerfile (BenSturmfels)
 - Document running multiple MediaGoblin instances on one server (Ben Sturmfels)
+- Begin conversion from jQuery to vanilla JS (Ben Sturmfels)
 
 **Bug fixes:**
 
