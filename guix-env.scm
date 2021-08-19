@@ -27,17 +27,19 @@
 ;;;
 ;;; WORK IN PROGRESS - JOBS TO DO:
 ;;;
-;;; 1. Submit the below python-soundfile package to Guix after libsndfile
-;;; updates in Guix core-updates branch have been merged into master [bug
-;;; 47181] https://debbugs.gnu.org/cgi/bugreport.cgi?bug=47181
+;;; 1. Refine and submit the below upgraded python-wtforms 2.3.3 to Guix.
 ;;;
-;;; 2. Refine and submit the below upgraded python-wtforms 2.3.3 to Guix.
+;;; 2. Add ("opus" ,opus) to the libsndfile propagated inputs. This change is
+;;; waiting in core-updates (March 2021).
 ;;;
-;;; 3. Don't have NPM in this environment yet. Possibly rewrite MediaGoblin's
+;;; 3. Renable the tests in Guix's python-soundfile once OGG support is
+;;; available from libsndfile.
+;;;
+;;; 4. Don't have NPM in this environment yet. Possibly rewrite MediaGoblin's
 ;;; JavaScript code not to use jQuery. Possibly improve the
 ;;; no-bundled-JavaScript video/audio playing experience.
 ;;;
-;;; 4. Package MediaGoblin itself as a Guix service. Look at adding a PostgreSQL
+;;; 5. Package MediaGoblin itself as a Guix service. Look at adding a PostgreSQL
 ;;; database instead of sqlite3.
 ;;;
 ;;; ========================================
@@ -145,6 +147,7 @@
              (guix build-system gnu)
              (guix build-system python)
              (gnu packages)
+             (gnu packages audio)
              (gnu packages autotools)
              (gnu packages base)
              (gnu packages certs)
@@ -206,13 +209,6 @@
 for Python web development.  It is very similar to the web form API
 available in Django, but is a standalone package.")
     (license license:bsd-3)))
-
-
-;; TODO: Add ("opus" ,opus) to the libsndfile propagated inputs. This change is
-;; waiting in core-updates (March 2021).
-
-;; TODO: Renable the tests in Guix's python-soundfile once OGG support is
-;; available from libsndfile.
 
 ;; =================================================================
 
