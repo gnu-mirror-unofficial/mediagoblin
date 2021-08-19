@@ -59,7 +59,7 @@
 ;;; "direnv" an then create a ".envrc" file in your current directory containing
 ;;; the following and then run "direnv allow" when prompted:
 ;;;
-;;;   use guix -l guix-env.scm
+;;;   use guix -l guix-env.scm --container --network --share=$HOME/.bash_history
 ;;;
 ;;; First time setup only, run:
 ;;;
