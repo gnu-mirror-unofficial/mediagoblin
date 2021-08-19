@@ -48,6 +48,7 @@ This chapter has important information about our current and previous releases.
 **Bug fixes:**
 
 - Fix test suite on Debian 11 (Ben Sturmfels)
+- Remove reference to jsonschema.compat no longer available upstream (Marco Pessotto)
 
 
 0.11.0
