@@ -50,6 +50,8 @@
 #
 # docker run --tty mediagoblin-python3 bash -c "bin/python -m pytest ./mediagoblin/tests --boxed"
 
+ARG DEBIAN_FRONTEND=noninteractive
+
 FROM debian:bullseye
 
 # Install bootstrap and configure dependencies. Currently requires virtualenv
