@@ -66,16 +66,15 @@ virtualenv
 
 # Install make and runtime dependencies.
 #
-# Excluding python3-celery here due to conflict with dist-packges for a
-# compatible version of billiard.
-# TODO: Align with deploying docs.
+# We explicitly don't use use Debian packages for everything here, so as to
+# match closely with the deployment docs which install most depedencies
+# from PyPI.
 RUN apt-get install -y \
-python3-alembic \
-python3-feedgenerator \
-python3-jsonschema \
 python3-lxml \
-python3-migrate \
-python3-py \
+python3-pil
+
+# Install test and docs dependencies.
+RUN apt-get install -y \
 python3-pytest \
 python3-pytest-xdist \
 python3-snowballstemmer \

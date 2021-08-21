@@ -22,26 +22,20 @@ virtualenv
 
 RUN dnf -y install \
 findutils \
-python3-alembic \
-python3-celery \
-python3-feedgenerator \
-python3-jsonschema \
+# To build waitress on Fedora 33 (not required for 31)
+libffi-devel \
 python3-lxml \
-python3-migrate \
-# Fedora only
 python3-pillow \
-python3-py \
+which
+
+RUN dnf -y install \
 python3-pytest \
 python3-pytest-xdist \
 python3-snowballstemmer \
 python3-sphinx \
 # Not in Fedora
 # python3-sphinxcontrib.websupport \
-python3-webtest \
-# Fedora only
-which \
-# To build waitress on Fedora 33 (not required for 31)
-libffi-devel
+python3-webtest
 
 RUN dnf -y install \
 gstreamer1-plugins-base \
