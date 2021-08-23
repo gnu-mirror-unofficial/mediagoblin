@@ -49,6 +49,7 @@ This chapter has important information about our current and previous releases.
 
 - Fix test suite on Debian 11 (Ben Sturmfels)
 - Remove reference to jsonschema.compat no longer available upstream (Marco Pessotto)
+- Fix images being marked as failed after Celery restart [#5608] (Ben Sturmfels)
 
 
 0.11.0
