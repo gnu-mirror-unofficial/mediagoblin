@@ -1,0 +1,14 @@
+image: alpine/3.14
+packages:
+  # Using Docker for CI is less efficient, but means we can run identical builds
+  # in CI and in local development.
+  - docker
+tasks:
+  - setup: |
+      sudo adduser $(whoami) docker
+      sudo service docker start
+      sleep 2
+
+  - build: |
+      cd mediagoblin
+      docker build -t mediagoblin-debian-11 - < Dockerfile-debian-11-sqlite
