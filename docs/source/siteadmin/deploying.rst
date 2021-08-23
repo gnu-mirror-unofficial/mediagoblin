@@ -64,7 +64,7 @@ MediaGoblin has the following core dependencies:
 - `virtualenv <http://www.virtualenv.org/>`_
 - `Node.js <https://nodejs.org>`_
 
-These instructions have been tested on Debian 10, CentOS 8 and
+These instructions have been tested on Debian 11, CentOS 8 and
 Fedora 33. These instructions should approximately translate to recent
 Debian derivatives such as Ubuntu 18.04 and Trisquel 8, and to relatives of
 Fedora such as CentOS 8.
@@ -284,7 +284,6 @@ You'll find more details in ":doc:`configuration`".
    If you're changing the MediaGoblin directories or URL prefix, you
    may need to edit ``direct_remote_path``, ``base_dir``, and
    ``base_url``.
-
 
 
 Configure MediaGoblin to use the PostgreSQL database

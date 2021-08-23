@@ -126,7 +126,7 @@ good/bad/ugly):
 
     # Debian
     sudo apt install python3-gi gstreamer1.0-tools gir1.2-gstreamer-1.0 \
-    gir1.2-gst-plugins-base-1.0 gstreamer1.0-plugins-{good,bad,ugly} \
+    gir1.2-gst-plugins-base-1.0 gstreamer1.0-plugins-{base,bad,good,ugly} \
     gstreamer1.0-libav python3-gst-1.0
 
     # Fedora
