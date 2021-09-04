@@ -317,6 +317,9 @@ your own email address and enter a secure password when prompted::
     $ ./bin/gmg adduser --username you --email you@example.com
     $ ./bin/gmg makeadmin you
 
+Public registrations is disabled by default due to automated spam
+registrations. For more details, see ":ref:`enable-registration`"
+
 
 Test the Server
 ~~~~~~~~~~~~~~~

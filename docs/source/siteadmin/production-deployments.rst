@@ -18,28 +18,30 @@ Further Considerations for Production Deployments
 This page extends upon our ":doc:`deploying`" guide to describe some common
 issues affecting production deployments.
 
+.. _enable-registration:
 
 Should I Keep Open Registration Enabled?
 ----------------------------------------
 
-Unfortunately, in this current release of MediaGoblin we are suffering
-from spammers registering to public instances en masse.  As such, you
-may want to either:
+Unfortunately, enabling public registrations in MediaGoblin will usually result
+in many thousands of automated spam registrations. Spam accounts will typically
+remain un-activated, but the volume alone may cause poor performance on your
+site. For this reason, registrations are disabled by default and we recommend
+against enabling public registration.
 
-a) Disable registration on your instance and just make
-   accounts for people you know and trust (eg via the `gmg adduser`
-   command).  You can disable registration in your mediagoblin.ini
-   like so::
+Should you choose to enable registration, you can update in your mediagoblin.ini
+like so::
 
      [mediagoblin]
      allow_registration = false
 
-b) Enable a CAPTCHA plugin.  But unfortunately, though some CAPTCHA
-   plugins exist, for various reasons we do not have any general
-   recommendations we can make at this point.
+Alternatively, you may wish to just make accounts for people you know and trust
+(eg via the `gmg adduser` command).
 
-We hope to have a better solution to this situation shortly.  We
-apologize for the inconvenience in the meanwhile.
+A further option may be to enable a CAPTCHA plugin. But unfortunately, though
+some CAPTCHA plugins exist, for various reasons we do not have any general
+recommendations we can make at this point. We hope to provide a better solution
+to this problem in the future.
 
 
 Confidential Files
