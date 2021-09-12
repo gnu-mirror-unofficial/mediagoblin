@@ -27,17 +27,20 @@
 ;;;
 ;;; WORK IN PROGRESS - JOBS TO DO:
 ;;;
-;;; 1. Add ("opus" ,opus) to the libsndfile propagated inputs. This change is
-;;; waiting in core-updates (March 2021).
+;;; 1. Enable python-soundfile tests and mediagoblin audio tests once OGG
+;;; support is available from libsndfile.
 ;;;
-;;; 2. Renable the tests in Guix's python-soundfile once OGG support is
-;;; available from libsndfile.
+;;; 2. Work out how to serve up static files ie. CSS, JS and images. Currently
+;;; these all return 404.
 ;;;
-;;; 3. Don't have NPM in this environment yet. Possibly rewrite MediaGoblin's
+;;; 3. Consider lle-bout's suggestion to avoid propagated-inputs and instead use
+;;; wrapper scripts. See: https://debbugs.gnu.org/cgi/bugreport.cgi?bug=47260#44
+;;;
+;;; 4. Don't have NPM in this environment yet. Possibly rewrite MediaGoblin's
 ;;; JavaScript code not to use jQuery. Possibly improve the
 ;;; no-bundled-JavaScript video/audio playing experience.
 ;;;
-;;; 4. Package MediaGoblin itself as a Guix service. Look at adding a PostgreSQL
+;;; 5. Package MediaGoblin itself as a Guix service. Look at adding a PostgreSQL
 ;;; database instead of sqlite3.
 ;;;
 ;;; ========================================
@@ -48,18 +51,18 @@
 ;;;
 ;;; Assuming you have Guix installed, you can get a MediaGoblin hacking environment with:
 ;;;
-;;;   guix environment -l guix-env.scm --container --network --share=$HOME/.bash_history mediagoblin --ad-hoc which git automake autoconf python-psycopg2
+;;;   guix environment -l guix-env.scm --container --network --share=$HOME/.bash_history --ad-hoc which git automake autoconf python-psycopg2
 ;;;
 ;;; or, after applying the patch to upstream Guix:
 ;;;
-;;;   ~/ws/guix/pre-inst-env guix environment --container --network --share=$HOME/.bash_history mediagoblin --ad-hoc which git automake autoconf python-psycopg2
+;;;   ~/ws/guix/pre-inst-env guix environment --container --network --share=$HOME/.bash_history --ad-hoc which git automake autoconf python-psycopg2
 ;;;
 ;;; You'll need to run the above command every time you close your terminal or
 ;;; restart your system, so a handy way to save having to remember is to install
 ;;; "direnv" an then create a ".envrc" file in your current directory containing
 ;;; the following and then run "direnv allow" when prompted:
 ;;;
-;;;   use guix -l guix-env.scm --container --network --share=$HOME/.bash_history mediagoblin --ad-hoc which git automake autoconf python-psycopg2
+;;;   use guix -l guix-env.scm --container --network --share=$HOME/.bash_history --ad-hoc which git automake autoconf python-psycopg2
 ;;;
 ;;; First time setup only, run:
 ;;;
@@ -150,7 +153,6 @@
              (gnu packages base)
              (gnu packages certs)
              (gnu packages check)
-             (gnu packages compression)  ; unzip for embedded python-wtforms
              (gnu packages databases)
              (gnu packages openldap)
              (gnu packages pdf)
@@ -167,161 +169,49 @@
              (gnu packages time)
              (gnu packages video)
              (gnu packages version-control)
-             (gnu packages xml)
-             ((guix licenses) #:select (bsd-3 gpl2+) #:prefix license:))
-
-;; =================================================================
-;; These packages are on their way into Guix proper but haven't made
-;; it in yet... or they're old versions of packages we're pinning
-;; ourselves to...
-;; =================================================================
-
-;; Copied from guix/gnu/packages/pulseaudio.scm in the core-updates branch which
-;; adds flac/ogg/vorbis/opus support. This is required for a passing test suite on
-;; python-soundfile (March 2021).
-;;
-;; I believe this updated version is required for our spectrograms to work
-;; properly, but I don't know that I've explicitly tested.
-(define libsndfile
-  (package
-    (name "libsndfile")
-    (version "1.0.30")
-    (source (origin
-             (method url-fetch)
-             (uri (string-append "https://github.com/erikd/libsndfile"
-                                 "/releases/download/v" version
-                                 "/libsndfile-" version ".tar.bz2"))
-             (sha256
-              (base32
-               "06k1wj3lwm7vf21s8yqy51k6nrkn9z610bj1gxb618ag5hq77wlx"))
-             (modules '((ice-9 textual-ports) (guix build utils)))
-             (snippet
-              '(begin
-                 ;; Remove carriage returns (CRLF) to prevent bogus
-                 ;; errors from bash like "$'\r': command not found".
-                 (let ((data (call-with-input-file
-                                 "tests/pedantic-header-test.sh.in"
-                               (lambda (port)
-                                 (string-join
-                                  (string-split (get-string-all port)
-                                                #\return))))))
-                   (call-with-output-file "tests/pedantic-header-test.sh.in"
-                     (lambda (port) (format port data))))
-
-                 ;; While at it, fix hard coded executable name.
-                 (substitute* "tests/test_wrapper.sh.in"
-                   (("^/usr/bin/env") "env"))
-                 #t))))
-    (build-system gnu-build-system)
-    (propagated-inputs
-     `(("flac" ,flac)
-       ("libogg" ,libogg)
-       ("libvorbis" ,libvorbis)
-       ("opus" ,opus)))
-    (native-inputs
-     `(("pkg-config" ,pkg-config)
-       ("python" ,python)))
-    (home-page "http://www.mega-nerd.com/libsndfile/")
-    (synopsis "Reading and writing files containing sampled sound")
-    (description
-     "Libsndfile is a C library for reading and writing files containing
-sampled sound (such as MS Windows WAV and the Apple/SGI AIFF format) through
-one standard library interface.
-
-It was designed to handle both little-endian (such as WAV) and
-big-endian (such as AIFF) data, and to compile and run correctly on
-little-endian (such as Intel and DEC/Compaq Alpha) processor systems as well
-as big-endian processor systems such as Motorola 68k, Power PC, MIPS and
-SPARC.  Hopefully the design of the library will also make it easy to extend
-for reading and writing new sound file formats.")
-    (license license:gpl2+)))
-
-;; Duplicated from guix/gnu/packages/audio.scm so that it uses our above
-;; modified libsndfile. Needs to remain until updated libsndfile is merged from
-;; Guix's core-updates branch.
-(define-public python-soundfile
-  (package
-    (name "python-soundfile")
-    (version "0.10.3.post1")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (pypi-uri "SoundFile" version))
-       (sha256
-        (base32
-         "0yqhrfz7xkvqrwdxdx2ydy4h467sk7z3gf984y1x2cq7cm1gy329"))))
-    (build-system python-build-system)
-    (propagated-inputs
-     `(("python-cffi" ,python-cffi)
-       ("python-numpy" ,python-numpy)
-       ("libsndfile" ,libsndfile)))
-    (native-inputs
-     `(("python-pytest" ,python-pytest)))
-    (arguments
-     `(#:tests? #f ; missing OGG support
-       #:phases
-       (modify-phases %standard-phases
-         (add-after 'unpack 'patch
-           (lambda* (#:key inputs #:allow-other-keys)
-             (substitute* "soundfile.py"
-               (("_find_library\\('sndfile'\\)")
-                (string-append "\"" (assoc-ref inputs "libsndfile")
-                               "/lib/libsndfile.so\""))))))))
-    (home-page "https://github.com/bastibe/SoundFile")
-    (synopsis "Python bindings for libsndfile")
-    (description "This package provides python bindings for libsndfile based on
-CFFI and NumPy.")
-    (license license:expat)))
-
-;; =================================================================
+             (gnu packages xml))
 
 (define mediagoblin
   (package
     (name "mediagoblin")
-    (version "0.12.0.dev")
+    (version "0.12.0.dev.1")
     (source
      (origin
        (method git-fetch)
        (uri (git-reference
              (url "https://git.savannah.gnu.org/git/mediagoblin.git")
-             (commit "39effee4f0b8e75d8107d59f3a1d1a4b525e6fd5")))
+             (commit "54c610b5fee919acc8b70e86ea8449ed8acbc9f4")))
        (file-name (git-file-name name version))
        (sha256
-        (base32 "0v5xdaf6jz4q6vdkiss4z41iyx8a8rvhlq7gy6ghvppklb2msdap"))))
+        (base32 "1dk9blfy2fzqjjqh8b3lxa35v1fyy2bkn79parl7bynacg1r32y2"))))
     (build-system python-build-system)
     (arguments
-     `(
-       ;; Test suite requires the above modified version of libsndfile (and
-       ;; python-soundfile which references it). The modified libsndfile is
-       ;; waiting in Guix's core updates.
-       #:phases (modify-phases %standard-phases
-                  (replace 'check
-                    (lambda _
-                      (setenv "PYTHONPATH"
-                              (string-append (getcwd) ":"
-                                             (getenv "PYTHONPATH")))
-                      ;; Translations needed for tests to pass. Probably
-                      ;; should be done during build stage?
-                      (invoke "./devtools/compile_translations.sh")
-                      (invoke "pytest" "./mediagoblin/tests" "-rs" "--boxed")
-                      #t)))
-                ))
+     `(#:phases
+       (modify-phases %standard-phases
+         (add-after 'build 'build-translations
+           (lambda _
+             (invoke "devtools/compile_translations.sh")))
+         (replace 'check
+           (lambda _
+             (setenv "PYTHONPATH"
+                     (string-append (getcwd) ":"
+                                    (getenv "PYTHONPATH")))
+             (invoke "pytest" "mediagoblin/tests" "-rs" "--boxed"
+                     ;; Skip the audio tests until updated libsndfile
+                     ;; has been merged from core-updates branch.
+                     "--deselect=test_audio.py::test_thumbnails"
+                     "--deselect=test_submission.py::TestSubmissionAudio"))))))
     (native-inputs
-     `(("nss-certs" ,nss-certs)
-       ("python-pytest" ,python-pytest)
+     `(("python-pytest" ,python-pytest)
        ("python-pytest-forked" ,python-pytest-forked)
        ("python-pytest-xdist" ,python-pytest-xdist)
        ("python-webtest" ,python-webtest)))
-    ;; lle-bout suggests avoiding propagated-inputs and insteading creating
-    ;; wrappers scripts. See:
-    ;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=47260#44
     (propagated-inputs
      `(("python-alembic" ,python-alembic)
        ("python-babel" ,python-babel)
        ("python-celery" ,python-celery)
        ("python-configobj" ,python-configobj)
        ("python-dateutil" ,python-dateutil)
-       ("python-docutils" ,python-docutils)  ; What for?
        ("python-email-validator" ,python-email-validator)
        ("python-exif-read" ,python-exif-read)
        ("python-feedgenerator" ,python-feedgenerator)
@@ -332,14 +222,13 @@ CFFI and NumPy.")
        ("python-lxml" ,python-lxml)
        ("python-markdown" ,python-markdown)
        ("python-oauthlib" ,python-oauthlib)
-       ("python-openid" ,python-openid)  ; For OpenID plugin
+       ("python-openid" ,python-openid) ; For OpenID plugin
        ("python-pastescript" ,python-pastescript)
        ("python-pillow" ,python-pillow)
        ("python-py-bcrypt" ,python-py-bcrypt)
        ("python-pyld" ,python-pyld)
        ("python-pytz" ,python-pytz)
-       ("python-requests" ,python-requests)  ; For batchaddmedia
-       ("python-setuptools" ,python-setuptools)  ; What for?
+       ("python-requests" ,python-requests) ; For batchaddmedia
        ("python-soundfile" ,python-soundfile)
        ("python-sphinx" ,python-sphinx)
        ("python-sqlalchemy" ,python-sqlalchemy)
@@ -362,13 +251,13 @@ CFFI and NumPy.")
        ("python-pygobject" ,python-pygobject)
 
        ;; PDF media.
-       ("poppler" ,poppler)
-
-       ))
+       ("poppler" ,poppler)))
     (home-page "https://mediagoblin.org/")
     (synopsis "Web application for media publishing")
-    (description "MediaGoblin is a web application for publishing all kinds of
-media.")
+    (description
+     "MediaGoblin is a free software media publishing platform that anyone can
+run. You can think of it as a decentralized alternative to Flickr, YouTube,
+SoundCloud, etc.")
     (license agpl3+)))
 
 mediagoblin
