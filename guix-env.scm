@@ -176,37 +176,102 @@
 ;; ourselves to...
 ;; =================================================================
 
-;; Upgraded the Guix version 2.1 to 2.3 for compatibility with current
-;; MediaGoblin.
-(define python-wtforms
+;; Copied from guix/gnu/packages/pulseaudio.scm in the core-updates branch which
+;; adds flac/ogg/vorbis/opus support. This is required for a passing test suite on
+;; python-soundfile (March 2021).
+;;
+;; I believe this updated version is required for our spectrograms to work
+;; properly, but I don't know that I've explicitly tested.
+(define libsndfile
   (package
-    (name "python-wtforms")
-    (version "2.3.3")
+    (name "libsndfile")
+    (version "1.0.30")
+    (source (origin
+             (method url-fetch)
+             (uri (string-append "https://github.com/erikd/libsndfile"
+                                 "/releases/download/v" version
+                                 "/libsndfile-" version ".tar.bz2"))
+             (sha256
+              (base32
+               "06k1wj3lwm7vf21s8yqy51k6nrkn9z610bj1gxb618ag5hq77wlx"))
+             (modules '((ice-9 textual-ports) (guix build utils)))
+             (snippet
+              '(begin
+                 ;; Remove carriage returns (CRLF) to prevent bogus
+                 ;; errors from bash like "$'\r': command not found".
+                 (let ((data (call-with-input-file
+                                 "tests/pedantic-header-test.sh.in"
+                               (lambda (port)
+                                 (string-join
+                                  (string-split (get-string-all port)
+                                                #\return))))))
+                   (call-with-output-file "tests/pedantic-header-test.sh.in"
+                     (lambda (port) (format port data))))
+
+                 ;; While at it, fix hard coded executable name.
+                 (substitute* "tests/test_wrapper.sh.in"
+                   (("^/usr/bin/env") "env"))
+                 #t))))
+    (build-system gnu-build-system)
+    (propagated-inputs
+     `(("flac" ,flac)
+       ("libogg" ,libogg)
+       ("libvorbis" ,libvorbis)
+       ("opus" ,opus)))
+    (native-inputs
+     `(("pkg-config" ,pkg-config)
+       ("python" ,python)))
+    (home-page "http://www.mega-nerd.com/libsndfile/")
+    (synopsis "Reading and writing files containing sampled sound")
+    (description
+     "Libsndfile is a C library for reading and writing files containing
+sampled sound (such as MS Windows WAV and the Apple/SGI AIFF format) through
+one standard library interface.
+
+It was designed to handle both little-endian (such as WAV) and
+big-endian (such as AIFF) data, and to compile and run correctly on
+little-endian (such as Intel and DEC/Compaq Alpha) processor systems as well
+as big-endian processor systems such as Motorola 68k, Power PC, MIPS and
+SPARC.  Hopefully the design of the library will also make it easy to extend
+for reading and writing new sound file formats.")
+    (license license:gpl2+)))
+
+;; Duplicated from guix/gnu/packages/audio.scm so that it uses our above
+;; modified libsndfile. Needs to remain until updated libsndfile is merged from
+;; Guix's core-updates branch.
+(define-public python-soundfile
+  (package
+    (name "python-soundfile")
+    (version "0.10.3.post1")
     (source
      (origin
        (method url-fetch)
-       (uri (pypi-uri "WTForms" version))
+       (uri (pypi-uri "SoundFile" version))
        (sha256
         (base32
-         ;; Interesting, if this has is that of a lower version, it blindly
-         ;; ignores the version number above and you silently get the older
-         ;; version.
-         "17427m7p9nn9byzva697dkykykwcp2br3bxvi8vciywlmkh5s6c1"))))
+         "0yqhrfz7xkvqrwdxdx2ydy4h467sk7z3gf984y1x2cq7cm1gy329"))))
     (build-system python-build-system)
-    (arguments
-     `(#:tests? #f))  ; TODO: Fix tests for upgraded version.
     (propagated-inputs
-    `(("python-markupsafe" ,python-markupsafe)))
+     `(("python-cffi" ,python-cffi)
+       ("python-numpy" ,python-numpy)
+       ("libsndfile" ,libsndfile)))
     (native-inputs
-     `(("unzip" ,unzip)))  ; CHECK WHETHER NEEDED - not in `guix import` but is in old package.
-    (home-page "http://wtforms.simplecodes.com/")
-    (synopsis
-     "Form validation and rendering library for Python web development")
-    (description
-     "WTForms is a flexible forms validation and rendering library
-for Python web development.  It is very similar to the web form API
-available in Django, but is a standalone package.")
-    (license license:bsd-3)))
+     `(("python-pytest" ,python-pytest)))
+    (arguments
+     `(#:tests? #f ; missing OGG support
+       #:phases
+       (modify-phases %standard-phases
+         (add-after 'unpack 'patch
+           (lambda* (#:key inputs #:allow-other-keys)
+             (substitute* "soundfile.py"
+               (("_find_library\\('sndfile'\\)")
+                (string-append "\"" (assoc-ref inputs "libsndfile")
+                               "/lib/libsndfile.so\""))))))))
+    (home-page "https://github.com/bastibe/SoundFile")
+    (synopsis "Python bindings for libsndfile")
+    (description "This package provides python bindings for libsndfile based on
+CFFI and NumPy.")
+    (license license:expat)))
 
 ;; =================================================================
 
@@ -226,7 +291,9 @@ available in Django, but is a standalone package.")
     (build-system python-build-system)
     (arguments
      `(
-       ;; #:tests? #f
+       ;; Test suite requires the above modified version of libsndfile (and
+       ;; python-soundfile which references it). The modified libsndfile is
+       ;; waiting in Guix's core updates.
        #:phases (modify-phases %standard-phases
                   (replace 'check
                     (lambda _
