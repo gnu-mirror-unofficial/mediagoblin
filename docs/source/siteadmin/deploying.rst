@@ -64,9 +64,9 @@ MediaGoblin has the following core dependencies:
 - `virtualenv <http://www.virtualenv.org/>`_
 - `Node.js <https://nodejs.org>`_
 
-These instructions have been tested on Debian 11, CentOS 8 and
-Fedora 33. These instructions should approximately translate to recent
-Debian derivatives such as Ubuntu 18.04 and Trisquel 8, and to relatives of
+These instructions have been tested on Debian 11 and Fedora 33. These
+instructions should approximately translate to recent Debian
+derivatives such as Ubuntu 18.04 and Trisquel 8, and to relatives of
 Fedora such as CentOS 8.
 
 Issue the following commands:
@@ -343,11 +343,6 @@ type ``exit`` or ``Ctrl-d``.
 Deploy MediaGoblin
 ------------------
 
-The configuration described below is sufficient for development and
-smaller deployments. However, for larger production deployments with
-larger processing requirements, see the
-":doc:`production-deployments`" documentation.
-
 .. _webserver-config:
 
 Nginx as a reverse-proxy
@@ -618,6 +613,9 @@ What next?
 This configuration supports upload of images only, but MediaGoblin
 also supports other types of media, such as audio, video, PDFs and 3D
 models. For details, see ":doc:`media-types`".
+
+See ":doc:`production-deployments`" for more information and other
+issues you may want to consider.
 
 For other settings and configuration options, see
 ":doc:`configuration`".

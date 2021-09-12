@@ -27,19 +27,17 @@
 ;;;
 ;;; WORK IN PROGRESS - JOBS TO DO:
 ;;;
-;;; 1. Refine and submit the below upgraded python-wtforms 2.3.3 to Guix.
-;;;
-;;; 2. Add ("opus" ,opus) to the libsndfile propagated inputs. This change is
+;;; 1. Add ("opus" ,opus) to the libsndfile propagated inputs. This change is
 ;;; waiting in core-updates (March 2021).
 ;;;
-;;; 3. Renable the tests in Guix's python-soundfile once OGG support is
+;;; 2. Renable the tests in Guix's python-soundfile once OGG support is
 ;;; available from libsndfile.
 ;;;
-;;; 4. Don't have NPM in this environment yet. Possibly rewrite MediaGoblin's
+;;; 3. Don't have NPM in this environment yet. Possibly rewrite MediaGoblin's
 ;;; JavaScript code not to use jQuery. Possibly improve the
 ;;; no-bundled-JavaScript video/audio playing experience.
 ;;;
-;;; 5. Package MediaGoblin itself as a Guix service. Look at adding a PostgreSQL
+;;; 4. Package MediaGoblin itself as a Guix service. Look at adding a PostgreSQL
 ;;; database instead of sqlite3.
 ;;;
 ;;; ========================================
@@ -305,3 +303,5 @@ available in Django, but is a standalone package.")
     (description "MediaGoblin is a web application for publishing all kinds of
 media.")
     (license agpl3+)))
+
+mediagoblin
