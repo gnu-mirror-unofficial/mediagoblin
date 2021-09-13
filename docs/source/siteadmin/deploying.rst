@@ -584,6 +584,12 @@ Assuming the above was successful, you should now have a MediaGoblin
 server that will continue to operate, even after being restarted.
 Great job!
 
+If you have a moment, please send us an `email
+<mailto:~mediagoblin/mediagoblin@todo.sr.ht?subject=MediaGoblin&20installation%20report>`_
+about your experience installing MediaGoblin. We'd love to know what
+worked well, what didn't work so well and anything that could be
+improved.
+
 
 .. _restarting mediagoblin:
 
