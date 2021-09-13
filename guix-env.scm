@@ -18,32 +18,13 @@
 ;;; This file is also part of GNU MediaGoblin, but we're leaving it under GPLv3
 ;;; for easy merge back and forth between Guix proper.
 ;;;
-;;; Progress from the Guix side is being tracked in the following "meta" bug:
-;;;
-;;; Package GNU MediaGoblin as a Guix service:
-;;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=47260
-;;;
 ;;; ========================================
 ;;;
-;;; WORK IN PROGRESS - JOBS TO DO:
+;;; This file is intended for people who want to set up MediaGoblin hacking
+;;; environment using Guix to install dependencies, but run MediaGoblin from a
+;;; git checkout. See https://git.sr.ht/~mediagoblin/mediagoblin-guix for
+;;; details on the Guix packaging effort.
 ;;;
-;;; 1. Enable python-soundfile tests and mediagoblin audio tests once OGG
-;;; support is available from libsndfile.
-;;;
-;;; 2. Work out how to serve up static files ie. CSS, JS and images. Currently
-;;; these all return 404.
-;;;
-;;; 3. Consider lle-bout's suggestion to avoid propagated-inputs and instead use
-;;; wrapper scripts. See: https://debbugs.gnu.org/cgi/bugreport.cgi?bug=47260#44
-;;;
-;;; 4. Don't have NPM in this environment yet. Possibly rewrite MediaGoblin's
-;;; JavaScript code not to use jQuery. Possibly improve the
-;;; no-bundled-JavaScript video/audio playing experience.
-;;;
-;;; 5. Package MediaGoblin itself as a Guix service. Look at adding a PostgreSQL
-;;; database instead of sqlite3.
-;;;
-;;; ========================================
 ;;;
 ;;; With `guix environment' you can use guix as kind of a universal
 ;;; virtualenv, except a universal virtualenv with magical time traveling
@@ -70,7 +51,7 @@
 ;;;   ./bootstrap.sh
 ;;;   ./configure --without-virtualenv
 ;;;   make
-;;
+;;;
 ;;; The devtools/update_extlib.sh script won't run on Guix due to missing
 ;;; "/usr/bin/env", so again for first time setup only, run:
 ;;;
