@@ -186,6 +186,7 @@
      `(("python-pytest" ,python-pytest)
        ("python-pytest-forked" ,python-pytest-forked)
        ("python-pytest-xdist" ,python-pytest-xdist)
+       ("python-sphinx" ,python-sphinx)
        ("python-webtest" ,python-webtest)))
     (propagated-inputs
      `(("python-alembic" ,python-alembic)
@@ -211,7 +212,6 @@
        ("python-pytz" ,python-pytz)
        ("python-requests" ,python-requests) ; For batchaddmedia
        ("python-soundfile" ,python-soundfile)
-       ("python-sphinx" ,python-sphinx)
        ("python-sqlalchemy" ,python-sqlalchemy)
        ("python-unidecode" ,python-unidecode)
        ("python-waitress" ,python-waitress)
