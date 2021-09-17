@@ -161,10 +161,10 @@
        (method git-fetch)
        (uri (git-reference
              (url "https://git.savannah.gnu.org/git/mediagoblin.git")
-             (commit "54c610b5fee919acc8b70e86ea8449ed8acbc9f4")))
+             (commit "f620b65e050e00ebdf7a6f9e07a835a3b285954c")))
        (file-name (git-file-name name version))
        (sha256
-        (base32 "1dk9blfy2fzqjjqh8b3lxa35v1fyy2bkn79parl7bynacg1r32y2"))))
+        (base32 "1gmmxa8yggb8pcsff66b8d45jsqkal01kkb9nqn5h036mx412g9k"))))
     (build-system python-build-system)
     (arguments
      `(#:phases
@@ -188,7 +188,7 @@
        ("python-pytest-xdist" ,python-pytest-xdist)
        ("python-sphinx" ,python-sphinx)
        ("python-webtest" ,python-webtest)))
-    (propagated-inputs
+    (inputs
      `(("python-alembic" ,python-alembic)
        ("python-babel" ,python-babel)
        ("python-celery" ,python-celery)
@@ -219,6 +219,7 @@
        ("python-wtforms" ,python-wtforms)
 
        ;; Audio/video media
+       ;; TODO: MP4 failing since moving from propagated-inputs to inputs.
        ("gobject-introspection" ,gobject-introspection)
        ("gst-libav" ,gst-libav)
        ("gst-plugins-bad" ,gst-plugins-bad)
