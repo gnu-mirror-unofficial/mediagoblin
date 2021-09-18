@@ -169,7 +169,7 @@ RUN git clone --depth=1 git://git.savannah.gnu.org/mediagoblin.git --branch mast
 RUN git show --oneline --no-patch
 
 RUN ./bootstrap.sh
-RUN VIRTUALENV_FLAGS='--system-site-packages' ./configure
+RUN ./configure
 RUN make
 
 # Additional Sphinx dependencies not in Debian.

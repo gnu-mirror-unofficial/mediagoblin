@@ -256,7 +256,7 @@ Clone the MediaGoblin repository and set up the git submodules::
 Set up the environment::
 
     $ ./bootstrap.sh
-    $ VIRTUALENV_FLAGS='--system-site-packages' ./configure
+    $ ./configure
     $ make
 
 Create and set the proper permissions on the ``user_dev`` directory.

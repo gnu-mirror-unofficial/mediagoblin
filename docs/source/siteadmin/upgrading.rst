@@ -42,7 +42,7 @@ Upgrade
 
 4. Recreate the virtual environment and install MediaGoblin::
 
-     ./bootstrap.sh && VIRTUALENV_FLAGS='--system-site-packages' ./configure &&
+     ./bootstrap.sh && ./configure &&
      make
 
 5. Re-install any ":doc:`plugins`" you had previously installed. Skipping these
