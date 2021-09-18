@@ -45,8 +45,8 @@ Fedora 33.
 
 **Upgrading:**
 
-For detailed instructions on installing or upgrading, see ":doc:`deploying`" and
-":doc:`upgrading`".
+For detailed instructions on installing or upgrading, see ":doc:`upgrading`" and
+":doc:`deploying`".
 
 If you have any problems, please drop in to the `#mediagoblin IRC chat
 <https://web.libera.chat/#mediagoblin>`_, report an issue on our `issue
