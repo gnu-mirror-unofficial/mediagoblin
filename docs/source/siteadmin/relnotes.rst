@@ -19,12 +19,40 @@ Release Notes
 
 This chapter has important information about our current and previous releases.
 
+..
+   **To do:**
+   - add TLS to deploying documentation
 
-0.12.0 (work in progress)
-=========================
 
-**To do:**
-- add TLS to deploying documentation
+0.12.0
+======
+
+This release resolves two significant issues in the Celery backend media
+processing. The first was causing processed media to be marked as failed and the
+second was inhibiting useful backend error messages. We've also resolved two
+installation issues caused by deprecated upstream code in the Werkzeug and
+jsonschema libraries.
+
+The release also includes provisional `gmg serve` and `gmg celery` commands that
+are intended to simplify deployment and avoid some confusing issues with Python
+paths. These commands may change in the future. These commands are not yet
+recommended in the deployment documentation, but you're welcome to try them out.
+If your deployment is already running smoothly, there's no reason to switch.
+
+Please note that we are aware of some installation issues on Debian Testing
+(Bookworm) and Arch Linux. These issues appear to be related to versions of
+autoconf > 2.69. We currently recommend deployment on Debian Bullseye and
+Fedora 33.
+
+**Upgrading:**
+
+For detailed instructions on installing or upgrading, see ":doc:`deploying`" and
+":doc:`upgrading`".
+
+If you have any problems, please drop in to the `#mediagoblin IRC chat
+<https://webchat.freenode.net/#mediagoblin>`_, report an issue on our `issue
+tracker <https://issues.mediagoblin.org/>`_ or drop us an email to
+`mediagoblin-devel@gnu.org <mailto:mediagoblin-devel@gnu.org>`_.
 
 **Improvements:**
 
@@ -32,7 +60,8 @@ This chapter has important information about our current and previous releases.
   upgrade werkzeug (Ben Sturmfels)
 - Document that `gmg dbupdate` is required after some config changes (Rodrigo
   Martins)
-- Add Docker and CI builds for Debian 11/Bullseye (Ben Sturmfels)
+- Remove Debian 10 development Dockerfile (BenSturmfels)
+- Add Debian 11 development Dockerfile and CI build (Ben Sturmfels)
 - Fix/document Guix setup for 100% passing test suite (Ben Sturmfels)
 - Convert `setup.py` to `setup.cfg` (Ben Sturmfels)
 - Document re-installation of plugins during upgrade [#5611] (Ben Sturmfels)
@@ -41,17 +70,17 @@ This chapter has important information about our current and previous releases.
 - Remove unused `translitcodec` dependency (Ben Sturmfels)
 - Remove references to previous `tinymce` JS dependency (Ben Sturmfels)
 - Remove plugin for decommissioned Mozilla Persona (Jgart)
-- Remove Debian 10 development Dockerfile (BenSturmfels)
 - Document running multiple MediaGoblin instances on one server (Ben Sturmfels)
 - Begin conversion from jQuery to vanilla JS (Ben Sturmfels)
 - Remove `--system-site-packages` from docs and CI builds as it is forced anyway
   (Ben Sturmfels)
+- Added provisional `gmg serve` and `gmg celery` commands (Ben Sturmfels)
 
 **Bug fixes:**
 
 - Fix test suite on Debian 11 (Ben Sturmfels)
 - Remove reference to jsonschema.compat no longer available upstream (Marco Pessotto)
-- Fix images being marked as failed after Celery restart [#5608] (Ben Sturmfels)
+- Fix images being marked as failed after Celery restart since 0.10.0 [#5608] (Ben Sturmfels)
 - Fix app logging calls not showing in Celery logs (Ben Sturmfels)
 
 
