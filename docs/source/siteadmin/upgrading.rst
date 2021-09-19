@@ -42,8 +42,7 @@ Upgrade
 
 4. Recreate the virtual environment and install MediaGoblin::
 
-     ./bootstrap.sh && ./configure &&
-     make
+     ./bootstrap.sh && ./configure && make
 
 5. Re-install any ":doc:`plugins`" you had previously installed. Skipping these
    may result in errors updating the database.
