@@ -23,6 +23,7 @@ This chapter has important information about our current and previous releases.
 =========================
 
 - Extend left/right arrow key navigation to paginated views [#5627] (Olivier Mehani)
+- Fix incorrect setuptools install location for db/migrations/env.py (Elisei Roca)
 
 ..
    **To do:**
