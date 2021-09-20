@@ -25,6 +25,7 @@ This chapter has important information about our current and previous releases.
 - Extend left/right arrow key navigation to paginated views [trac#5627] (Olivier Mehani)
 - Fix incorrect setuptools install location for db/migrations/env.py (Elisei Roca)
 - Set videos to preload="metadata" to prevent upfront download [trac#5625] (Michael McMahon)
+- Add a "Troubleshooting" page to the documentation (Ben Sturmfels)
 
 
 0.12.0
