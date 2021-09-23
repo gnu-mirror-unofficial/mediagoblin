@@ -56,11 +56,12 @@ Dependencies
 
 MediaGoblin has the following core dependencies:
 
-- Python 3.4+
-- `python3-lxml <http://lxml.de/>`_
+- Python 3.6+
+- `lxml <http://lxml.de/>`_
 - `git <http://git-scm.com/>`_
-- `SQLite <http://www.sqlite.org/>`_/`PostgreSQL <http://www.postgresql.org/>`_
-- `Python Imaging Library <http://www.pythonware.com/products/pil/>`_  (PIL)
+- `SQLite <http://www.sqlite.org/>`_ or `PostgreSQL <http://www.postgresql.org/>`_
+- `Python Imaging Library <http://www.pythonware.com/products/pil/>`_
+  (PIL or Pillow)
 - `virtualenv <http://www.virtualenv.org/>`_
 - `Node.js <https://nodejs.org>`_
 
