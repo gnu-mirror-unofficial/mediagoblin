@@ -45,7 +45,7 @@ Gst.init(None)
 
 class Python3AudioThumbnailer:
     def __init__(self):
-        _log.info('Initializing {}'.format(self.__class__.__name__))
+        _log.info(f'Initializing {self.__class__.__name__}')
 
     def spectrogram(self, src, dst, **kw):
         from mediagoblin.media_types.audio import audiotospectrogram
@@ -85,7 +85,7 @@ AudioThumbnailer = Python3AudioThumbnailer
 
 class AudioTranscoder:
     def __init__(self):
-        _log.info('Initializing {}'.format(self.__class__.__name__))
+        _log.info(f'Initializing {self.__class__.__name__}')
 
         # Instantiate MainLoop
         self._loop = GObject.MainLoop()
@@ -96,10 +96,10 @@ class AudioTranscoder:
         def _on_pad_added(element, pad, connect_to):
             caps = pad.query_caps(None)
             name = caps.to_string()
-            _log.debug('on_pad_added: {}'.format(name))
+            _log.debug(f'on_pad_added: {name}')
             if name.startswith('audio') and not connect_to.is_linked():
                 pad.link(connect_to)
-        _log.info('Transcoding {} into {}'.format(src, dst))
+        _log.info(f'Transcoding {src} into {dst}')
         self.__on_progress = progress_callback
         # Set up pipeline
         tolerance = 80000000
@@ -155,7 +155,7 @@ class AudioTranscoder:
             (success, percent) = structure.get_int('percent')
             if self.__on_progress and success:
                 self.__on_progress(percent)
-            _log.info('{}% done...'.format(percent))
+            _log.info(f'{percent}% done...')
         elif message.type == Gst.MessageType.EOS:
             _log.info('Done')
             self.halt()

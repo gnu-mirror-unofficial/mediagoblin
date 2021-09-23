@@ -69,10 +69,10 @@ def locale_to_lower_upper(locale):
     """
     if '-' in locale:
         lang, country = locale.split('-', 1)
-        return '{}_{}'.format(lang.lower(), country.upper())
+        return f'{lang.lower()}_{country.upper()}'
     elif '_' in locale:
         lang, country = locale.split('_', 1)
-        return '{}_{}'.format(lang.lower(), country.upper())
+        return f'{lang.lower()}_{country.upper()}'
     else:
         return locale.lower()
 
@@ -83,7 +83,7 @@ def locale_to_lower_lower(locale):
     """
     if '_' in locale:
         lang, country = locale.split('_', 1)
-        return '{}-{}'.format(lang.lower(), country.lower())
+        return f'{lang.lower()}-{country.lower()}'
     else:
         return locale.lower()
 

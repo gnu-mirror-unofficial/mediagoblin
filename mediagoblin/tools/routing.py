@@ -49,7 +49,7 @@ def endpoint_to_controller(rule):
     endpoint = rule.endpoint
     view_func = rule.gmg_controller
 
-    _log.debug('endpoint: {} view_func: {}'.format(endpoint, view_func))
+    _log.debug(f'endpoint: {endpoint} view_func: {view_func}')
 
     # import the endpoint, or if it's already a callable, call that
     if isinstance(view_func, str):

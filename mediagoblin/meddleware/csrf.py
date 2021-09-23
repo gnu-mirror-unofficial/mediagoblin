@@ -116,7 +116,7 @@ class CsrfMeddleware(BaseMeddleware):
     def _make_token(self, request):
         """Generate a new token to use for CSRF protection."""
 
-        return "{}".format(getrandbits(self.CSRF_KEYLEN))
+        return f"{getrandbits(self.CSRF_KEYLEN)}"
 
     def verify_tokens(self, request):
         """Verify that the CSRF Cookie exists and that it matches the

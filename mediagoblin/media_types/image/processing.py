@@ -151,7 +151,7 @@ SUPPORTED_FILETYPES = ['png', 'gif', 'jpg', 'jpeg', 'tiff']
 
 
 def sniff_handler(media_file, filename):
-    _log.info('Sniffing {}'.format(MEDIA_TYPE))
+    _log.info(f'Sniffing {MEDIA_TYPE}')
     name, ext = os.path.splitext(filename)
     clean_ext = ext[1:].lower()  # Strip the . from ext and make lowercase
 

@@ -35,7 +35,7 @@ class EmailNotificationTask(Task):
     '''
     def run(self, notification_id, message):
         cn = Notification.query.filter_by(id=notification_id).first()
-        _log.info('Sending notification email about {}'.format(cn))
+        _log.info(f'Sending notification email about {cn}')
 
         return send_email(
             message['from'],

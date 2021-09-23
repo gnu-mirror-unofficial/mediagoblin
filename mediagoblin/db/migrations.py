@@ -425,9 +425,9 @@ class Client_v0(declarative_base()):
 
     def __repr__(self):
         if self.application_name:
-            return "<Client {} - {}>".format(self.application_name, self.id)
+            return f"<Client {self.application_name} - {self.id}>"
         else:
-            return "<Client {}>".format(self.id)
+            return f"<Client {self.id}>"
 
 class RequestToken_v0(declarative_base()):
     """

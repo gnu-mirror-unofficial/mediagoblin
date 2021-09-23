@@ -161,7 +161,7 @@ class CloudFilesStorage(StorageInterface):
         # and bandwidth usage. So, override this method and use the
         # Cloudfile's "send" interface instead.
         # TODO: Fixing write() still seems worthwhile though.
-        _log.debug('Sending {} to cloudfiles...'.format(filepath))
+        _log.debug(f'Sending {filepath} to cloudfiles...')
         with self.get_file(filepath, 'wb') as dest_file:
             with open(filename, 'rb') as source_file:
                 # Copy to storage system in 4096 byte chunks

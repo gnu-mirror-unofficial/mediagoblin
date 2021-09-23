@@ -91,7 +91,7 @@ def mark_comment_notification_seen(comment_id, user):
         object_id=comment_gmr.id
     ).first()
 
-    _log.debug('Marking {} as seen.'.format(notification))
+    _log.debug(f'Marking {notification} as seen.')
 
     mark_notification_seen(notification)
 

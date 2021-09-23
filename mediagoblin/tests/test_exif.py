@@ -28,7 +28,7 @@ from .resources import GOOD_JPG, EMPTY_JPG, BAD_JPG, GPS_JPG, BAD_GPS_JPG
 
 
 def assert_in(a, b):
-    assert a in b, "{!r} not in {!r}".format(a, b)
+    assert a in b, f"{a!r} not in {b!r}"
 
 
 def test_exif_extraction():

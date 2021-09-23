@@ -169,7 +169,7 @@ def check_prerequisites():
     return True
 
 def sniff_handler(media_file, filename):
-    _log.info('Sniffing {}'.format(MEDIA_TYPE))
+    _log.info(f'Sniffing {MEDIA_TYPE}')
     if not check_prerequisites():
         return None
 

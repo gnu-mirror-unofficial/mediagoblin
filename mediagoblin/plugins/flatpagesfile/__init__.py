@@ -34,7 +34,7 @@ _log = logging.getLogger(__name__)
 def print_context(c):
     s = []
     for key, val in c.items():
-        s.append('{}: {}'.format(key, repr(val)))
+        s.append(f'{key}: {val!r}')
     return '\n'.join(s)
 
 

@@ -41,7 +41,7 @@ class Nonce(Base):
     salt = Column(Unicode, primary_key=True)
 
     def __unicode__(self):
-        return 'Nonce: {!r}, {!r}'.format(self.server_url, self.salt)
+        return f'Nonce: {self.server_url!r}, {self.salt!r}'
 
 
 class Association(Base):
@@ -55,7 +55,7 @@ class Association(Base):
     assoc_type = Column(Unicode)
 
     def __unicode__(self):
-        return 'Association: {!r}, {!r}'.format(self.server_url, self.handle)
+        return f'Association: {self.server_url!r}, {self.handle!r}'
 
 
 MODELS = [

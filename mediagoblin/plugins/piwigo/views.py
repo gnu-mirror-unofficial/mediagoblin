@@ -119,7 +119,7 @@ def pwg_images_addSimple(request):
         raise BadRequest()
     dump = []
     for f in form:
-        dump.append("{}={!r}".format(f.name, f.data))
+        dump.append(f"{f.name}={f.data!r}")
     _log.info("addSimple: %r %s %r", request.form, " ".join(dump),
               request.files)
 

@@ -123,7 +123,7 @@ class TestOAuth:
     def to_authorize_headers(self, data):
         headers = ""
         for key, value in data.items():
-            headers += '{}="{}",'.format(key, value)
+            headers += f'{key}="{value}",'
         return {"Authorization": "OAuth " + headers[:-1]}
 
     def test_request_token(self):

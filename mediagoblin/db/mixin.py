@@ -188,7 +188,7 @@ class GenerateSlugMixin:
 
             # Can we just append the object's id to the end?
             if self.id:
-                slug_with_id = "{}-{}".format(slug, self.id)
+                slug_with_id = f"{slug}-{self.id}"
                 if not self.check_slug_used(slug_with_id):
                     self.slug = slug_with_id
                     return  # success!

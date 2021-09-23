@@ -147,7 +147,7 @@ otherperson@example.com\n\nSGkgb3RoZXJwZXJzb24sCmNocmlzIGNvbW1lbnRlZCBvbiB5b3VyI
         self.logout()
         self.login('otherperson', 'nosreprehto')
 
-        self.test_app.get(media_uri_slug + 'c/{}/'.format(comment_id))
+        self.test_app.get(media_uri_slug + f'c/{comment_id}/')
 
         notification = Notification.query.filter_by(id=notification_id).first()
 

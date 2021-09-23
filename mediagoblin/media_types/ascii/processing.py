@@ -37,7 +37,7 @@ MEDIA_TYPE = 'mediagoblin.media_types.ascii'
 
 
 def sniff_handler(media_file, filename):
-    _log.info('Sniffing {}'.format(MEDIA_TYPE))
+    _log.info(f'Sniffing {MEDIA_TYPE}')
 
     name, ext = os.path.splitext(filename)
     clean_ext = ext[1:].lower()

@@ -145,7 +145,7 @@ def available(args):
         manager = get_processing_manager_for_type(media_type)
     except ProcessingManagerDoesNotExist:
         entry = MediaEntry.query.filter_by(id=args.id_or_type).first()
-        print('No such processing manager for {}'.format(entry.media_type))
+        print(f'No such processing manager for {entry.media_type}')
 
     if args.state:
         processors = manager.list_all_processors_by_state(args.state)
@@ -170,7 +170,7 @@ def available(args):
     else:
         for processor in processors:
             if processor.description:
-                print(" - {}: {}".format(processor.name, processor.description))
+                print(f" - {processor.name}: {processor.description}")
             else:
                 print(" - %s" % processor.name)
 
@@ -205,7 +205,7 @@ def run(args, media_id=None):
 
     except ProcessingManagerDoesNotExist:
         entry = MediaEntry.query.filter_by(id=media_id).first()
-        print('No such processing manager for {}'.format(entry.media_type))
+        print(f'No such processing manager for {entry.media_type}')
 
 
 def bulk_run(args):
@@ -262,7 +262,7 @@ def thumbs(args):
                 reprocess_info=reprocess_request)
 
         except ProcessingManagerDoesNotExist:
-            print('No such processing manager for {}'.format(entry.media_type))
+            print(f'No such processing manager for {entry.media_type}')
 
 
 def initial(args):
@@ -278,7 +278,7 @@ def initial(args):
                 media_entry,
                 reprocess_action='initial')
         except ProcessingManagerDoesNotExist:
-            print('No such processing manager for {}'.format(entry.media_type))
+            print(f'No such processing manager for {entry.media_type}')
 
 
 def reprocess(args):

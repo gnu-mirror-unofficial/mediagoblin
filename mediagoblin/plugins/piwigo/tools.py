@@ -130,7 +130,7 @@ def check_form(form):
         raise BadRequest()
     dump = []
     for f in form:
-        dump.append("{}={!r}".format(f.name, f.data))
+        dump.append(f"{f.name}={f.data!r}")
     _log.debug("form: %s", " ".join(dump))
 
 

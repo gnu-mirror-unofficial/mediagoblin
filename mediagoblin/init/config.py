@@ -181,7 +181,7 @@ def generate_validation_report(config, validation_result):
             # We don't care about missing values for now.
             continue
 
-        report.append("{} = {}".format(section_string, error))
+        report.append(f"{section_string} = {error}")
 
     if report:
         return REPORT_HEADER + "\n".join(report)

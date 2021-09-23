@@ -173,7 +173,7 @@ class BaseTestSubmission:
     def check_normal_upload(self, title, filename):
         response, context = self.do_post({'title': title}, do_follow=True,
                                          **self.upload_data(filename))
-        self.check_url(response, '/u/{}/'.format(self.our_user().username))
+        self.check_url(response, f'/u/{self.our_user().username}/')
         assert 'mediagoblin/user_pages/user.html' in context
         # Make sure the media view is at least reachable, logged in...
         url = '/u/{}/m/{}/'.format(self.our_user().username,
@@ -215,7 +215,7 @@ class TestSubmissionBasics(BaseTestSubmission):
 
         # User uploaded should be the same as GOOD_JPG size in Mb
         file_size = os.stat(GOOD_JPG).st_size / (1024.0 * 1024)
-        file_size = float('{:.2f}'.format(file_size))
+        file_size = float(f'{file_size:.2f}')
 
         # Reload user
         assert self.our_user().uploaded == file_size
@@ -242,7 +242,7 @@ class TestSubmissionBasics(BaseTestSubmission):
         response, context = self.do_post({'title': 'Normal upload 4'},
                                          do_follow=True,
                                          **self.upload_data(GOOD_JPG))
-        self.check_url(response, '/u/{}/'.format(self.our_user().username))
+        self.check_url(response, f'/u/{self.our_user().username}/')
         assert 'mediagoblin/user_pages/user.html' in context
 
         # Shouldn't have uploaded
@@ -257,7 +257,7 @@ class TestSubmissionBasics(BaseTestSubmission):
         response, context = self.do_post({'title': 'Normal upload 5'},
                                          do_follow=True,
                                          **self.upload_data(GOOD_JPG))
-        self.check_url(response, '/u/{}/'.format(self.our_user().username))
+        self.check_url(response, f'/u/{self.our_user().username}/')
         assert 'mediagoblin/user_pages/user.html' in context
 
         # Shouldn't have uploaded
@@ -421,7 +421,7 @@ class TestSubmissionBasics(BaseTestSubmission):
         #   they'll be caught as failures during the processing step.
         response, context = self.do_post({'title': title}, do_follow=True,
                                          **self.upload_data(filename))
-        self.check_url(response, '/u/{}/'.format(self.our_user().username))
+        self.check_url(response, f'/u/{self.our_user().username}/')
         entry = mg_globals.database.MediaEntry.query.filter_by(title=title).first()
         assert entry.state == 'failed'
         assert entry.fail_error == 'mediagoblin.processing:BadMediaFail'
@@ -583,7 +583,7 @@ class TestSubmissionVideo(BaseTestSubmission):
             assert len(result) == len(video_config['available_resolutions'])
             for i in range(len(video_config['available_resolutions'])):
                 media_file = MediaFile.query.filter_by(media_entry=media.id,
-                                                       name=('webm_{}'.format(str(result[i][0])))).first()
+                                                       name=(f'webm_{str(result[i][0])}')).first()
                 # check media_file label
                 assert result[i][0] == video_config['available_resolutions'][i]
                 # check dimensions of media_file
@@ -771,6 +771,6 @@ class TestSubmissionPDF(BaseTestSubmission):
         response, context = self.do_post({'title': 'Normal upload 3 (pdf)'},
                                          do_follow=True,
                                          **self.upload_data(GOOD_PDF))
-        self.check_url(response, '/u/{}/'.format(self.our_user().username))
+        self.check_url(response, f'/u/{self.our_user().username}/')
         assert 'mediagoblin/user_pages/user.html' in context
 

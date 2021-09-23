@@ -164,7 +164,7 @@ def test_register_views(test_app):
 
     ## Verify the email activation works
     template.clear_test_template_context()
-    response = test_app.get("{}?{}".format(path, get_params))
+    response = test_app.get(f"{path}?{get_params}")
     response.follow()
     context = template.TEMPLATE_TEST_CONTEXT[
         'mediagoblin/user_pages/user.html']
@@ -230,7 +230,7 @@ def test_register_views(test_app):
 
     ## Verify step 1 of password-change works -- can see form to change password
     template.clear_test_template_context()
-    response = test_app.get("{}?{}".format(path, get_params))
+    response = test_app.get(f"{path}?{get_params}")
     assert 'mediagoblin/plugins/basic_auth/change_fp.html' in \
             template.TEMPLATE_TEST_CONTEXT
 

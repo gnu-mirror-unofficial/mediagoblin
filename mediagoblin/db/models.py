@@ -290,7 +290,7 @@ class User(Base, UserMixin):
         # Delete user, pass through commit=False/True in kwargs
         username = self.username
         super().delete(*args, **kwargs)
-        _log.info('Deleted user "{}" account'.format(username))
+        _log.info(f'Deleted user "{username}" account')
 
     def has_privilege(self, privilege, allow_admin=True):
         """
@@ -389,7 +389,7 @@ class LocalUser(User):
                 self.username)
 
     def get_public_id(self, host):
-        return "acct:{}@{}".format(self.username, host)
+        return f"acct:{self.username}@{host}"
 
     def serialize(self, request):
         user = {
@@ -464,9 +464,9 @@ class Client(Base):
 
     def __repr__(self):
         if self.application_name:
-            return "<Client {} - {}>".format(self.application_name, self.id)
+            return f"<Client {self.application_name} - {self.id}>"
         else:
-            return "<Client {}>".format(self.id)
+            return f"<Client {self.id}>"
 
 class RequestToken(Base):
     """
@@ -738,7 +738,7 @@ class MediaEntry(Base, MediaEntryMixin, CommentingMixin):
             # Returns list of files we failed to delete
             _log.error('No such files from the user "{1}" to delete: '
                        '{0}'.format(str(error), self.get_actor))
-        _log.info('Deleted Media entry id "{}"'.format(self.id))
+        _log.info(f'Deleted Media entry id "{self.id}"')
         # Related MediaTag's are automatically cleaned, but we might
         # want to clean out unused Tag's too.
         if del_orphan_tags:
@@ -858,7 +858,7 @@ class FileKeynames(Base):
     name = Column(Unicode, unique=True)
 
     def __repr__(self):
-        return "<FileKeyname {!r}: {!r}>".format(self.id, self.name)
+        return f"<FileKeyname {self.id!r}: {self.name!r}>"
 
     @classmethod
     def find_or_new(cls, name):
@@ -887,7 +887,7 @@ class MediaFile(Base):
         {})
 
     def __repr__(self):
-        return "<MediaFile {}: {!r}>".format(self.name, self.file_path)
+        return f"<MediaFile {self.name}: {self.file_path!r}>"
 
     name_helper = relationship(FileKeynames, lazy="joined", innerjoin=True)
     name = association_proxy('name_helper', 'name',
@@ -935,7 +935,7 @@ class Tag(Base):
     slug = Column(Unicode, nullable=False, unique=True)
 
     def __repr__(self):
-        return "<Tag {!r}: {!r}>".format(self.id, self.slug)
+        return f"<Tag {self.id!r}: {self.slug!r}>"
 
     @classmethod
     def find_or_new(cls, slug):
@@ -1034,7 +1034,7 @@ class Comment(Base):
             # fetch it from self.comment()
             raise AttributeError
         try:
-            _log.debug('Old attr is being accessed: {}'.format(attr))
+            _log.debug(f'Old attr is being accessed: {attr}')
             return getattr(self.comment(), attr)  # noqa
         except Exception as e:
             _log.error(e)

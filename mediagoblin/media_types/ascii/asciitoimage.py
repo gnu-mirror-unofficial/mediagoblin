@@ -108,7 +108,7 @@ class AsciiToImage:
         for line in lines:
             line_length = len(line)
 
-            _log.debug('Writing line at {}'.format(char_pos))
+            _log.debug(f'Writing line at {char_pos}')
 
             for _pos in range(0, line_length):
                 char = line[_pos]

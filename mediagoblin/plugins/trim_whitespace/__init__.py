@@ -64,7 +64,7 @@ class TrimWhiteSpaceMeddleware(meddleware.BaseMeddleware):
 
         # Append ourselves to the list of enabled Meddlewares
         meddleware.ENABLED_MEDDLEWARE.append(
-            '{}:{}'.format(cls.__module__, cls.__name__))
+            f'{cls.__module__}:{cls.__name__}')
 
 
 hooks = {

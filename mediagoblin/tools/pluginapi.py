@@ -128,7 +128,7 @@ class PluginManager:
 
     def register_route(self, route):
         """Registers a single route"""
-        _log.debug('registering route: {}'.format(route))
+        _log.debug(f'registering route: {route}')
         self.routes.append(route)
 
     def get_routes(self):

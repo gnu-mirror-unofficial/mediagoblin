@@ -288,7 +288,7 @@ def get_processing_manager_for_type(media_type):
     manager_class = hook_handle(('reprocess_manager', media_type))
     if not manager_class:
         raise ProcessingManagerDoesNotExist(
-            "A processing manager does not exist for {}".format(media_type))
+            f"A processing manager does not exist for {media_type}")
     manager = manager_class()
 
     return manager
@@ -389,7 +389,7 @@ def store_public(entry, keyname, local_file, target_name=None,
     try:
         mgg.public_store.copy_local_to_storage(local_file, target_filepath)
     except Exception as e:
-        _log.error('Exception happened: {}'.format(e))
+        _log.error(f'Exception happened: {e}')
         raise PublicStoreFail(keyname=keyname)
     # raise an error if the file failed to copy
     if not mgg.public_store.file_exists(target_filepath):

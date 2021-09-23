@@ -68,10 +68,10 @@ def sniff_media_contents(media_file, filename):
     '''
     media_type = hook_handle('sniff_handler', media_file, filename)
     if media_type:
-        _log.info('{} accepts the file'.format(media_type))
+        _log.info(f'{media_type} accepts the file')
         return media_type, hook_handle(('media_manager', media_type))
     else:
-        _log.debug('{} did not accept the file'.format(media_type))
+        _log.debug(f'{media_type} did not accept the file')
         raise FileTypeNotSupported(
             # TODO: Provide information on which file types are supported
             _('Sorry, I don\'t support that file type :('))
@@ -129,7 +129,7 @@ def type_match_handler(media_file, filename):
                 _log.debug(e)
                 raise
         else:
-            _log.info('No plugins handled extension {}'.format(ext))
+            _log.info(f'No plugins handled extension {ext}')
     else:
         _log.info('File {} has no known file extension, let\'s hope '
                 'the sniffers get it.'.format(filename))

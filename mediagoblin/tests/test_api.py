@@ -55,7 +55,7 @@ class TestAPI:
 
         with self.mock_oauth():
             response = test_app.post(
-                "/api/user/{}/feed".format(self.active_user.username),
+                f"/api/user/{self.active_user.username}/feed",
                 json.dumps(activity),
                 headers=headers
             )
@@ -75,7 +75,7 @@ class TestAPI:
 
         with self.mock_oauth():
             response = test_app.post(
-                "/api/user/{}/uploads".format(self.active_user.username),
+                f"/api/user/{self.active_user.username}/uploads",
                 data,
                 headers=headers
             )
@@ -192,7 +192,7 @@ class TestAPI:
             # Will be self.user trying to upload as self.other_user
             with pytest.raises(AppError) as excinfo:
                 test_app.post(
-                    "/api/user/{}/uploads".format(self.other_user.username),
+                    f"/api/user/{self.other_user.username}/uploads",
                     data,
                     headers=headers
                 )
@@ -215,7 +215,7 @@ class TestAPI:
         with self.mock_oauth():
             with pytest.raises(AppError) as excinfo:
                 test_app.post(
-                    "/api/user/{}/feed".format(self.other_user.username),
+                    f"/api/user/{self.other_user.username}/feed",
                     json.dumps(activity),
                     headers=headers
                 )
@@ -250,7 +250,7 @@ class TestAPI:
         with self.mock_oauth():
             with pytest.raises(AppError) as excinfo:
                 test_app.post(
-                    "/api/user/{}/feed".format(self.user.username),
+                    f"/api/user/{self.user.username}/feed",
                     json.dumps(activity),
                     headers=headers
                 )
@@ -277,7 +277,7 @@ class TestAPI:
 
         with self.mock_oauth():
             response = test_app.post(
-                "/api/user/{}/feed".format(self.user.username),
+                f"/api/user/{self.user.username}/feed",
                 json.dumps(activity),
                 headers={"Content-Type": "application/json"}
             )
@@ -311,7 +311,7 @@ class TestAPI:
         with self.mock_oauth():
             with pytest.raises(AppError) as excinfo:
                 test_app.post(
-                    "/api/user/{}/uploads".format(self.user.username),
+                    f"/api/user/{self.user.username}/uploads",
                     data,
                     headers=headers
                 )
@@ -406,7 +406,7 @@ class TestAPI:
         with self.mock_oauth():
             with pytest.raises(AppError) as excinfo:
                 test_app.post(
-                    "/api/user/{}/feed".format(self.other_user.username),
+                    f"/api/user/{self.other_user.username}/feed",
                     json.dumps(activity),
                     headers=headers
                 )
@@ -452,7 +452,7 @@ class TestAPI:
         with self.mock_oauth():
             with pytest.raises(AppError) as excinfo:
                 test_app.post(
-                    "/api/user/{}/feed".format(self.user.username),
+                    f"/api/user/{self.user.username}/feed",
                     json.dumps(activity),
                     headers=headers
                 )
@@ -461,7 +461,7 @@ class TestAPI:
 
     def test_profile(self, test_app):
         """ Tests profile endpoint """
-        uri = "/api/user/{}/profile".format(self.user.username)
+        uri = f"/api/user/{self.user.username}/profile"
         with self.mock_oauth():
             response = test_app.get(uri)
             profile = json.loads(response.body.decode())
@@ -475,7 +475,7 @@ class TestAPI:
 
     def test_user(self, test_app):
         """ Test the user endpoint """
-        uri = "/api/user/{}/".format(self.user.username)
+        uri = f"/api/user/{self.user.username}/"
         with self.mock_oauth():
             response = test_app.get(uri)
             user = json.loads(response.body.decode())
@@ -501,7 +501,7 @@ class TestAPI:
         response, image_data = self._upload_image(test_app, GOOD_JPG)
         response, data = self._post_image_to_feed(test_app, image_data)
 
-        uri = "/api/user/{}/feed".format(self.active_user.username)
+        uri = f"/api/user/{self.active_user.username}/feed"
         with self.mock_oauth():
             response = test_app.get(uri)
             feed = json.loads(response.body.decode())
@@ -574,7 +574,7 @@ class TestAPI:
         self.active_user = self.other_user
 
         # Fetch the feed
-        url = "/api/user/{}/feed".format(self.user.username)
+        url = f"/api/user/{self.user.username}/feed"
         with self.mock_oauth():
             response = test_app.get(url)
             feed = json.loads(response.body.decode())

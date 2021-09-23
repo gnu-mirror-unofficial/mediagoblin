@@ -161,7 +161,7 @@ def submit_media(mg_app, user, submitted_file, filename,
     # Get file size and round to 2 decimal places
     file_size = mg_app.queue_store.get_file_size(
         entry.queued_media_file) / (1024.0 * 1024)
-    file_size = float('{:.2f}'.format(file_size))
+    file_size = float(f'{file_size:.2f}')
 
     # Check if file size is over the limit
     if max_file_size and file_size >= max_file_size:

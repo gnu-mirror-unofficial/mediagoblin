@@ -143,7 +143,7 @@ class TestReportFiling:
             {'action_to_resolve':['userban', 'delete'],
             'targeted_user':allie_user.id,
             'resolution_content':'This is a test of archiving reports.'},
-            url='/mod/reports/{}/'.format(comment_report.id))
+            url=f'/mod/reports/{comment_report.id}/')
 
         assert response.status == "302 FOUND"
         allie_user, natalie_user = self.query_for_users()

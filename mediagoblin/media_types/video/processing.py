@@ -49,14 +49,14 @@ class VideoTranscodingFail(BaseProcessingFail):
 
 def sniffer(media_file):
     '''New style sniffer, used in two-steps check; requires to have .name'''
-    _log.info('Sniffing {}'.format(MEDIA_TYPE))
+    _log.info(f'Sniffing {MEDIA_TYPE}')
     try:
         data = transcoders.discover(media_file.name)
     except Exception as e:
         # this is usually GLib.GError, but we don't really care which one
-        _log.warning('GStreamer: {}'.format(str(e)))
-        raise MissingComponents('GStreamer: {}'.format(str(e)))
-    _log.debug('Discovered: {}'.format(data))
+        _log.warning(f'GStreamer: {str(e)}')
+        raise MissingComponents(f'GStreamer: {str(e)}')
+    _log.debug(f'Discovered: {data}')
 
     if not data.get_video_streams():
         raise MissingComponents('No video streams found in this video')
@@ -64,7 +64,7 @@ def sniffer(media_file):
     if data.get_result() != 0:  # it's 0 if success
         try:
             missing = data.get_misc().get_string('name')
-            _log.warning('GStreamer: missing {}'.format(missing))
+            _log.warning(f'GStreamer: missing {missing}')
         except AttributeError as e:
             # AttributeError happens here on gstreamer >1.4, when get_misc
             # returns None. There is a special function to get info about
@@ -74,7 +74,7 @@ def sniffer(media_file):
             _log.warning('GStreamer: missing: {}'.format(', '.join(details)))
             missing = ', '.join(['{} ({})'.format(*d.split('|')[3:])
                                   for d in details])
-        raise MissingComponents('{} is missing'.format(missing))
+        raise MissingComponents(f'{missing} is missing')
 
     return MEDIA_TYPE
 
@@ -87,13 +87,13 @@ def sniff_handler(media_file, filename):
 
     if clean_ext in EXCLUDED_EXTS:
         # We don't handle this filetype, though gstreamer might think we can
-        _log.info('Refused to process {} due to excluded extension'.format(filename))
+        _log.info(f'Refused to process {filename} due to excluded extension')
         return None
 
     try:
         return sniffer(media_file)
     except:
-        _log.error('Could not discover {}'.format(filename))
+        _log.error(f'Could not discover {filename}')
         return None
 
 def get_tags(stream_info):
@@ -258,7 +258,7 @@ class CommonVideoProcessor(MediaProcessor):
         # If we didn't transcode, then we need to keep the original
         self.did_transcode = False
         for each_res in self.video_config['available_resolutions']:
-            if 'webm_{}'.format(each_res) in self.entry.media_files:
+            if f'webm_{each_res}' in self.entry.media_files:
                 self.did_transcode = True
                 break
         if not self.did_transcode or self.video_config['keep_original']:

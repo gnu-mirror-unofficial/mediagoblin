@@ -67,7 +67,7 @@ def gather_database_data(plugins):
 
     for plugin in plugins:
         try:
-            models = import_component('{}.models:MODELS'.format(plugin))
+            models = import_component(f'{plugin}.models:MODELS')
         except ImportError as exc:
             _log.debug('No models found for {}: {}'.format(
                 plugin,
@@ -115,7 +115,7 @@ def run_foundations(db, global_config):
     for plugin in plugins:
         try:
             foundations = import_component(
-                '{}.models:FOUNDATIONS'.format(plugin))
+                f'{plugin}.models:FOUNDATIONS')
             all_foundations.append((plugin, foundations))
         except ImportError as exc:
             continue

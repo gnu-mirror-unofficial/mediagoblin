@@ -48,7 +48,7 @@ class Blog(Base, BlogMixin):
 
     @property
     def slug_or_id(self):
-        return (self.slug or 'blog_{}'.format(self.id))
+        return (self.slug or f'blog_{self.id}')
  
     def get_all_blog_posts(self, state=None):
         blog_posts = Session.query(MediaEntry).join(BlogPostData)\

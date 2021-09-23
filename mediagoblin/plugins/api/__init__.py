@@ -28,7 +28,7 @@ def setup_plugin():
 
     config = pluginapi.get_config(__name__)
 
-    _log.debug('API config: {}'.format(config))
+    _log.debug(f'API config: {config}')
 
     routes = [
         ('mediagoblin.plugins.api.test',

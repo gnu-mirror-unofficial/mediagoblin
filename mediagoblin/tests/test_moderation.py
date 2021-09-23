@@ -69,7 +69,7 @@ class TestModerationViews:
         # First, test an admin taking away a privilege from a user
         #----------------------------------------------------------------------
         response, context = self.do_post({'privilege_name':'commenter'},
-            url='/mod/users/{}/privilege/'.format(self.user.username))
+            url=f'/mod/users/{self.user.username}/privilege/')
         assert response.status == '302 FOUND'
         self.query_for_users()
         assert not self.user.has_privilege('commenter')
@@ -77,7 +77,7 @@ class TestModerationViews:
         # Then, test an admin giving a privilege to a user
         #----------------------------------------------------------------------
         response, context = self.do_post({'privilege_name':'commenter'},
-            url='/mod/users/{}/privilege/'.format(self.user.username))
+            url=f'/mod/users/{self.user.username}/privilege/')
         assert response.status == '302 FOUND'
         self.query_for_users()
         assert self.user.has_privilege('commenter')
@@ -90,7 +90,7 @@ class TestModerationViews:
 
         with pytest.raises(AppError) as excinfo:
             response, context = self.do_post({'privilege_name':'commenter'},
-                url='/mod/users/{}/privilege/'.format(self.user.username))
+                url=f'/mod/users/{self.user.username}/privilege/')
         assert 'Bad response: 403 FORBIDDEN' in str(excinfo)
         self.query_for_users()
 
@@ -116,7 +116,7 @@ class TestModerationViews:
         response, context = self.do_post({'action_to_resolve':['takeaway'],
             'take_away_privileges':['commenter'],
             'targeted_user':self.user.id},
-            url='/mod/reports/{}/'.format(comment_report.id))
+            url=f'/mod/reports/{comment_report.id}/')
 
         self.query_for_users()
         comment_report = Report.query.filter(
@@ -137,7 +137,7 @@ class TestModerationViews:
         response, context = self.do_post({'action_to_resolve':['sendmessage'],
             'message_to_user':'This is your last warning, regular....',
             'targeted_user':self.user.id},
-            url='/mod/reports/{}/'.format(comment_report.id))
+            url=f'/mod/reports/{comment_report.id}/')
 
         self.query_for_users()
         comment_report = Report.query.filter(
@@ -175,7 +175,7 @@ VGhpcyBpcyB5b3VyIGxhc3Qgd2FybmluZywgcmVndWxhci4uLi4=\n',
             'targeted_user':self.user.id,
             'why_user_was_banned':'',
             'user_banned_until':''},
-            url='/mod/reports/{}/'.format(comment_report.id))
+            url=f'/mod/reports/{comment_report.id}/')
         assert response.status == '302 FOUND'
         self.query_for_users()
         test_user_ban = UserBan.query.filter(
@@ -196,7 +196,7 @@ VGhpcyBpcyB5b3VyIGxhc3Qgd2FybmluZywgcmVndWxhci4uLi4=\n',
         response, context = self.do_post({'action_to_resolve':['takeaway'],
             'take_away_privileges':['active'],
             'targeted_user':self.admin_user.id},
-            url='/mod/reports/{}/'.format(comment_report.id))
+            url=f'/mod/reports/{comment_report.id}/')
         self.query_for_users()
 
         assert response.status == '200 OK'
@@ -216,7 +216,7 @@ VGhpcyBpcyB5b3VyIGxhc3Qgd2FybmluZywgcmVndWxhci4uLi4=\n',
         response = self.test_app.get('/mod/users/')
         assert response.status == "200 OK"
 
-        user_page_url = '/mod/users/{}/'.format(username)
+        user_page_url = f'/mod/users/{username}/'
         response = self.test_app.get(user_page_url)
         assert response.status == "200 OK"
 
@@ -227,7 +227,7 @@ VGhpcyBpcyB5b3VyIGxhc3Qgd2FybmluZywgcmVndWxhci4uLi4=\n',
         self.login('admin')
         username = self.user.username
         user_id = self.user.id
-        ban_url = '/mod/users/{}/ban/'.format(username)
+        ban_url = f'/mod/users/{username}/ban/'
         response, context = self.do_post({
             'user_banned_until':'',
             'why_user_was_banned':'Because I said so'},

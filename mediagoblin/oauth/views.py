@@ -126,7 +126,7 @@ def client_register(request):
 
     logo_uri = data.get("logo_uri", client.logo_url)
     if logo_uri is not None and not validate_url(logo_uri):
-        error = "Logo URI {} is not a valid URI.".format(logo_uri)
+        error = f"Logo URI {logo_uri} is not a valid URI."
         return json_response(
                 {"error": error},
                 status=400
@@ -146,7 +146,7 @@ def client_register(request):
         for contact in contacts:
             if not validate_email(contact):
                 # not a valid email
-                error = "Email {} is not a valid email.".format(contact)
+                error = f"Email {contact} is not a valid email."
                 return json_response({"error": error}, status=400)
 
 
@@ -163,7 +163,7 @@ def client_register(request):
         for uri in redirect_uris:
             if not validate_url(uri):
                 # not a valid uri
-                error = "URI {} is not a valid URI".format(uri)
+                error = f"URI {uri} is not a valid URI"
                 return json_response({"error": error}, status=400)
 
         client.redirect_uri = redirect_uris
